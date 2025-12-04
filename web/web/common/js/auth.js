@@ -837,7 +837,7 @@ $(document).ready(function () {
               <!-- College Code Step -->
               <div class="login-card step active" id="step1">
                   <div class="welcome-code">
-                      <span class="welcome-text">Welcome  the </span><span class="product-names common-label-screener">Screener</span> <span class="welcome-text-portal">Portal!</span>
+                      <span class="welcome-text">Welcome to the </span><span class="product-names common-label-screener">Screener</span> <span class="welcome-text-portal">Portal!</span>
                   </div>
                   <div class="access-message">
                       <p class="access-message-text">Enter your college code. Let's get started!</p>
