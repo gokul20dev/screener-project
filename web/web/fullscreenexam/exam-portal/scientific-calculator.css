@@ -1,0 +1,151 @@
+/* Calculator Container */
+.scientific-calculator-container {
+    display: none;
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 400px;
+    height: 100%;
+    background: #f5f5f5;
+    border-left: 1px solid #ccc;
+    z-index: 999;
+    overflow-y: auto;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.3);
+    font-family: Arial, sans-serif;
+}
+
+/* Calculator Header */
+.calculator-header {
+    background: #007bff;
+    padding: 12px;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.mode-indicators {
+    display: flex;
+    gap: 8px;
+}
+
+.mode-btn {
+    padding: 4px 10px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.2);
+    color: white;
+    font-size: 12px;
+    transition: background 0.2s;
+}
+
+.mode-btn.active-mode {
+    background: #ff9100;
+}
+
+.calculator-close-button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+    padding: 0 8px;
+}
+
+/* Calculator Display */
+.calculator-display {
+    padding: 15px;
+    background: white;
+    border-bottom: 1px solid #ddd;
+}
+
+.calc-display-input {
+    width: 100%;
+    border: none;
+    text-align: right;
+    font-size: 24px;
+    font-family: monospace;
+    background: white;
+    color: #333;
+}
+
+/* Calculator Buttons */
+.calculator-buttons {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.calc-row {
+    display: flex;
+    gap: 6px;
+    justify-content: space-between;
+}
+
+.calc-btn {
+    flex: 1;
+    padding: 12px 0;
+    border: 1px solid #ddd;
+    background: white;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.2s;
+}
+
+.calc-btn:hover {
+    background: #f0f0f0;
+}
+
+/* Special button styling for memory functions */
+.calc-btn[data-value="MR"],
+.calc-btn[data-value="MS"],
+.calc-btn[data-value="MC"],
+.calc-btn[data-value="M+"],
+.calc-btn[data-value="M-"] {
+    background-color: #f8f8ff;
+}
+
+.calc-btn[data-value="="] {
+    background: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+.calc-btn[data-value="="]:hover {
+    background: #0056b3;
+}
+
+.calc-btn[data-value="C"], 
+.calc-btn[data-value="AC"] {
+    background-color: #ffe0e0;
+}
+
+/* Function buttons */
+.calc-btn[data-value^="sin"],
+.calc-btn[data-value^="cos"],
+.calc-btn[data-value^="tan"],
+.calc-btn[data-value^="log"],
+.calc-btn[data-value^="ln"],
+.calc-btn[data-value="π"],
+.calc-btn[data-value="e"],
+.calc-btn[data-value="√"] {
+    background-color: #f0f0f0;
+}
+
+.inv-hidden {
+    display: none;
+}
+
+.calculator-toggle-button {
+    margin: 10px;
+    padding: 12px 20px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}

@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insights Dashboard</title>
+    <link rel="stylesheet" href="insights.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../../common/css/loader.css" />
+    <link rel="stylesheet" href="../../common/css/common-base.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+    <div class="main-content">
+
+        <div class="bread-crumb-container-cls" id="bread-crumb-container"></div>
+
+        <div class="insight-main-container d-flex">
+            <div id="nav-section-menu" class="nav-bar"></div>
+            <div class="app-container">
+                <!-- Header Section -->
+                <div class="dashboard-subtitle">
+                    Manage and analyze student performance across different exams and tags
+                </div>
+
+                <!-- View List Page (Main View) -->
+                <div id="viewListPage" class="page-container">
+                    <div class="page-header">
+                        <div class="page-header-title">
+                            <h2>View List</h2>
+                        </div>
+
+                        <div class="search-container">
+                            <div class="search-box">
+                                <i class="fas fa-search"></i>
+                                <input type="text" id="searchInsights" placeholder="Search insights...">
+                            </div>
+                            <div class="action-button-container">
+                                <a id="create-btn" class="create-btn">
+                                    <i class="fas fa-plus"></i>
+                                    Create New Insight
+                                </a>
+                                <a id="manage-tags-btn" class="manage-btn">
+                                    <i class="fas fa-tags"></i>
+                                    Manage Tags
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="insights-container" id="insightsContainer">
+                        <!-- Insights cards will be loaded here -->
+                    </div>
+                </div>
+
+                <!-- Create/Edit Insight Page (Full Screen) -->
+                <div id="createInsightPage" class="page-container" style="display: none;">
+
+
+                    <div class="create-form-container">
+                        <!-- Progress Steps -->
+                        <div class="stepper">
+                            <div class="stepper-progress">
+                                <div class="stepper-progress-bar">
+                                    <div class="stepper-progress-fill" style="width: 50%"></div>
+                                </div>
+                            </div>
+                            <div class="stepper-steps">
+                                <div class="stepper-step active" id="fullBasicInfoStep">
+                                    <div class="stepper-step-icon">
+                                        <i class="fas fa-info-circle"></i>
+                                        <div class="stepper-step-number">1</div>
+                                    </div>
+                                    <div class="stepper-step-label">Basic Info</div>
+                                </div>
+                                <div class="stepper-step" id="fullExamSelectionStep">
+                                    <div class="stepper-step-icon">
+                                        <i class="fas fa-book"></i>
+                                        <div class="stepper-step-number">2</div>
+                                    </div>
+                                    <div class="stepper-step-label">Exam & Tag Selection</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Form Steps Content -->
+                        <form id="createInsightForm" class="insight-form">
+                            <!-- Step 1: Basic Information -->
+                            <div class="form-step active" id="basicInfoContent" style="display: flex;">
+                                <div class="step-header">
+                                    <h3><i class="fas fa-info-circle"></i> Basic Information</h3>
+                                    <p class="step-description">First, let's set up your insight with a name and
+                                        description</p>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="insightName">Insight Name</label>
+                                    <div class="input-field">
+                                        <i class="fas fa-tag input-icon"></i>
+                                        <input type="text" id="insightName" name="insightName"
+                                            placeholder="E.g., Science Performance Analysis" required>
+                                    </div>
+                                    <div class="input-help">Choose a clear, descriptive name for this insight</div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="insightDescription">Description</label>
+                                    <div class="input-field">
+                                        <i class="fas fa-align-left input-icon"></i>
+                                        <textarea id="insightDescription" name="insightDescription"
+                                            placeholder="Describe what you want to analyze with this insight" rows="4"
+                                            required></textarea>
+                                    </div>
+                                    <div class="input-help">Explain what this insight will measure or analyze</div>
+                                </div>
+
+                                <div class="form-buttons">
+                                    <button type="button" class="btn-secondary" id="cancelCreate">
+                                        <i class="fas fa-times"></i> Cancel
+                                    </button>
+                                    <button type="button" class="btn-primary" id="nextToExams">
+                                        Continue <i class="fas fa-arrow-right"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Step 2: Combined Exam & Tag Selection -->
+                            <div class="form-step" id="examSelectionContent" style="display: none;">
+                                <div class="step-header">
+                                    <h3><i class="fas fa-book"></i> Select Exams & Tags</h3>
+                                    <p class="step-description">Choose the exams and their tags to include in this
+                                        insight</p>
+                                </div>
+
+                                <div class="exam-selection-layout">
+                                    <!-- Search and Available Exams -->
+                                    <div class="exam-search-panel">
+                                        <div class="form-group">
+                                            <label for="searchExams">Find Exams</label>
+                                            <div class="input-field search-field">
+                                                <i class="fas fa-search input-icon"></i>
+                                                <input type="text" id="searchExams"
+                                                    placeholder="Type to search exams...">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label><i class="fas fa-list"></i> Available Exams</label>
+                                            <div id="availableExams" class="exam-results">
+                                                <!-- Exams will be loaded here -->
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Selected Exams -->
+                                    <div class="exam-selected-panel">
+                                        <div class="form-group">
+                                            <label><i class="fas fa-check-circle"></i> Selected Exams</label>
+                                            <div class="selected-exams-wrapper">
+                                                <div id="selectedExams" class="selected-exams-container">
+                                                    <!-- Selected exams will appear here -->
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Add Selected Tags Container -->
+                                        <div class="form-group mt-3">
+                                            <label><i class="fas fa-tags"></i> Selected Tags</label>
+                                            <div class="selected-tags-wrapper">
+                                                <div id="selectedTags" class="selected-tags-container">
+                                                    <!-- Selected tags will appear here -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Hidden container to store tag data -->
+                                <div id="examTagsContainer" style="display: none;"></div>
+
+                                <div class="form-buttons">
+                                    <button type="button" class="btn-secondary" id="backToBasicInfo">
+                                        <i class="fas fa-arrow-left"></i> Back
+                                    </button>
+                                    <button type="submit" class="btn-primary">
+                                        <i class="fas fa-save"></i> Create Insight
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Manage Tags Drawer -->
+    <div id="manageTagsDrawer" class="tags-drawer">
+        <div class="drawer-header">
+            <h2><i class="fas fa-tags"></i> Manage Tags</h2>
+            <button id="closeTagsDrawer" class="close-drawer"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="drawer-content">
+            <div class="search-container">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchTags" placeholder="Search tags...">
+                </div>
+            </div>
+
+            <!-- Add Tag Form -->
+            <div class="add-tag-form">
+                <div class="input-field">
+                    <i class="fas fa-tag input-icon"></i>
+                    <input type="text" id="newTagName" placeholder="Enter new tag name">
+                </div>
+                <button id="addNewTag" class="add-tag-btn">
+                    <i class="fas fa-plus"></i> Add Tag
+                </button>
+            </div>
+
+            <div id="tagsContainer" class="tags-container">
+                <!-- Tags will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="../../common/commonLibaries/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+    <script src="../../common/js/loader.js"></script>
+    <script src="../../common/js/variable.js"></script>
+    <script src="../../common/js/common.js"></script>
+    <script src="../../common/js/auth.js"></script>
+    <script src="../../common/js/commonApi.js"></script>
+    <script src="../../common/js/label-management.js"></script>
+    <script src="../../common/js/nav-section-menu.js"></script>
+    <script src="insights.js"></script>
+</body>
+
+</html>

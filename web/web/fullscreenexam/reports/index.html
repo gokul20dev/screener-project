@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Exam Report</title>
+    <!--loader code -->
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="../../common/commonLibaries/jquery-ui.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="../../common/commonLibaries/font-awesome.5.15.3.css.all.min.css"
+    />
+    <link rel="stylesheet" href="../../common/commonLibaries/ag-grid.min.css" />
+    <link
+      rel="stylesheet"
+      href="../../common//commonLibaries/ag-theme-alpine.min.css"
+    />
+    <link
+      href="../../common//commonLibaries/font-awesome.5.15.3.css.all.min.css"
+    />
+    <link href="../../common/commonLibaries/toastr.min.css" rel="stylesheet" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="../../common/css/loader.css" />
+    <link rel="stylesheet" href="../../common/css/common-base.css" />
+    <link rel="stylesheet" href="report.css" />
+    <style>
+      footer {
+        text-align: center;
+        padding-top: 40px;
+        font-size: 14px;
+        width: 100%;
+      }
+
+      .main-content {
+        min-height: 100vh;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="main-content report-main-content">
+      <div class="bread-crumb-container-cls" id="bread-crumb-container"></div>
+
+<div class="main-content report-main-container d-flex">
+         <div id="nav-section-menu" class="nav-bar"></div>
+      <div class="reports-work flex-grow-1 flex-column gap-2">
+        <div class="exam-reports-info">
+          <div class="exam-reports-info-header">
+            <div class="title">Exam Reports</div>
+            <div id="view-exam-btn" class="view-exam-btn">
+              View exam <i class="fas fa-arrow-right"></i>
+            </div>
+          </div>
+          <div
+            class="d-flex justify-content-between w-100 align-items-center h-50 reports-card"
+          >
+            <div class="exam-name">
+              <div><i class="bx bx-file"></i></div>
+              <div>
+                <div class="small-header">EXAM NAME</div>
+                <div class="sub-small-header" id="exam-name">
+                  C-PCSS001: Computer Placement Test
+                </div>
+              </div>
+            </div>
+            <div class="flex-border"></div>
+            <div class="start-date">
+              <div><i class="bx bx-calendar-week"></i></div>
+              <div>
+                <div class="small-header">START DATE</div>
+                <div class="sub-small-header" id="start-date">07 Feb 2025</div>
+              </div>
+            </div>
+            <div class="flex-border"></div>
+            <div class="total-question">
+              <div><i class="bx bx-question-mark"></i></div>
+              <div>
+                <div class="small-header">TOTAL QUESTION</div>
+                <div class="sub-small-header" id="total-exam">03</div>
+              </div>
+            </div>
+            <div class="flex-border"></div>
+            <div class="exam-status">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="size-6"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M12 6v6h4.5m4.5 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                />
+              </svg>
+
+              <div>
+                <div class="small-header">EXAM STATUS</div>
+                <div id="exam-status">-</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="report-graph">
+          <div class="d-flex align-items-center">
+            <div class="student-chart">
+              <div class="chat-label-container">
+                <div class="chart-label">
+                  <div
+                    class="chart-color-identifier present-primary-light"
+                  ></div>
+                  <div>
+                    Absent student <span id="absent-student-count"></span>
+                  </div>
+                </div>
+
+                <div class="chart-label">
+                  <div class="chart-color-identifier present-primary"></div>
+                  <div>
+                    Present student
+                    <span id="present-student-count-label"></span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="chart">
+                <canvas id="student-present-chart"> </canvas>
+
+                <div class="chart-inner-label">
+                  <div
+                    class="chart-inner-score"
+                    id="present-student-count"
+                  ></div>
+                  <div class="chart-title-text">Total</div>
+                </div>
+              </div>
+            </div>
+            <div class="div-chart"></div>
+            <div class="exam-chart">
+              <div class="chat-label-container">
+                <div class="chart-label">
+                  <div class="chart-color-identifier ongoing-primary"></div>
+                  <div>Ongoing <span id="ongoing-student-count"></span></div>
+                </div>
+
+                <div class="chart-label">
+                  <div class="chart-color-identifier not-started-primary"></div>
+                  <div>
+                    Not Started <span id="not-started-student-count"></span>
+                  </div>
+                </div>
+
+                <div class="chart-label">
+                  <div class="chart-color-identifier ended-primary"></div>
+                  <div>Ended <span id="ended-student-count"></span></div>
+                </div>
+              </div>
+
+              <div class="chart">
+                <canvas id="student-status-chart"> </canvas>
+                <div class="chart-inner-label">
+                  <div
+                    class="chart-inner-score"
+                    id="student-status-count"
+                  ></div>
+                  <div class="chart-title-text">Total</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="table-card">
+          <div class="header d-flex justify-content-between align-items-center">
+            <div class="d-flex gap-2 align-items-center">
+              <div class="title">Individual Report</div>
+
+              <div class="cutoff-percentage-container">
+                <div class="cutoff-label">
+                  <!-- <i class="bx bx-filter-alt"></i> -->
+                  <span>Cutoff</span>
+                </div>
+                <div class="cutoff-value-container">
+                  <span id="cutoff-percentage-value">50</span><span>%</span>
+                  <i
+                    class="bx bx-edit-alt cutoff-edit-icon"
+                    id="cutoff-edit-icon"
+                  ></i>
+                </div>
+                <div class="cutoff-edit-container" style="display: none">
+                  <input
+                    type="number"
+                    id="cutoff-percentage-input"
+                    min="0"
+                    max="100"
+                    value="50"
+                  />
+                  <button id="apply-cutoff" class="cutoff-apply-btn">
+                    <i class="bx bx-check"></i> Apply
+                  </button>
+                </div>
+              </div>
+
+              <!-- Issues Alert Button -->
+              <div class="issues-alert-container" id="issues-alert-btn">
+                <div class="issues-alert-icon">
+                  <i class="bx bx-error-circle"></i>
+                  <span class="issues-count" id="issues-count">0</span>
+                </div>
+                <span class="issues-label">Issues</span>
+              </div>
+              <!-- End Issues Alert Button -->
+            </div>
+
+            <div class="header-actions d-flex gap-2 align-items-center">
+              <button class="bulk-import-btn" id="export-data">
+                <i class="bx bx-export"></i> Export
+              </button>
+
+              <button class="generate-report-btn" id="generate-report">
+                <i class="bx bx-file-blank"></i> Generate Report
+              </button>
+
+              <button class="refresh-btn" id="refresh-data">
+                <i class="bx bx-refresh"></i> Refresh
+              </button>
+            </div>
+          </div>
+          <div
+            class="tab-action d-flex justify-content-between flex-grow-1 mt-3 mb-3"
+          >
+            <div class="tabs">
+              <div class="active"></div>
+              <button
+                id="manual-evaluation-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#manual-evaluation"
+                type="button"
+              >
+                <span class="tab-text">Evaluation</span>
+              </button>
+              <button
+                id="individual-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#individual"
+                type="button"
+              >
+                <span class="tab-text">Points Report</span>
+              </button>
+              <button
+                id="anomaly-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#anomaly"
+                type="button"
+              >
+                <span class="tab-text">Anomaly Report</span>
+              </button>
+              <button
+                id="student-system-report-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#student-system-report"
+                type="button"
+              >
+                <span class="tab-text">Activity Report</span>
+              </button>
+              <button
+                id="analytics-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#analytics"
+                type="button"
+              >
+                <span class="tab-text">Analytics</span>
+              </button>
+              <button
+                id="publish-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#publish"
+                type="button"
+              >
+                <span class="tab-text">Publish Report</span>
+              </button>
+            </div>
+
+            <div class="d-flex gap-2">
+              <div class="report-search-field">
+                <input
+                  type="text"
+                  placeholder="Search"
+                  id="report-search-field"
+                />
+                <i class="bx bx-search search-icon"></i>
+              </div>
+
+              <div
+                class="report-type-dropdown d-none"
+                id="report-type-dropdown"
+              >
+                <button class="report-type-btn" id="report-type-btn">
+                  <i class="bx bx-file-find"></i> Report Type
+                  <span class="selected-report-type" id="selected-report-type"
+                    >Detailed</span
+                  >
+                </button>
+                <div class="report-type-dropdown-content">
+                  <div class="report-type-option">
+                    <input
+                      type="radio"
+                      id="short-report-setting"
+                      name="report-type-setting"
+                      value="short"
+                    />
+                    <label for="short-report-setting">
+                      <span class="option-title">Report</span>
+                      <span class="option-description"
+                        >Shows only scores and overall performance</span
+                      >
+                    </label>
+                  </div>
+                  <div class="report-type-option">
+                    <input
+                      type="radio"
+                      id="detailed-report-setting"
+                      name="report-type-setting"
+                      value="detailed"
+                      checked
+                    />
+                    <label for="detailed-report-setting">
+                      <span class="option-title">Detailed Report</span>
+                      <span class="option-description"
+                        >Shows complete information including questions,
+                        answers, and explanations</span
+                      >
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <button class="publish-report-btn d-none" id="publish-report">
+                <i class="bx bx-share"></i> Publish Report
+                <span class="student-count-bubble" id="publish-count">All</span>
+              </button>
+
+              <button
+                class="unpublish-report-btn d-none"
+                id="unpublish-report-btn"
+              >
+                <i class="bx bx-x-circle"></i> Unpublish Report
+                <span class="student-count-bubble" id="unpublish-count"
+                  >All</span
+                >
+              </button>
+              <button class="send-email-btn d-none" id="send-email-button">
+                <i class="bx bx-envelope"></i> Send Email
+                <span class="student-count-bubble" id="email-count">All</span>
+              </button>
+            </div>
+          </div>
+
+          <div class="middle-of-content">
+            <div class="tab-content g-scroll">
+              <div
+                id="manual-evaluation"
+                class="tab-pane mt-3"
+                role="tabpanel"
+                aria-labelledby="manual-evaluation-tab"
+              >
+                <div class="d-flex gap-2 align-items-center mb-3 target-benchmark-container">
+                  <div class="title">Target Benchmark</div>
+      
+                  <div class="target-benchmark-percentage-container">
+                    <div class="target-benchmark-label">
+                      <!-- <i class="bx bx-filter-alt"></i> -->
+                      <span>Cutoff</span>
+                    </div>
+                    <div class="target-benchmark-value-container">
+                      <span id="target-benchmark-value">20</span><span></span>
+                      <i
+                        class="bx bx-edit-alt target-benchmark-edit-icon d-none"
+                        id="target-benchmark-edit-icon"
+                      ></i>
+                    </div>
+                    <div class="target-benchmark-edit-container" style="display: none">
+                      <input
+                        type="number"
+                        id="target-benchmark-input"
+                        min="0"
+                        max="100"
+                        value="20"
+                        disabled
+                      />
+                      <button id="apply-target-benchmark" class="target-benchmark-apply-btn">
+                        <i class="bx bx-check"></i> Apply
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <div id="manual-evaluation-grid" class="ag-theme-alpine"></div>
+              </div>
+              <div
+                id="individual"
+                class="tab-pane mt-3"
+                role="tabpanel"
+                aria-labelledby="individual-tab"
+              >
+                <div id="mygrid" class="ag-theme-alpine"></div>
+              </div>
+              <div
+                id="anomaly"
+                class="tab-pane mt-3"
+                role="tabpanel"
+                aria-labelledby="anomaly-tab"
+              >
+                <div id="anomaly-grid" class="ag-theme-alpine"></div>
+              </div>
+              <div
+                id="publish"
+                class="tab-pane mt-3"
+                role="tabpanel"
+                aria-labelledby="publish-tab"
+              >
+                <div id="publish-grid" class="ag-theme-alpine"></div>
+              </div>
+              <div
+                id="student-system-report"
+                class="tab-pane mt-3"
+                role="tabpanel"
+                aria-labelledby="student-system-report-tab"
+              >
+                <div
+                  id="student-system-report-grid"
+                  class="ag-theme-alpine"
+                ></div>
+              </div>
+              <div
+                id="analytics"
+                class="tab-pane mt-3"
+                role="tabpanel"
+                aria-labelledby="analytics-tab"
+              >
+                <div class="analytics-container">
+                  <div class="analytics-header">
+                    <h3>Exam Metrics Analysis</h3>
+                    <p>
+                      Comprehensive statistics and metrics analysis of exam
+                      performance
+                    </p>
+                  </div>
+
+                  <div class="analytics-dashboard">
+                    <!-- Summary metrics section -->
+                    <div class="metrics-summary-section">
+                      <div class="metrics-card summary-card">
+                        <div class="metrics-title">Exam Overview</div>
+                        <div class="metrics-details" id="exam-metrics-summary">
+                          <!-- Content will be populated by JavaScript -->
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Main metrics grid -->
+                    <div class="metrics-grid">
+                      <!-- Difficulty Index Card -->
+                      <div class="metrics-card">
+                        <div class="metrics-title">
+                          <i class="bx bx-line-chart"></i> Difficulty Index
+                          <div
+                            class="metrics-info-icon"
+                            data-tooltip="Percentage of students who answered each question correctly. Lower values indicate harder questions."
+                          >
+                            <i class="bx bx-info-circle"></i>
+                          </div>
+                        </div>
+                        <div class="metrics-chart-container">
+                          <canvas id="difficulty-index-chart"></canvas>
+                        </div>
+                        <div
+                          class="metrics-details"
+                          id="difficulty-index-details"
+                        ></div>
+                      </div>
+
+                      <!-- Discrimination Index Card -->
+                      <div class="metrics-card">
+                        <div class="metrics-title">
+                          <i class="bx bx-scatter-chart"></i> Discrimination
+                          Index
+                          <div
+                            class="metrics-info-icon"
+                            data-tooltip="Measures how well each question differentiates between high and low performers. Higher values are better."
+                          >
+                            <i class="bx bx-info-circle"></i>
+                          </div>
+                        </div>
+                        <div class="metrics-chart-container">
+                          <canvas id="discrimination-index-chart"></canvas>
+                        </div>
+                        <div
+                          class="metrics-details"
+                          id="discrimination-index-details"
+                        ></div>
+                      </div>
+
+                      <!-- Point Biserial Card -->
+                      <div class="metrics-card">
+                        <div class="metrics-title">
+                          <i class="bx bx-stats"></i> Point Biserial
+                          <div
+                            class="metrics-info-icon"
+                            data-tooltip="Correlation between performance on individual items and the total test score. Higher values indicate better questions."
+                          >
+                            <i class="bx bx-info-circle"></i>
+                          </div>
+                        </div>
+                        <div class="metrics-chart-container">
+                          <canvas id="point-biserial-chart"></canvas>
+                        </div>
+                        <div
+                          class="metrics-details"
+                          id="point-biserial-details"
+                        ></div>
+                      </div>
+
+                      <!-- Mean & Standard Deviation Card -->
+                      <div class="metrics-card">
+                        <div class="metrics-title">
+                          <i class="bx bx-calculator"></i> Statistical Measures
+                          <div
+                            class="metrics-info-icon"
+                            data-tooltip="Distribution statistics including mean, median, and standard deviation of scores."
+                          >
+                            <i class="bx bx-info-circle"></i>
+                          </div>
+                        </div>
+                        <div class="metrics-chart-container">
+                          <canvas id="score-distribution-chart"></canvas>
+                        </div>
+                        <div
+                          class="metrics-details"
+                          id="statistical-measures-details"
+                        ></div>
+                      </div>
+                    </div>
+
+                    <!-- Student Characteristic Matrix section -->
+                    <div class="scm-section">
+                      <div class="metrics-card full-width">
+                        <div class="metrics-title">
+                          <i class="bx bx-table"></i> Student Characteristic
+                          Matrix (SCM)
+                          <div
+                            class="metrics-info-icon"
+                            data-tooltip="Shows patterns of student responses across questions, highlighting strengths and weaknesses."
+                          >
+                            <i class="bx bx-info-circle"></i>
+                          </div>
+                        </div>
+                        <div class="scm-container" id="scm-container">
+                          <!-- SCM will be generated here through JavaScript -->
+                          <div class="scm-loading">Loading matrix data...</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="card-footer d-flex justify-content-center align-items-center"
+        >
+          <div>
+            &copy; 2025 DigiAssess
+            <a href="https://digi-val.com/">Digival IT Solutions </a> - UAE (in
+            technology partnership with Digival Solutions Pvt Ltd, India v9.2.5)
+          </div>
+        </div>
+      </div>
+</div>
+      <main>
+        <div class="details">
+          <div
+            id="mygrid"
+            class="ag-theme-alpine"
+            style="height: 100%; width: 100%"
+          ></div>
+        </div>
+      </main>
+    </div>
+
+    <!-- Student Detail Modal -->
+    <div id="student-detail-modal" title="Student Detail" style="display: none">
+      <div id="student-detail-content"></div>
+    </div>
+
+    <div id="anomaly-detail-modal" title="Student Anomaly Details"></div>
+    <script src="../../common/commonLibaries/jquery-3.6.0.min.js"></script>
+    <script src="../../common/commonLibaries/jquery-ui.min.js"></script>
+    <script src="../../common/commonLibaries/font-awesome.5.15.3.js.all.min.js"></script>
+    <script src="../../common/commonLibaries/xlsx@0.17.0.dist.xlsx.full.min.js"></script>
+    <script src="../../common/commonLibaries/toastr.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/justgage@1.3.0/justgage.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.3.0/raphael-min.js"></script>
+
+    <script src="../../common/commonLibaries/ag-grid-community.min.noStyle.js"></script>
+    <script src="../../common/commonLibaries/chart.js"></script>
+    <script src="../../common/js/loader.js"></script>
+    <script src="../../common/js/variable.js"></script>
+    <script src="../../common/js/auth.js"></script>
+    <script src="../../common/js/commonApi.js"></script>
+    <script src="../../common/js/common.js"></script>
+       <script src="../../common/js/nav-section-menu.js"></script>
+    <script src="../../common/js/label-management.js"></script>
+    <script src="issue-log.js"></script>
+    <script src="report.js"></script>
+    <script src="reportChart.js"></script>
+  </body>
+</html>

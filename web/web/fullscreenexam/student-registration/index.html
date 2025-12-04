@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Registration Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../../common/css/loader.css">
+    <link rel="stylesheet" href="../../common/css/common-base.css">
+    <link rel="stylesheet" href="../../common/commonLibaries/toastr.min.css">
+    <link rel="stylesheet" href="./student-registration.css">
+</head>
+
+<body>    
+    <div class="container">
+        <header class="welcome-header">
+            <div class="toggle-container">
+                <div class="toggle-wrapper">
+                    <label class="toggle-switch-lang">
+                        <input id="lang-toggle" type="checkbox" />
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="header-content">
+                <h3><i class="fas fa-graduation-cap"></i> <span id="student_registration_portal_title">Student Registration Portal</span></h3>
+                <p id="student_registration_portal_welcome_message">Welcome! Let's get you registered in just a few easy steps.</p>
+            </div>
+        </header>
+
+        <div class="progress-steps">
+            <div class="step active" id="step-personal">
+                <div class="step-number">1</div>
+                <div class="step-text" id="steps_step_1">Personal Information</div>
+            </div>
+            <div class="step" id="step-photo">
+                <div class="step-number">2</div>
+                <div class="step-text" id="steps_step_2">Photo Upload</div>
+            </div>
+            <div class="step" id="step-document">
+                <div class="step-number">3</div>
+                <div class="step-text" id="steps_step_3">Document Verification</div>
+            </div>
+        </div>
+
+        <form id="registrationForm" class="form-container">
+            <!-- Personal Information Section -->
+            <div class="section-card" id="personalDetailsSection">
+                <div class="section-header">
+                    <div class="section-icon">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h4 id="personal_information_title">Personal Information</h4>
+                </div>
+
+                <div class="help-text">
+                    <i class="fas fa-info-circle"></i>
+                    <span id="personal_information_instruction">Please enter your details exactly as they appear on your official documents.</span>
+                </div>
+
+                <div class="form-grid">
+                    
+                    <div class="input-group">
+                        <label for="email"><span id="personal_information_fields_email_label">Email</span> <span class="required">*</span></label>
+                        <input type="email" id="personal_information_fields_email_placeholder"   placeholder="Enter your email" disabled>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="firstName"><span id="personal_information_fields_first_name_label">First Name</span> <span class="required">*</span></label>
+                        <input type="text" id="personal_information_fields_first_name_placeholder" class="first-name"  placeholder="Enter your first name">
+                        <label class="first-name-error"></label>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="lastName"><span id="personal_information_fields_last_name_label">Last Name</span> <span class="required">*</span></label>
+                        <input type="text" id="personal_information_fields_last_name_placeholder" class="last-name" placeholder="Enter your last name">
+                        <label class="last-name-error"></label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Photo Upload Section -->
+            <div class="files-container" id="files-container">
+                <div class="section-card" id="photoUploadSection">
+                    <div class="section-header">
+                        <div class="section-icon">
+                            <i class="fas fa-camera"></i>
+                        </div>
+                        <h4 id="photo_upload_title">Provide Your Identification Details</h4>
+                    </div>
+    
+                    <div class="help-text">
+                        <i class="fas fa-info-circle"></i>
+                        <span id="photo_upload_instruction">Upload a recent passport-style photo or take a new one with your camera.</span>
+                    </div>
+    
+                    <!-- New two-column layout: left side with actions, right side with preview -->
+                    <div class="photo-upload-session">
+                        <!-- Right Column: Preview -->
+                        <div class="preview-container">
+                            <div id="photoPreview" class="preview-box">
+                                <i class="fas fa-user"></i>
+                                <p id="photo_upload_upload_photo_preview">Your photo preview will appear here</p>
+                            </div>
+
+                            <button type="button" class="camera-btn" id="startCamera">
+                                <i class="fas fa-camera"></i>
+                                <span id="photo_upload_upload_photo_button_take_photo">Take Photo</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+    
+                <!-- Document Verification Section with two-column layout -->
+                <div class="section-card" id="documentVerificationSection">
+                    <div class="section-header">
+                        <div class="section-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <h4 id="document_verification_title">Document Verification</h4>
+                    </div>
+                    <div class="help-text">
+                        <i class="fas fa-info-circle"></i>
+                        <span id="document_verification_instruction">Upload your ID document (passport, national ID, or driver's license)</span>
+                    </div>
+                    <div class="document-upload-session">
+                        <!-- Left Column: Upload Input -->
+                        <div class="upload-actions">
+                            <div class="upload-area" id="documentUpload">
+                                <i class="fas fa-file-upload upload-icon"></i>
+                                <h3 id="document_verification_upload_id_document_label">Upload Your ID Document</h3>
+                                <p id="document_verification_upload_id_document_description">Accepted formats: PDF, JPG, PNG (max 5MB)</p>
+                                <input type="file" id="studentId" hidden accept=".pdf,.jpg,.jpeg,.png">
+                            </div>
+                            <button type="button" class="browse-btn" id="browseDocument">
+                                <i class="fas fa-folder-open"></i>
+                                <span id="document_verification_upload_id_document_button_browse">Browse Document</span>
+                            </button>
+                        </div>
+                        <!-- Right Column: Preview -->
+                        <div class="preview-container" id="doc-preview-container">
+                            <div id="docPreview" class="preview-box">
+                                <i class="fas fa-file"></i>
+                                <p id="document_verification_upload_id_document_preview">Your document preview will appear here</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="confirmation-section">
+                <label class="agree-check-error"></label>
+                <div class="checkbox-container">
+                    <input type="checkbox" id="confirmCheckbox" class="check-box-agree">
+                    <label class="agree-check" for="confirmCheckbox"></label>
+                    <label for="confirmCheckbox" id="consent_checkbox_label">I AGREE WEB CONSENT FOR DOCUMENT COLLECTION AND RETENTION
+                    </label>
+                </div>
+                <div class="details-message" id="confirmation_instruction">
+                    By submitting my documents through the Digiscreener platform, I acknowledge and agree to the following terms:
+
+                    The documents collected are solely for verification purposes and will not be used for any other reason.
+                    The documents will be retained for a maximum period of three (03) months from the date of submission, after which they will be permanently deleted or securely disposed of.
+                    Exam Taker shall be responsible for handling, storing, and retaining the documents in compliance with applicable data protection and privacy regulations.
+                    I understand that I am providing these documents voluntarily and that I have the right to inquire about their usage and request their removal prior to the completion of three (03) months period, if necessary.
+                    By proceeding, I confirm that I have read, understood, and agreed to the terms stated above.
+                </div>
+            </div>
+
+            <div class="submit-section">
+                <button type="button" class="clear-btn" id="clearBtn">
+                    <i class="fas fa-times-circle"></i> <span id="buttons_clear_all">Clear All</span>
+                </button>
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-check-circle"></i> <span id="buttons_complete_registration">Complete Registration</span>
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Custom Preview Popup -->
+    <div id="customPreviewPopup" class="custom-popup-overlay" style="display: none;">
+        <div class="custom-popup-content">
+            <span class="popup-close"><i class="fas fa-times"></i></span>
+            <div class="popup-image-container"></div>
+        </div>
+    </div>
+
+    <!-- Custom Camera Popup -->
+    <div id="cameraPopup" class="custom-popup-overlay" style="display: none;">
+        <div class="custom-popup-content">
+            <video id="videoElement" playsinline autoplay style="width:100%;"></video>
+            <div class="camera-instructions">
+                
+                <div id="camera_instructions">
+                    <p id="photo_upload_camera_instructions_title">For best results:</p>
+                    <ul>
+                        <li id="photo_upload_camera_instructions_face_visible">Make sure your face is clearly visible</li>
+                        <li id="photo_upload_camera_instructions_background">Use a plain, well-lit background</li>
+                        <li id="photo_upload_camera_instructions_remove_glasses">Remove glasses and face coverings if possible</li>
+                        <li id="photo_upload_camera_instructions_look_at_camera">Look directly at the camera</li>
+                    </ul>
+                </div>
+
+               
+
+            </div>
+            <div class="camera-dialog-controls" style="text-align:center; margin-top:1rem;">
+                <button type="button" class="cancel-btn" id="cancelBtn">
+                    <i class="fas fa-times-circle"></i> <span id="canbtn">Cancel</span>
+                </button>
+                <button type="button" class="capture-btn" id="captureBtn">
+                    <i class="fas fa-camera"></i> <span id="capbtn">Capture</span>
+                </button>
+            </div>
+            <canvas id="photoCanvas" style="display:none;"></canvas>
+        </div>
+    </div>
+    
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="../../common/js/loader.js"></script>
+    <script src="../../common/commonLibaries/toastr.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.5.207/pdf.min.js"></script>
+    <script src="../../common/js/variable.js"></script>
+    <script src="../../common/js/common.js"></script>
+    <script src="../cloud-service/aws.service.js"></script>
+    <script src="../../anamoly_process/dist/human.esm.js" type="module"></script>
+    <script src="./student-registration.js" type="module"></script>
+</body>
+
+</html>

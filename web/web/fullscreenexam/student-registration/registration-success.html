@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Successful</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="./student-registration.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .success-container {
+            max-width: 500px;
+            width: 90%;
+            background: #fff;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .success-container .success-icon {
+            font-size: 4rem;
+            color: var(--success);
+        }
+
+        .success-container h1 {
+            margin-top: 1rem;
+            font-size: 2.5rem;
+            color: var(--success);
+        }
+
+        .success-container p {
+            margin: 1.5rem 0;
+            font-size: 1.2rem;
+            color: #333;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            font-weight: bold;
+            background-color: var(--primary);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: background 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-dark);
+        }
+
+        /* Beautiful Countdown UI Styles */
+        #redirectCountdown {
+            margin-top: 20px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        #progressContainer {
+            width: 100%;
+            background: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 15px auto 0;
+            height: 10px;
+        }
+
+        #progressBar {
+            height: 10px;
+            width: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--primary-dark));
+            transition: width 1s ease;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="success-container">
+        <i class="fas fa-check-circle success-icon"></i>
+        <h1 id="registration_successful_title">Registration Successful!</h1>
+        <p id="registration_successful_message">Thank you for registering. Your registration has been saved successfully, and you are now ready to take the exam.</p>
+        <p id="redirectCountdown">
+            <span id="registration_successful_redirectCountdownText1"> Redirecting in</span>
+            <span id="redirectCountdownNumber"></span>
+            <span id="registration_successful_redirectCountdownText2"> seconds...</span>
+        </p>
+        <div id="progressContainer">
+            <div id="progressBar"></div>
+        </div>
+    </div>
+    <script src="../../common/js/common.js"></script>
+    <script>
+        let seconds = 5;
+        const countdownElement = document.getElementById("redirectCountdownNumber");
+        const progressBar = document.getElementById("progressBar");
+        const urlParams = new URLSearchParams(window.location.search);
+        const collegeCode = urlParams.get("cid");
+
+        const countdownInterval = setInterval(() => {
+            seconds--;
+            if (seconds > 0) {
+                countdownElement.textContent = seconds;
+                progressBar.style.width = (seconds / 5 * 100) + "%";
+            } else {
+                progressBar.style.width = "0%";
+                clearInterval(countdownInterval);
+                window.location.href = "../app-landing/?cid="+collegeCode;
+            }
+        }, 1000);
+        renderLanguage('../../common/language/');
+    </script>
+    
+   
+</body>
+
+</html>

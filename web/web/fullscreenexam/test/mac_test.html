@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Webcam & Screen Share Test</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 20px;
+      background: #f4f4f4;
+      color: #333;
+    }
+    h1 {
+      margin-bottom: 10px;
+    }
+    .section {
+      margin-bottom: 20px;
+    }
+    button {
+      padding: 10px 20px;
+      cursor: pointer;
+    }
+    #results {
+      margin: 10px 0;
+      padding: 10px;
+      border: 1px solid #ccc;
+      background: #fff;
+      max-width: 600px;
+    }
+    #webcam-video, #screen-video {
+      width: 300px;
+      height: 200px;
+      background: #000;
+      border: 2px solid #ccc;
+      margin-right: 20px;
+    }
+    .video-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 10px 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>Webcam &amp; Screen Share Test</h1>
+  <div class="section">
+    <button id="start-test">Start Test</button>
+  </div>
+
+  <div id="results" class="section">
+    <p><strong>Status:</strong> <span id="status-message">Not started</span></p>
+  </div>
+
+  <div class="section">
+    <h2>Webcam Preview</h2>
+    <div class="video-container">
+      <video id="webcam-video" autoplay muted playsinline></video>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Screen Share Preview</h2>
+    <div class="video-container">
+      <video id="screen-video" autoplay muted playsinline></video>
+    </div>
+  </div>
+
+  <script>
+    const startBtn = document.getElementById('start-test');
+    const statusMsg = document.getElementById('status-message');
+    const webcamVideo = document.getElementById('webcam-video');
+    const screenVideo = document.getElementById('screen-video');
+
+    let webcamStream;
+    let screenStream;
+
+    startBtn.addEventListener('click', async () => {
+      statusMsg.textContent = 'Requesting permissions...';
+      // First, try webcam
+      try {
+        webcamStream = await navigator.mediaDevices.getUserMedia({
+          video: true,
+          audio: false
+        });
+        webcamVideo.srcObject = webcamStream;
+        statusMsg.textContent = 'Webcam granted!';
+      } catch (err) {
+        console.error('Webcam error:', err);
+        statusMsg.textContent = 'Webcam permission denied or error occurred.';
+        return; // Stop if webcam fails
+      }
+
+      // Next, try screen share
+      try {
+        if (!navigator.mediaDevices.getDisplayMedia) {
+          throw new Error('Your browser does not support screen capture (getDisplayMedia).');
+        }
+
+        screenStream = await navigator.mediaDevices.getDisplayMedia({
+          video: {
+            displaySurface: 'monitor', // or 'window' if you prefer
+            cursor: 'always'
+          },
+          audio: false
+        });
+        screenVideo.srcObject = screenStream;
+        statusMsg.textContent = 'Screen sharing granted!';
+      } catch (err) {
+        console.error('Screen share error:', err);
+        statusMsg.textContent = 'Screen share permission denied or error occurred.';
+        // If you want to stop the webcam if screen share fails, do it here
+        return;
+      }
+
+      // If both succeed
+      statusMsg.textContent = 'All permissions granted! Webcam and screen share should be visible.';
+    });
+  </script>
+</body>
+</html>

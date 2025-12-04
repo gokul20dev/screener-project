@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>DigiScreener - Exam Setup Check</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Font Awesome CDN (jsDelivr) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+  <style>
+    /* Basic Reset */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu,
+        Cantarell, "Helvetica Neue", Arial, sans-serif;
+      background: #f7f7f7;
+      color: #333;
+      padding: 0;
+    }
+
+    header {
+      background: #2c3e50;
+      color: #fff;
+      padding: 1rem;
+      text-align: center;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    header h1 {
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+    }
+
+    header p {
+      font-size: 0.95rem;
+      opacity: 0.8;
+    }
+
+    .attention-banner {
+      background: #ffeeba;
+      color: #856404;
+      border: 1px solid #ffe58f;
+      padding: 1rem;
+      margin: 1rem auto;
+      border-radius: 4px;
+      max-width: 900px;
+      text-align: center;
+      font-size: 1rem;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+    }
+
+    .attention-banner strong {
+      display: block;
+      margin-bottom: 0.4rem;
+      font-size: 1.1rem;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 1rem auto;
+      padding: 1rem;
+      background: #fff;
+      border-radius: 4px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+    }
+
+    section {
+      margin-bottom: 2rem;
+    }
+
+    section h2 {
+      font-size: 1.5rem;
+      margin-bottom: 0.8rem;
+      color: #2c3e50;
+      border-bottom: 2px solid #e0e0e0;
+      padding-bottom: 0.3rem;
+    }
+
+    /* System Information Section */
+    #system-info {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      background: #f0f0f0;
+      padding: 1rem;
+      border-radius: 4px;
+    }
+
+    #system-info div {
+      text-align: center;
+    }
+
+    #system-info .icon {
+      font-size: 2.5rem;
+      margin-bottom: 5px;
+      color: #2c3e50;
+    }
+
+    #system-info h3 {
+      font-size: 1rem;
+      margin-bottom: 0.3rem;
+      color: #555;
+    }
+
+    /* Compatibility Section */
+    .compatibility {
+      text-align: center;
+      background: #eaf7ff;
+      padding: 1rem;
+      border-radius: 4px;
+    }
+
+    .compat-group {
+      margin: 1rem 0;
+    }
+
+    .compat-group h3 {
+      font-size: 1.2rem;
+      margin-bottom: 0.3rem;
+      color: #2c3e50;
+    }
+
+    .compat-group p {
+      font-size: 1rem;
+      color: #444;
+      margin-bottom: 0.5rem;
+    }
+
+    .compat-icons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+    }
+
+    .compat-item {
+      text-align: center;
+    }
+
+    .compat-icon {
+      font-size: 2.5rem;
+      color: #2c3e50;
+    }
+
+    .compat-item p {
+      margin-top: 5px;
+      font-size: 0.9rem;
+      color: #444;
+    }
+
+    /* Download Button for Chrome/Edge */
+    .download-btn {
+      display: inline-block;
+      padding: 0.3rem 0.6rem;
+      margin-top: 5px;
+      background: #007bff;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 4px;
+      font-size: 0.8rem;
+    }
+
+    .download-btn:hover {
+      background: #0056b3;
+    }
+
+    /* Exam Instructions Section */
+    .instructions {
+      background: #fff3cd;
+      border: 1px solid #ffeeba;
+      border-radius: 4px;
+      padding: 1rem;
+      color: #856404;
+      font-size: 0.95rem;
+    }
+
+    .instructions ul {
+      list-style: disc;
+      margin-left: 20px;
+      margin-top: 0.5rem;
+    }
+
+    .instructions li {
+      margin-bottom: 0.5rem;
+    }
+
+    /* Submission Guidelines Section */
+    .submission {
+      background: #d1ecf1;
+      border: 1px solid #bee5eb;
+      border-radius: 4px;
+      padding: 1rem;
+      color: #0c5460;
+      font-size: 0.95rem;
+      margin-bottom: 2rem;
+    }
+
+    .submission ul {
+      list-style: disc;
+      margin-left: 20px;
+      margin-top: 0.5rem;
+    }
+
+    .submission li {
+      margin-bottom: 0.5rem;
+    }
+
+    /* Test Your Setup Section */
+    #test-setup {
+      text-align: center;
+    }
+
+    .buttons {
+      margin-bottom: 1rem;
+    }
+
+    .btn {
+      padding: 0.7rem 1.2rem;
+      margin: 0.5rem;
+      border: none;
+      border-radius: 4px;
+      background: #2ecc71;
+      color: #fff;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+
+    .btn:hover {
+      background: #27ae60;
+    }
+
+    #status {
+      background: #fafafa;
+      border-left: 4px solid #ccc;
+      padding: 1rem;
+      max-width: 600px;
+      margin: 1rem auto;
+      border-radius: 4px;
+      font-size: 1rem;
+      text-align: center;
+    }
+
+    /* Video Previews */
+    .video-container {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .video-card {
+      background: #fff;
+      border: 1px solid #e0e0e0;
+      border-radius: 4px;
+      padding: 1rem;
+      width: 330px;
+      text-align: center;
+    }
+
+    .video-card h2 {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+      color: #444;
+    }
+
+    video {
+      width: 300px;
+      height: 200px;
+      background: #000;
+      border: 2px solid #ccc;
+      border-radius: 2px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1rem;
+      margin-top: 2rem;
+      color: #777;
+      font-size: 0.85rem;
+    }
+
+    /* Test Done Button Styling */
+    .test-done-container {
+      margin-top: 2rem;
+      text-align: center;
+    }
+
+    .test-done-btn {
+      background-color: #16a34a;
+      font-size: 1.1rem;
+      padding: 1rem 2rem;
+      border-radius: 6px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .test-done-btn:disabled {
+      background-color: #94a3b8;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .test-done-btn:hover:not(:disabled) {
+      background-color: #15803d;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .test-done-btn i {
+      margin-right: 8px;
+    }
+
+    /* Test status indicators */
+    .test-requirements {
+      margin: 20px auto;
+      max-width: 500px;
+      background-color: #f8fafc;
+      border-radius: 8px;
+      padding: 15px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .test-requirement {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+      padding: 8px;
+      border-radius: 4px;
+    }
+
+    .test-requirement i {
+      margin-right: 10px;
+      font-size: 18px;
+    }
+
+    .test-requirement.completed {
+      background-color: #dcfce7;
+    }
+
+    .test-requirement.incomplete {
+      background-color: #fee2e2;
+    }
+
+    .test-requirement i.completed {
+      color: #16a34a;
+    }
+
+    .test-requirement i.incomplete {
+      color: #dc2626;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>DigiScreener - Exam Setup Check</h1>
+    <p>Ensure your system is ready for a valid exam</p>
+  </header>
+
+  <!-- Attention Banner -->
+  <div class="attention-banner">
+    <strong>Important!</strong>
+    Please follow all instructions below and use the buttons to test your browser compatibility, webcam, and screen
+    sharing.
+  </div>
+
+  <div class="container">
+    <!-- System Information Section -->
+    <section id="system-info-section">
+      <h2>System Information</h2>
+      <div id="system-info">
+        <div>
+          <h3>Your Operating System</h3>
+          <div id="os-icon" class="icon"></div>
+          <p id="os-info">Detecting...</p>
+        </div>
+        <div>
+          <h3>Your Browser</h3>
+          <div id="browser-icon" class="icon"></div>
+          <p id="browser-info">Detecting...</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Test Your Setup Section -->
+    <section id="test-setup">
+      <h2>Test Your Setup</h2>
+      <div class="buttons">
+        <button id="webcam-btn" class="btn">Enable Webcam</button>
+        <button id="share-btn" class="btn">Share Screen</button>
+      </div>
+      <div id="status">Status: No actions yet.</div>
+      <div class="video-container">
+        <div class="video-card">
+          <h2>Webcam Preview</h2>
+          <video id="webcam-video" autoplay muted playsinline></video>
+        </div>
+        <div class="video-card">
+          <h2>Screen Share Preview</h2>
+          <video id="screen-video" autoplay muted playsinline></video>
+        </div>
+      </div>
+      <div class="test-done-container">
+        <div class="test-requirements">
+          <div id="webcam-requirement" class="test-requirement incomplete">
+            <i id="webcam-icon" class="fas fa-video incomplete"></i>
+            <span>Webcam test required</span>
+          </div>
+          <div id="screen-requirement" class="test-requirement incomplete">
+            <i id="screen-icon" class="fas fa-desktop incomplete"></i>
+            <span>Full screen sharing test required</span>
+          </div>
+        </div>
+        <button id="test-done-btn" class="btn test-done-btn" disabled>
+          <i class="fas fa-play-circle"></i> Start Exam
+        </button>
+      </div>
+    </section>
+
+    <!-- Compatibility Section -->
+    <section id="compatibility-section">
+      <h2>Browser Compatibility</h2>
+      <div class="compat-group">
+        <h3>Windows</h3>
+        <p>Supported Browsers (Latest Version Recommended):</p>
+        <div class="compat-icons">
+          <div class="compat-item">
+            <a href="https://www.google.com/intl/en_in/chrome/" target="_blank" rel="noopener">
+              <i class="fab fa-chrome compat-icon" title="Google Chrome"></i>
+            </a>
+            <p>Chrome - Latest</p>
+            <a href="https://www.google.com/intl/en_in/chrome/" target="_blank" rel="noopener"
+              class="download-btn">Download</a>
+          </div>
+          <div class="compat-item">
+            <a href="https://www.microsoft.com/en-us/edge/download?form=MA13FJ" target="_blank" rel="noopener">
+              <i class="fab fa-edge compat-icon" title="Microsoft Edge"></i>
+            </a>
+            <p>Edge - Latest</p>
+            <a href="https://www.microsoft.com/en-us/edge/download?form=MA13FJ" target="_blank" rel="noopener"
+              class="download-btn">Download</a>
+          </div>
+          <div class="compat-item">
+            <i class="fab fa-chrome compat-icon" title="Brave"></i>
+            <p>Brave - Latest</p>
+          </div>
+        </div>
+      </div>
+      <div class="compat-group">
+        <h3>macOS</h3>
+        <p>Supported Browsers (Latest Version Recommended):</p>
+        <div class="compat-icons">
+          <div class="compat-item">
+            <a href="https://www.google.com/intl/en_in/chrome/" target="_blank" rel="noopener">
+              <i class="fab fa-chrome compat-icon" title="Google Chrome"></i>
+            </a>
+            <p>Chrome - Latest</p>
+            <a href="https://www.google.com/intl/en_in/chrome/" target="_blank" rel="noopener"
+              class="download-btn">Download</a>
+          </div>
+          <div class="compat-item">
+            <a href="https://www.microsoft.com/en-us/edge/download?form=MA13FJ" target="_blank" rel="noopener">
+              <i class="fab fa-edge compat-icon" title="Microsoft Edge"></i>
+            </a>
+            <p>Edge - Latest</p>
+            <a href="https://www.microsoft.com/en-us/edge/download?form=MA13FJ" target="_blank" rel="noopener"
+              class="download-btn">Download</a>
+          </div>
+          <div class="compat-item">
+            <i class="fab fa-safari compat-icon" title="Safari"></i>
+            <p>Safari - Latest</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Exam Instructions Section -->
+    <section id="instructions-section">
+      <h2>Exam Instructions</h2>
+      <div class="instructions">
+        <h3>Before the Exam</h3>
+        <ul>
+          <li>If you have a new browser installation, set it as your default and restart your browser.</li>
+          <li>Close all other applications for optimal performance.</li>
+          <li>If your browser is not compatible, please <a href="https://www.google.com/intl/en_in/chrome/"
+              target="_blank" rel="noopener" style="color: #007bff; font-weight: bold;">download and install Google
+              Chrome</a>.</li>
+        </ul>
+        <h3>During the Exam</h3>
+        <ul>
+          <li><strong>Do not move away</strong> from your screen or change your seating position.</li>
+          <li>Ensure that <strong>no multiple users</strong> are around your screen.</li>
+          <li><strong>Do not switch tabs, close the browser, or restart your computer</strong>.</li>
+          <li>Ensure your camera is positioned so that your face is clearly visible.</li>
+          <li>You must share your <strong>entire screen</strong> to write a valid exam.</li>
+        </ul>
+        <h3>General Guidelines</h3>
+        <ul>
+          <li>If you face connectivity issues, contact exam support for extra time.</li>
+          <li>Do not use mobile phones or other electronic gadgets during the exam.</li>
+          <li>If your browser version is not capable, please use the following:
+            <ul>
+              <li><strong>macOS:</strong> Latest versions of Chrome, Edge, or Safari (with proper permissions for screen
+                share and camera).</li>
+              <li><strong>Windows:</strong> Latest versions of Chrome, Edge, or Brave (with proper permissions for
+                screen share and camera).</li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Submission Guidelines Section -->
+    <section id="submission-section">
+      <h2>Submission Guidelines</h2>
+      <div class="submission">
+        <ul>
+          <li>Before submitting your exam, ensure that the entire video recording has been fully uploaded.</li>
+          <li><strong>Do not close the browser, refresh, or navigate away</strong> from the exam page during submission.
+          </li>
+          <li>Maintain a stable internet connection until you receive confirmation that your submission is complete.
+          </li>
+        </ul>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    &copy; 2025 DigiScreener
+  </footer>
+
+  <script>
+    // OS detection function
+    function getOSInfo() {
+      const userAgent = navigator.userAgent;
+      if (/Windows NT 10.0/i.test(userAgent)) return "Windows 10";
+      if (/Windows NT 6.2/i.test(userAgent)) return "Windows 8";
+      if (/Windows NT 6.1/i.test(userAgent)) return "Windows 7";
+      if (/Mac OS X/i.test(userAgent)) return "macOS";
+      if (/Android/i.test(userAgent)) return "Android";
+      if (/Linux/i.test(userAgent)) return "Linux";
+      return "Unknown OS";
+    }
+
+    // Browser detection function
+    function getBrowserInfo() {
+      const userAgent = navigator.userAgent;
+      const vendor = navigator.vendor || "";
+      if (/Edg/i.test(userAgent)) {
+        const version = userAgent.match(/Edg\/(\d+)/);
+        return `Edge ${version ? version[1] : "Unknown"}`;
+      }
+      if (/Chrome/i.test(userAgent) && /Google Inc/i.test(vendor)) {
+        const version = userAgent.match(/Chrome\/(\d+)/);
+        return `Chrome ${version ? version[1] : "Unknown"}`;
+      }
+      if (/Safari/i.test(userAgent) && /Apple Computer/i.test(vendor)) {
+        const version = userAgent.match(/Version\/(\d+)/);
+        return `Safari ${version ? version[1] : "Unknown"}`;
+      }
+      if (/Firefox/i.test(userAgent)) {
+        const version = userAgent.match(/Firefox\/(\d+)/);
+        return `Firefox ${version ? version[1] : "Unknown"}`;
+      }
+      if (/MSIE/i.test(userAgent) || /Trident/i.test(userAgent)) {
+        const version = userAgent.match(/(MSIE |rv:)(\d+)/);
+        return `Internet Explorer ${version ? version[2] : "Unknown"}`;
+      }
+      return "Unknown Browser";
+    }
+
+    // Update OS & Browser info on page load
+    const os = getOSInfo();
+    const browser = getBrowserInfo();
+    document.getElementById("os-info").textContent = os;
+    document.getElementById("browser-info").textContent = browser;
+
+    // Dynamically update icons using Font Awesome
+    function updateIcons() {
+      const osIconEl = document.getElementById("os-icon");
+      const browserIconEl = document.getElementById("browser-icon");
+      let osIconHTML = "";
+      let browserIconHTML = "";
+
+      // OS Icons
+      if (os === "macOS") {
+        osIconHTML = '<i class="fab fa-apple"></i>';
+      } else if (os.startsWith("Windows")) {
+        osIconHTML = '<i class="fab fa-windows"></i>';
+      } else if (os === "Linux") {
+        osIconHTML = '<i class="fab fa-linux"></i>';
+      } else if (os === "Android") {
+        osIconHTML = '<i class="fab fa-android"></i>';
+      } else {
+        osIconHTML = '<i class="fas fa-desktop"></i>';
+      }
+
+      // Browser Icons
+      if (browser.indexOf("Chrome") !== -1) {
+        browserIconHTML = '<i class="fab fa-chrome"></i>';
+      } else if (browser.indexOf("Edge") !== -1) {
+        browserIconHTML = '<i class="fab fa-edge"></i>';
+      } else if (browser.indexOf("Safari") !== -1) {
+        browserIconHTML = '<i class="fab fa-safari"></i>';
+      } else if (browser.indexOf("Firefox") !== -1) {
+        browserIconHTML = '<i class="fab fa-firefox"></i>';
+      } else {
+        browserIconHTML = '<i class="fas fa-globe"></i>';
+      }
+
+      osIconEl.innerHTML = osIconHTML;
+      browserIconEl.innerHTML = browserIconHTML;
+    }
+    updateIcons();
+
+    // --- Webcam and Screen Share Button Logic ---
+    const webcamBtn = document.getElementById('webcam-btn');
+    const shareBtn = document.getElementById('share-btn');
+    const statusEl = document.getElementById('status');
+    const webcamVideo = document.getElementById('webcam-video');
+    const screenVideo = document.getElementById('screen-video');
+    const startExamBtn = document.getElementById('test-done-btn');
+    
+    // Track completion status
+    let webcamTestCompleted = false;
+    let screenShareTestCompleted = false;
+    
+    // Function to check if all requirements are met
+    function updateStartButtonStatus() {
+      if (webcamTestCompleted && screenShareTestCompleted) {
+        startExamBtn.disabled = false;
+        statusEl.textContent = '✅ All requirements met! You can start your exam now.';
+      } else {
+        startExamBtn.disabled = true;
+      }
+    }
+    
+    // Function to update requirement status
+    function updateRequirement(type, isCompleted) {
+      const requirementEl = document.getElementById(`${type}-requirement`);
+      const iconEl = document.getElementById(`${type}-icon`);
+      
+      if (isCompleted) {
+        requirementEl.className = 'test-requirement completed';
+        iconEl.className = `fas fa-${type === 'webcam' ? 'video' : 'desktop'} completed`;
+        requirementEl.querySelector('span').textContent = 
+          type === 'webcam' ? 'Webcam test completed' : 'Full screen sharing test completed';
+      } else {
+        requirementEl.className = 'test-requirement incomplete';
+        iconEl.className = `fas fa-${type === 'webcam' ? 'video' : 'desktop'} incomplete`;
+        requirementEl.querySelector('span').textContent = 
+          type === 'webcam' ? 'Webcam test required' : 'Full screen sharing test required';
+      }
+      
+      updateStartButtonStatus();
+    }
+
+    // Webcam access button
+    webcamBtn.addEventListener('click', async () => {
+      statusEl.textContent = 'Requesting webcam...';
+      try {
+        const webcamStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+        webcamVideo.srcObject = webcamStream;
+        statusEl.textContent = '✅ Webcam enabled successfully!';
+        webcamBtn.textContent = "Webcam Enabled";
+        webcamTestCompleted = true;
+        updateRequirement('webcam', true);
+      } catch (err) {
+        console.error('Webcam error:', err);
+        statusEl.textContent = `❌ Webcam failed: ${err.message || err}`;
+        webcamTestCompleted = false;
+        updateRequirement('webcam', false);
+      }
+    });
+
+    // Screen sharing button
+    shareBtn.addEventListener('click', async () => {
+      statusEl.textContent = 'Requesting screen share...';
+      try {
+        if (!navigator.mediaDevices.getDisplayMedia) {
+          throw new Error('Your browser does not support getDisplayMedia().');
+        }
+        // For Safari, use "window" instead of "monitor"
+        const constraints = {
+          video: {
+            displaySurface: (/Safari/i.test(navigator.userAgent) && !/Edg/i.test(navigator.userAgent)) ? 'window' : 'monitor',
+            cursor: 'always'
+          },
+          audio: false
+        };
+        
+        const screenStream = await navigator.mediaDevices.getDisplayMedia(constraints);
+        
+        // Check if user selected the entire screen
+        const videoTrack = screenStream.getVideoTracks()[0];
+        const settings = videoTrack.getSettings();
+        
+        // If displaySurface is not 'monitor', stop the stream and throw an error
+        if (settings.displaySurface && settings.displaySurface !== 'monitor') {
+          screenStream.getTracks().forEach(track => track.stop());
+          throw new Error('Please share your ENTIRE SCREEN, not just a window or tab.');
+        }
+        
+        screenVideo.srcObject = screenStream;
+        statusEl.textContent = '✅ Full screen sharing started!';
+        shareBtn.textContent = "Full Screen Enabled";
+        screenShareTestCompleted = true;
+        updateRequirement('screen', true);
+        
+        // Add event listener for when screen sharing stops
+        videoTrack.addEventListener('ended', () => {
+          statusEl.textContent = 'Screen sharing stopped. Please start again to continue.';
+          screenShareTestCompleted = false;
+          updateRequirement('screen', false);
+        });
+        
+      } catch (err) {
+        console.error('Screen share error:', err);
+        statusEl.textContent = `❌ Screen share failed: ${err.message || err}`;
+        screenShareTestCompleted = false;
+        updateRequirement('screen', false);
+      }
+    });
+
+    // Test Done button - redirect to landing page
+    document.getElementById('test-done-btn').addEventListener('click', function() {
+      // Double check requirements are met
+      if (!webcamTestCompleted || !screenShareTestCompleted) {
+        statusEl.textContent = 'Please complete both webcam and screen sharing tests first.';
+        return;
+      }
+      
+      // Get current URL parameters
+      const urlParams = new URLSearchParams(window.location.search);
+      // Build exam portal URL with parameters
+      const examUrl = new URL(`${window.location.origin}/fullscreenexam/exam-portal/`);
+
+      
+      // Preserve all other parameters, especially feature flags
+      urlParams.forEach((value, key) => {
+          examUrl.searchParams.set(key, value);
+      });
+      
+      // Redirect to exam portal
+      window.location.href = examUrl.toString();
+    });
+
+    // Initialize button as disabled
+    updateStartButtonStatus();
+
+    // Optional: Reload page after 2 minutes (if needed)
+    setTimeout(function () { window.location.reload(); }, 2 * 60000);
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam Preview</title>
+    
+    <!-- jQuery UI CSS -->
+    <link rel="stylesheet" href="../../common/commonLibaries/jquery-ui.min.css">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="../../common/commonLibaries/font-awesome.5.15.3.css.all.min.css">
+    
+    <!-- AG Grid CSS -->
+    <link rel="stylesheet" href="../../common/commonLibaries/ag-grid.min.css">
+    <link rel="stylesheet" href="../../common/commonLibaries/ag-theme-alpine.min.css">
+    
+    <!-- Box Icons -->
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    
+    <!-- Font Awesome Additional -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    
+    <!-- HTML Editor CSS -->
+    <link href="../../common/commonLibaries/htmleditor/dist/ui/trumbowyg.min.css" rel="stylesheet">
+    
+    <!-- Time Picker CSS -->
+    <link rel="stylesheet" href="../../common/commonLibaries/jquery.timepicker.min.css">
+    
+    <!-- Common CSS -->
+    <link rel="stylesheet" href="../../common/css/loader.css">
+    <link rel="stylesheet" href="../../common/css/common-base.css">
+    
+    <!-- Exam Configuration CSS -->
+    <link rel="stylesheet" href="exam-preview.css">
+    
+    <!-- AG Grid Script -->
+    <script src="../../common/commonLibaries/ag-grid-community.min.noStyle.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <!-- Assessment Loader -->
+    <div class="assessment-loader-container" id="assessment-loader-container" style="display: none;">
+        <div class="assessment-loader">
+            <div class="loader-content">
+                <div class="loader-animation">
+                    <div class="loader-circle"></div>
+                    <div class="loader-circle"></div>
+                    <div class="loader-circle"></div>
+                </div>
+                <div class="loader-text" id="assessment-loader-text">Loading...</div>
+            </div>
+        </div>
+    </div>
+    <div class="layout main-content">
+        <!-- Header -->
+
+        <div class="bread-crumb-container-cls" id="bread-crumb-container"></div>
+
+        <div class="d-flex">
+            <!-- Navigation Menu -->
+            <div id="nav-section-menu" class="nav-bar"></div>
+            
+            <!-- Main Content -->
+            <div class="main-card d-flex flex-grow-1 flex-column gap-2" id="main-content" style="display: none;">
+        
+                <!-- Exam Header -->
+                <div class="exam-header-card">
+                    <div class="exam-title-section">
+                        <div class="title-content">
+                            <h1 id="exam-title">Loading...</h1>
+                            <span id="exam-status" class="pill">Loading...</span>
+                        </div>
+                        <button class="edit-exam-btn" onclick="redirectToEditExam()" title="Edit Exam">
+                            <i class="bx bx-edit"></i>
+                            <span>Edit Exam</span>
+                        </button>
+                    </div>
+                    <div class="exam-meta">
+                        <span>Created By:  <strong id="exam-createdby">--</strong></span>
+                        <span>Start: <strong id="exam-start">--</strong></span>
+                        <span>End: <strong id="exam-end">--</strong></span>
+                        <span>Duration: <strong id="exam-duration">--</strong></span>
+                    </div>
+                </div>
+
+                <!-- Three Column Layout -->
+                <div class="three-column-grid">
+                    <!-- Exam Settings & Timing Column -->
+                    <div class="info-card">
+                        <div class="section-header">
+                            <h3><i class="bx bx-cog info-icon"></i> Exam Settings</h3>
+                            <button class="edit-icon-btn" onclick="redirectToEditStep(1)" title="Edit Settings">
+                                <i class='bx bx-edit'></i>
+                            </button>
+                        </div>
+                        <div class="info-list">
+                            <div id="basic-info">
+                                <!-- Dynamic basic info will be loaded here -->
+                            </div>
+                            <div id="session-info">
+                                <!-- Dynamic session info will be loaded here -->
+                            </div>
+                            <div id="enabled-features">
+                                <!-- Dynamic enabled features will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Questions Column -->
+                    <div class="info-card">
+                        <div class="section-header">
+                            <h3><i class="bx bx-help-circle info-icon"></i> Questions</h3>
+                            <button class="edit-icon-btn" onclick="redirectToEditStep(2)" title="Edit Questions">
+                                <i class='bx bx-edit'></i>
+                            </button>
+                        </div>
+                        <div class="info-list">
+                            <div id="questions-statistics">
+                                <!-- Dynamic questions statistics will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Participants Column -->
+                    <div class="info-card">
+                        <div class="section-header">
+                            <h3><i class="bx bx-group info-icon"></i> Participants</h3>
+                            <button class="edit-icon-btn" onclick="redirectToEditStep(3)" title="Edit Participants">
+                                <i class='bx bx-edit'></i>
+                            </button>
+                        </div>
+                        <div class="info-list">
+                            <div id="attendees-statistics">
+                                <!-- Dynamic attendees statistics will be loaded here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <!-- Update Footer -->
+                <div class="update-footer">
+                    <p>
+                        <i class='bx bx-user-circle'></i>
+                        Created At: <span id="created-by">Loading...</span>
+                    </p>
+                    <p>
+                        <i class='bx bx-time'></i>
+                        Last updated: <span id="last-updated">Loading...</span>
+                    </p>
+                </div>
+            </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../../common/commonLibaries/jquery-3.6.0.min.js"></script>
+    <script src="../../common/commonLibaries/jquery-ui.min.js"></script>
+    <script src="../../common/commonLibaries/bootstrap.min.js"></script>
+    <script src="../../common/commonLibaries/toastr.min.js"></script>
+    <script src="../../common/js/variable.js"></script>
+    <script src="../../common/js/commonApi.js"></script>
+    <script src="../../common/js/common.js"></script>
+    <script src="../../common/js/loader.js"></script>
+    <script src="../../common/js/nav-section-menu.js"></script>
+    <script src="assessment-loader.js"></script>
+    <script src="exam-preview.js"></script>
+</body>
+</html>

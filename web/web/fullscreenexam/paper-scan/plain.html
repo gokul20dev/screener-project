@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Answer Sheet Scanner</title>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        :root {
+            --primary-color: #007bff;
+            --primary-hover-color: #0056b3;
+            --background-color: #f4f7f9;
+            --container-bg-color: #ffffff;
+            --text-color: #333;
+            --light-text-color: #6c757d;
+            --success-color: #28a745;
+            --error-color: #dc3545;
+            --warning-color: #ffc107;
+            --border-color: #e7e7e7;
+            --shadow-color: rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--background-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+            gap: 20px;
+        }
+
+        header {
+            width: 100%;
+            max-width: 1200px;
+            background-color: var(--container-bg-color);
+            padding: 12px 25px;
+            box-shadow: 0 2px 4px var(--shadow-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-sizing: border-box;
+            border-radius: 12px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            max-width: 1200px;
+            justify-content: space-between;
+        }
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        #how-to-use-btn {
+            background: none;
+            border: none;
+            color: var(--light-text-color);
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 10px;
+            border-radius: 20px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        #how-to-use-btn:hover {
+            background-color: #e9ecef;
+            color: var(--text-color);
+        }
+        #how-to-use-btn i {
+            font-size: 16px;
+        }
+        
+        .header-title-group {
+            display: flex;
+            align-items: center;
+        }
+
+        #logo-img {
+            height: 40px; /* Set a specific height to ensure rendering */
+            width: auto; /* Allow width to scale automatically */
+        }
+        
+        .brand-highlight {
+            color: var(--primary-color);
+        }
+
+        .header-icon {
+            font-size: 22px;
+            color: var(--primary-color);
+        }
+
+        header h1 {
+            margin: 0 0 0 12px;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+        
+        body[dir="rtl"] header h1 {
+            margin: 0 12px 0 0;
+        }
+
+        .lang-toggle {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .lang-label {
+            font-size: 14px;
+            cursor: pointer;
+            padding: 6px 12px;
+            border-radius: 20px;
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+            font-weight: 500;
+            border: 1px solid var(--border-color);
+        }
+        .lang-label.active {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 600;
+            border-color: var(--primary-color);
+        }
+
+        main {
+            width: 100%;
+            max-width: 800px;
+            background-color: var(--container-bg-color);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px var(--shadow-color);
+        }
+
+        .scanner-screen {
+            display: none;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .scanner-screen.active {
+            display: flex;
+        }
+        
+        /* New styles for the edit panel */
+        #edit-tools-panel {
+            display: none; /* Hidden by default */
+            padding: 20px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-top: 10px;
+            background-color: #f8f9fa;
+        }
+        #edit-tools-panel.visible {
+            display: block;
+        }
+
+        .edit-instruction {
+            display: none;
+            font-weight: 600;
+            color: var(--primary-color);
+            background-color: #e7f1ff;
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: -5px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .edit-instruction.visible {
+            display: block;
+        }
+
+        h3, h4 {
+            text-align: center;
+            color: var(--text-color);
+            margin: 0;
+        }
+        .screen-instructions {
+            color: var(--text-color);
+            font-size: 16px;
+            margin-bottom: 10px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            text-align: left;
+        }
+
+        body[dir="rtl"] .screen-instructions,
+        body[dir="rtl"] .edit-instruction {
+            text-align: right;
+        }
+
+        h3 { font-size: 24px; margin-bottom: 5px; }
+        h4 { font-weight: 600; }
+
+        #video-container, 
+        #cropping-canvas-container,
+        #quality-canvas-container {
+            background-color: #000;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .screen-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            padding-top: 10px;
+            border-top: 1px solid var(--border-color);
+            margin-top: 10px;
+        }
+        .screen-controls .secondary-actions,
+        .screen-controls .primary-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        #camera-controls {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+            background: linear-gradient(to top, rgba(0,0,0,0.5), transparent);
+            border: none;
+            margin: 0;
+            justify-content: center;
+        }
+        #camera-controls .scanner-button {
+            padding: 15px 35px;
+            font-size: 18px;
+            border-radius: 50px;
+        }
+        
+        #quality-controls-panel {
+            padding: 20px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-top: 10px;
+            background-color: #f8f9fa;
+        }
+        .quality-slider-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .quality-slider-group:last-child { margin-bottom: 0; }
+        .quality-slider-group label {
+            flex-basis: 100px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .quality-slider-group input[type="range"] {
+            flex-grow: 1;
+            -webkit-appearance: none;
+            appearance: none;
+            height: 8px;
+            background: #ddd;
+            border-radius: 5px;
+            outline: none;
+        }
+        .quality-slider-group input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: var(--primary-color);
+            cursor: pointer;
+            border-radius: 50%;
+        }
+         .quality-slider-group input[type="range"]::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            background: var(--primary-color);
+            cursor: pointer;
+            border-radius: 50%;
+        }
+        .quality-toggle-group {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        /* --- Button Styles --- */
+        .scanner-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 25px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            text-decoration: none;
+            color: white;
+        }
+        .scanner-button:hover {
+            transform: translateY(-2px);
+        }
+        
+        .scanner-button.primary { background-color: var(--primary-color); }
+        .scanner-button.primary:hover { background-color: var(--primary-hover-color); }
+        
+        .scanner-button.success { background-color: var(--success-color); }
+        .scanner-button.success:hover { background-color: #218838; }
+        
+        .scanner-button.danger { background-color: var(--error-color); }
+        .scanner-button.danger:hover { background-color: #c82333; }
+        
+        .scanner-button.warning { background-color: var(--warning-color); color: #212529; }
+        .scanner-button.warning:hover { background-color: #e0a800; }
+
+        /* --- Help Panel --- */
+        .help-panel-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+        .help-panel-overlay.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        #help-panel {
+            position: fixed;
+            top: 0;
+            right: -400px; /* Start off-screen */
+            width: 100%;
+            max-width: 400px;
+            height: 100%;
+            background-color: white;
+            z-index: 1001;
+            box-shadow: -5px 0 15px rgba(0,0,0,0.15);
+            transition: right 0.4s ease-in-out;
+            display: flex;
+            flex-direction: column;
+        }
+        #help-panel.visible {
+            right: 0;
+        }
+        body[dir="rtl"] #help-panel {
+            right: auto;
+            left: -400px;
+        }
+        body[dir="rtl"] #help-panel.visible {
+            left: 0;
+            right: auto;
+        }
+        .help-panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .help-panel-header h3 {
+            margin: 0;
+            font-size: 18px;
+        }
+        #help-panel-close-btn {
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: var(--light-text-color);
+            line-height: 1;
+        }
+        .help-panel-content {
+            padding: 20px;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+        .help-panel-content ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .help-panel-content li {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            gap: 15px;
+        }
+        .help-panel-content .help-icon {
+            font-size: 20px;
+            color: var(--primary-color);
+            margin-top: 3px;
+        }
+        .help-panel-content p {
+            margin: 0;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+        .help-panel-content strong {
+            display: block;
+            margin-bottom: 4px;
+            color: var(--text-color);
+        }
+
+        /* --- Responsive --- */
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+                gap: 15px;
+            }
+            main { padding: 15px; }
+            header { padding: 15px; }
+            .header-content { flex-direction: column; gap: 15px; }
+            .header-controls { flex-direction: column-reverse; }
+            .screen-controls { justify-content: center; }
+            header h1 { font-size: 20px; }
+            .action-buttons { flex-direction: row; }
+        }
+        @media (max-width: 480px) {
+            .action-buttons { flex-direction: column; }
+        }
+    </style>
+</head>
+ 
+<body>
+    <header>
+        <div class="header-content">
+            <div class="header-title-group">
+                <img id="logo-img" src="../../common/imgs/DA-icon.svg" alt="DigiAssess Logo">
+                <h1>DigiAssess - Answer Sheet Scanner</h1>
+            </div>
+            <div class="header-controls">
+                <button id="how-to-use-btn"><i class="fas fa-question-circle"></i> <span id="how-to-use-text">How to Use</span></button>
+                <div class="lang-toggle">
+                    <span class="lang-label" id="lang-label-en">English</span>
+                    <span class="lang-label" id="lang-label-ar">العربية</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main id="scanner-main-content">
+        <!-- Screen 1: Camera View -->
+        <div id="camera-screen" class="scanner-screen">
+            <h3 id="camera-title"></h3>
+            <p class="screen-instructions" id="camera-instructions"></p>
+            <div id="video-container">
+                <!-- Video element will be inserted here by JS -->
+            </div>
+            <div id="camera-controls" class="screen-controls">
+                <!-- Capture button will be inserted here by JS -->
+            </div>
+        </div>
+
+        <!-- Screen 2: Preview & Edit -->
+        <div id="preview-screen" class="scanner-screen">
+            <h3 id="preview-title"></h3>
+            <p class="screen-instructions" id="preview-instructions"></p>
+            <p class="edit-instruction" id="cropping-edit-instructions"></p>
+            <div id="preview-canvas-container">
+                <!-- Preview canvas will be inserted here -->
+            </div>
+            <div id="edit-tools-panel">
+                <h4 id="edit-panel-title"></h4>
+                <div id="quality-sliders">
+                    <!-- Sliders will be inserted here -->
+                </div>
+            </div>
+            <div id="preview-controls" class="screen-controls">
+                <!-- Action buttons will be inserted here -->
+            </div>
+        </div>
+
+        <!-- Screen 3: Confirmation -->
+        <div id="confirmation-screen" class="scanner-screen">
+            <h3 id="confirmation-title"></h3>
+            <p class="screen-instructions" id="confirmation-instructions"></p>
+            <div id="confirmation-canvas-container">
+                <!-- Final preview canvas will be inserted here -->
+            </div>
+            <div id="confirmation-controls" class="screen-controls">
+                <!-- Final Upload/Back buttons will be inserted here -->
+            </div>
+        </div>
+
+        <!-- Screen 4: Final state after upload -->
+        <div id="final-screen" class="scanner-screen">
+            <h3 id="final-title"></h3>
+            <p class="screen-instructions" id="final-instructions"></p>
+            <div id="final-controls" class="screen-controls">
+                <!-- 'Upload another' etc. buttons here -->
+            </div>
+        </div>
+    </main>
+ 
+    <div id="help-panel-overlay"></div>
+    <div id="help-panel">
+        <div class="help-panel-header">
+            <h3 id="help-panel-title"></h3>
+            <button id="help-panel-close-btn">&times;</button>
+        </div>
+        <div id="help-panel-content"></div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../../common/commonLibaries/jquery-3.6.0.min.js"></script>
+    <script src="../../common/commonLibaries/jquery-ui.min.js"></script>
+    <script src="https://docs.opencv.org/4.7.0/opencv.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/ColonelParrot/jscanify@master/src/jscanify.min.js"></script>
+    <link rel="stylesheet" href="../../common/commonLibaries/jquery-ui.min.css">
+    <link rel="stylesheet" href="../../common/css/loader.css">
+    <script src="../../common/js/variable.js"></script>
+    <script src="../../common/js/loader.js"></script>
+    <script src="../../common/js/commonApi.js"></script>
+    <script src="../cloud-service/aws.service.js"></script>
+ 
+    <script src="scanner.js"></script>
+</body>
+</html>

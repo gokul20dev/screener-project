@@ -1,0 +1,1615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Screener - Complete System Reference Guide</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../common/css/common-base.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        
+        * {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+        
+        body {
+            background-color: #f4f7f6;
+            color: #4b5563;
+        }
+        
+        .main-header {
+            background: linear-gradient(to left, #4c9de4, #276bae);
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .main-header .logo-img {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            margin-bottom: 1rem;
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            display: inline-block;
+        }
+        
+        .main-header h1 {
+            color: white;
+            font-weight: 700;
+            font-size: 2.75rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .main-header .subtitle {
+            font-size: 1.25rem;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 400;
+        }
+        
+        .role-tabs {
+            background: white;
+            border-radius: 12px;
+            padding: 8px;
+            box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+            margin-bottom: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .role-tab {
+            padding: 12px 24px;
+            border-radius: 8px;
+            background: transparent;
+            border: none;
+            color: #6b7280;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            margin: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+        
+        .role-tab:hover {
+            background: #f4f7f6;
+        }
+        
+        .role-tab.active {
+            background: #2f80ed;
+            color: white;
+        }
+        
+        .role-content {
+            display: none;
+        }
+        
+        .role-content.active {
+            display: block;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-3px);
+            box-shadow: rgba(99, 99, 99, 0.3) 0px 8px 16px 0px;
+        }
+        
+        .feature-header {
+            padding: 20px 24px;
+            background: #f9fafb;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+        }
+        
+        .feature-header i {
+            font-size: 1.75rem;
+            margin-right: 1rem;
+            color: #2f80ed;
+        }
+        
+        .feature-header h3 {
+            margin: 0;
+            font-weight: 600;
+            font-size: 1.25rem;
+            color: #2d3748;
+        }
+        
+        .feature-body {
+            padding: 24px;
+        }
+        
+        .feature-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: start;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #f4f7f6;
+        }
+        
+        .feature-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+        
+        .feature-item i {
+            color: #2f80ed;
+            margin-right: 12px;
+            margin-top: 3px;
+            font-size: 1.25rem;
+        }
+        
+        .feature-item-content h5 {
+            font-weight: 600;
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
+            color: #2d3748;
+        }
+        
+        .feature-item-content p {
+            margin: 0;
+            color: #6b7280;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        
+        .rules-card {
+            background: linear-gradient(135deg, #fff5f5 0%, #ffe5e5 100%);
+            border: 1px solid #fecaca;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .rules-card h4 {
+            color: #dc2626;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .rules-card h4 i {
+            margin-right: 12px;
+        }
+        
+        .rule-item {
+            display: flex;
+            align-items: start;
+            margin-bottom: 0.75rem;
+        }
+        
+        .rule-item i {
+            color: #dc2626;
+            margin-right: 10px;
+            margin-top: 3px;
+        }
+        
+        .quick-access-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .quick-access-card {
+            background: white;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 16px;
+            text-align: center;
+            text-decoration: none;
+            color: #4b5563;
+            transition: all 0.3s ease;
+        }
+        
+        .quick-access-card:hover {
+            border-color: #2f80ed;
+            transform: translateY(-2px);
+            box-shadow: rgba(47, 128, 237, 0.2) 0px 4px 12px 0px;
+            color: #2f80ed;
+        }
+        
+        .quick-access-card i {
+            font-size: 2rem;
+            color: #2f80ed;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+        
+        .quick-access-card span {
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+        
+        .info-badge {
+            display: inline-block;
+            background: #eff9fb;
+            color: #2f80ed;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin-left: 8px;
+        }
+        
+        .warning-banner {
+            background: #fef3c7;
+            border: 1px solid #fcd34d;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: start;
+        }
+        
+        .warning-banner i {
+            color: #d97706;
+            font-size: 1.25rem;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+        
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 8px;
+            top: 8px;
+            bottom: 8px;
+            width: 2px;
+            background: #e5e7eb;
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -26px;
+            top: 6px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #2f80ed;
+            border: 2px solid white;
+            box-shadow: 0 0 0 2px #e5e7eb;
+        }
+        
+        .timeline-item.completed::before {
+            background: #27ae60;
+        }
+        
+        .timeline-item.current::before {
+            background: #f1c40f;
+            animation: pulse 2s infinite;
+        }
+        
+        .timeline-item.critical::before {
+            background: #dc2626;
+        }
+        
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 2px #e5e7eb; }
+            50% { box-shadow: 0 0 0 4px rgba(241, 196, 15, 0.3); }
+            100% { box-shadow: 0 0 0 2px #e5e7eb; }
+        }
+        
+        .violation-item {
+            background: #fff5f5;
+            border-left: 3px solid #dc2626;
+            padding: 12px;
+            margin-bottom: 8px;
+            border-radius: 4px;
+        }
+        
+        .ai-feature {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border: 1px solid #7dd3fc;
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 1rem;
+        }
+        
+        .ai-feature i {
+            color: #0284c7;
+        }
+        
+        .system-check-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .system-check-item {
+            background: #f9fafb;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .system-check-item i {
+            font-size: 1.5rem;
+            margin-right: 12px;
+        }
+        
+        .proctoring-feature {
+            background: #fef3f2;
+            border: 1px solid #feb2b2;
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .proctoring-feature i {
+            color: #dc2626;
+            margin-right: 12px;
+        }
+        
+        @media (max-width: 768px) {
+            .main-header h1 {
+                font-size: 2rem;
+            }
+            
+            .main-header {
+                padding: 1.5rem;
+            }
+            
+            .role-tabs {
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+            
+            .quick-access-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container py-5">
+        <div class="main-header">
+            <img class="logo-img" src="../common/imgs/logo1.jpeg" alt="College Logo">
+            <h1 id="college-name">Digital Screener Complete Reference Guide</h1>
+            <div class="subtitle">Comprehensive Online Examination System with AI-Powered Proctoring</div>
+        </div>
+
+        <!-- Role Navigation Tabs -->
+        <div class="role-tabs">
+            <button class="role-tab active" onclick="showRole('student')">
+                <i class='bx bx-user-circle me-2'></i>Students
+            </button>
+            <button class="role-tab" onclick="showRole('faculty')">
+                <i class='bx bx-chalkboard me-2'></i>Faculty
+            </button>
+            <button class="role-tab" onclick="showRole('admin')">
+                <i class='bx bx-shield-alt-2 me-2'></i>Admin
+            </button>
+            <button class="role-tab" onclick="showRole('superadmin')">
+                <i class='bx bx-crown me-2'></i>SuperAdmin
+            </button>
+            <button class="role-tab" onclick="showRole('rules')">
+                <i class='bx bx-book me-2'></i>System Rules
+            </button>
+            <button class="role-tab" onclick="showRole('technical')">
+                <i class='bx bx-cog me-2'></i>Technical
+            </button>
+        </div>
+
+        <!-- Student Section -->
+        <div id="student-content" class="role-content active">
+            <div class="row">
+                <div class="col-lg-8">
+                    <!-- Student Journey -->
+                    <div class="feature-card">
+                        <div class="feature-header">
+                            <i class='bx bxs-graduation'></i>
+                            <h3>Complete Student Exam Journey</h3>
+                        </div>
+                        <div class="feature-body">
+                            <div class="timeline">
+                                <div class="timeline-item completed">
+                                    <h5>1. Email Verification & Registration</h5>
+                                    <p>Verify email address, complete profile with National ID/Passport, upload photo with face validation</p>
+                                </div>
+                                <div class="timeline-item completed">
+                                    <h5>2. Login to Student Portal</h5>
+                                    <p>Access portal using college code + email + ID number combination</p>
+                                </div>
+                                <div class="timeline-item current">
+                                    <h5>3. System Compatibility Check</h5>
+                                    <p>Test webcam, screen sharing permissions, browser compatibility (Chrome/Edge/Brave only)</p>
+                                </div>
+                                <div class="timeline-item critical">
+                                    <h5>4. Wait for Exam Finalization</h5>
+                                    <p><strong>CRITICAL:</strong> You CANNOT start exam until faculty finalizes it. Check exam status in your dashboard.</p>
+                                </div>
+                                <div class="timeline-item">
+                                    <h5>5. Accept Exam Rules & Start</h5>
+                                    <p>Read and accept 7 mandatory rules, allow full-screen mode, begin exam with live proctoring</p>
+                                </div>
+                                <div class="timeline-item">
+                                    <h5>6. Complete Exam</h5>
+                                    <p>Answer questions, use built-in calculator/code editor if needed, auto-save ensures no data loss</p>
+                                </div>
+                                <div class="timeline-item">
+                                    <h5>7. Submit & View Results</h5>
+                                    <p>Submit answers, recordings uploaded automatically, view results when published</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Student Features -->
+                    <div class="feature-card">
+                        <div class="feature-header">
+                            <i class='bx bx-laptop'></i>
+                            <h3>Available Features During Exam</h3>
+                        </div>
+                        <div class="feature-body">
+                            <ul class="feature-list">
+                                <li class="feature-item">
+                                    <i class='bx bx-calculator'></i>
+                                    <div class="feature-item-content">
+                                        <h5>Built-in Scientific Calculator</h5>
+                                        <p>Full-featured calculator for mathematical computations, available for exams that allow it</p>
+                                    </div>
+                                </li>
+                                <li class="feature-item">
+                                    <i class='bx bx-code-alt'></i>
+                                    <div class="feature-item-content">
+                                        <h5>Monaco Code Editor</h5>
+                                        <p>Professional code editor with syntax highlighting for programming questions, supports multiple languages</p>
+                                    </div>
+                                </li>
+                                <li class="feature-item">
+                                    <i class='bx bx-save'></i>
+                                    <div class="feature-item-content">
+                                        <h5>Auto-Save Functionality</h5>
+                                        <p>Answers saved automatically every few seconds, progress indicator shows save status</p>
+                                    </div>
+                                </li>
+                                <li class="feature-item">
+                                    <i class='bx bx-time'></i>
+                                    <div class="feature-item-content">
+                                        <h5>Real-time Timer Display</h5>
+                                        <p>Countdown timer shows remaining time, alerts when 10 minutes left</p>
+                                    </div>
+                                </li>
+                                <li class="feature-item">
+                                    <i class='bx bx-navigation'></i>
+                                    <div class="feature-item-content">
+                                        <h5>Question Navigation</h5>
+                                        <p>Jump to any question, filter by answered/unanswered, mark for review</p>
+                                    </div>
+                                </li>
+                                <li class="feature-item">
+                                    <i class='bx bx-globe'></i>
+                                    <div class="feature-item-content">
+                                        <h5>Multi-Language Support</h5>
+                                        <p>Toggle between English and Arabic during exam, full RTL support</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Proctoring Features -->
+                    <div class="feature-card">
+                        <div class="feature-header">
+                            <i class='bx bx-video'></i>
+                            <h3>AI-Powered Proctoring System</h3>
+                        </div>
+                        <div class="feature-body">
+                            <div class="warning-banner">
+                                <i class='bx bx-info-circle'></i>
+                                <div>
+                                    <strong>Important:</strong> The system uses advanced AI models to ensure exam integrity. All activities are monitored and recorded for review.
+                                </div>
+                            </div>
+                            <div class="mt-3">
+                                <h5>What is Monitored:</h5>
+                                <div class="proctoring-feature">
+                                    <i class='bx bx-face'></i>
+                                    <span>Face detection using MediaPipe - ensures you're present and alone</span>
+                                </div>
+                                <div class="proctoring-feature">
+                                    <i class='bx bx-desktop'></i>
+                                    <span>Screen recording - captures your entire screen during exam</span>
+                                </div>
+                                <div class="proctoring-feature">
+                                    <i class='bx bx-camera'></i>
+                                    <span>Webcam recording - continuous video feed with face tracking</span>
+                                </div>
+                                <div class="proctoring-feature">
+                                    <i class='bx bx-tab'></i>
+                                    <span>Tab switching detection - alerts if you leave exam window</span>
+                                </div>
+                                <div class="proctoring-feature">
+                                    <i class='bx bx-extension'></i>
+                                    <span>ChatGPT extension detection - must be disabled before exam</span>
+                                </div>
+                                <div class="proctoring-feature">
+                                    <i class='bx bx-window'></i>
+                                    <span>Window resize/minimize detection - fullscreen enforced</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <!-- Student Quick Access -->
+                    <div class="feature-card">
+                        <div class="feature-header">
+                            <i class='bx bx-rocket'></i>
+                            <h3>Quick Access</h3>
+                        </div>
+                        <div class="feature-body">
+                            <div class="quick-access-grid">
+                                <a href="app-landing" class="quick-access-card">
+                                    <i class='bx bx-home'></i>
+                                    <span>Student Portal</span>
+                                </a>
+                                <a href="exam-list.html" class="quick-access-card">
+                                    <i class='bx bx-list-ul'></i>
+                                    <span>My Exams</span>
+                                </a>
+                                <a href="paper-scan/qr-scanner.html" class="quick-access-card">
+                                    <i class='bx bx-qr-scan'></i>
+                                    <span>QR Scanner</span>
+                                </a>
+                                <a href="test/system-compatibility.html" class="quick-access-card">
+                                    <i class='bx bx-desktop'></i>
+                                    <span>System Check</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mandatory Rules -->
+                    <div class="rules-card">
+                        <h4><i class='bx bx-error-circle'></i>7 Mandatory Exam Rules</h4>
+                        <div class="rule-item">
+                            <i class='bx bx-x'></i>
+                            <span>No tab/window switching allowed</span>
+                        </div>
+                        <div class="rule-item">
+                            <i class='bx bx-x'></i>
+                            <span>No special keys (Esc, Windows, Cmd)</span>
+                        </div>
+                        <div class="rule-item">
+                            <i class='bx bx-x'></i>
+                            <span>No window resizing or minimizing</span>
+                        </div>
+                        <div class="rule-item">
+                            <i class='bx bx-x'></i>
+                            <span>ChatGPT extension must be closed</span>
+                        </div>
+                        <div class="rule-item">
+                            <i class='bx bx-check'></i>
+                            <span>Face must be clearly visible always</span>
+                        </div>
+                        <div class="rule-item">
+                            <i class='bx bx-check'></i>
+                            <span>Only one person in camera frame</span>
+                        </div>
+                        <div class="rule-item">
+                            <i class='bx bx-check'></i>
+                            <span>Recordings uploaded on submission</span>
+                        </div>
+                    </div>
+
+                    <!-- QR Scanner Info -->
+                    <div class="feature-card">
+                        <div class="feature-header">
+                            <i class='bx bx-qr'></i>
+                            <h3>Paper-Based Exams</h3>
+                        </div>
+                        <div class="feature-body">
+                            <p class="mb-3">For physical answer sheets:</p>
+                            <ol style="padding-left: 20px;">
+                                <li>Scan exam QR code first</li>
+                                <li>Scan answer sheet QR code</li>
+                                <li>Upload scanned pages</li>
+                                <li>Submit digitized answers</li>
+                            </ol>
+                            <div class="ai-feature mt-3">
+                                <i class='bx bx-scan me-2'></i>
+                                <span>Uses advanced document detection for perfect scans</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Faculty Section -->
+        <div id="faculty-content" class="role-content">
+            <div class="row">
+                <div class="col-lg-8">
+                    <!-- Faculty Workflow -->
+                    <div class="feature-card">
+                        <div class="feature-header">
+                            <i class='bx bx-task'></i>
+                            <h3>Complete Exam Management Workflow</h3>
+                        </div>
+                        <div class="feature-body">
+                            <div class="timeline">
+                                <div class="timeline-item">
+                                    <h5>1. Create New Exam</h5>
+                                    <p>Set exam name, duration, passing marks, instructions, choose question types</p>
+                                </div>
+                                <div class="timeline-item">
+                                    <h5>2. Configure Settings</h5>
+                                    <p>Enable/disable calculator, randomize questions, set attempt limits, configure proctoring</p>
+                                </div>
+                                <div class="timeline-item">
+                                    <h5>3. Add Questions</h5>
+                                    <p>Manual creation, AI generation, or import from Excel/Word. Support for MCQ, SAQ, FTB, PRQ, TF, MAQ, ORD, MTF</p>
+                                </div>
+                                <div class="timeline-item">
+                                    <h5>4. Invite Students</h5>
+                                    <p>Send email invitations with custom templates, manage student groups</p>
+                                </div>
+                                <div class="timeline-item critical">
+                                    <h5>5. FINALIZE EXAM</h5>
+                                    <p><strong>CRITICAL STEP:</strong> Must click "Finalize" button. Students CANNOT access exam until finalized!</p>
+                                </div>
+                                <div class="timeline-item">
+                                    <h5>6. Monitor Live Exam</h5>
+                                    <p>Real-time proctoring dashboard, view violations, start/stop exam anytime</p>
+                                </div>
+                                <div class="timeline-item">
+                                    <h5>7. Grade & Publish Results</h5>
+                                    <p>Auto-grade objective questions, manual evaluation for subjective, generate reports</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- AI Features -->
+                    <div class="feature-card">
+                        <div class="feature-header">
+                            <i class='bx bx-brain'></i>
+                            <h3>AI-Powered Question Generation <span class="info-badge">NEW</span></h3>
+                        </div>
+                        <div class="feature-body">
+                            <div class="ai-feature">
+                                <i class='bx bx-magic-wand me-2'></i>
+                                <strong>Revolutionary AI Question Generator using Bloom's Taxonomy</strong>
+                            </div>
+                            <ul class="feature-list mt-3">
+                                <li class="feature-item">
+                                    <i class='bx bx-layer'></i>
+                                    <div class="feature-item-content">
+                                        <h5>6 Cognitive Levels</h5>
+                                        <p>Remember, Understand, Apply, Analyze, Evaluate, Create - aligned with educational standards</p>
+                                    </div>
+                                </li>
+                                <li class="feature-item">
+                                    <i class='bx bx-list-check'></i>
+                                    <div class="feature-item-content">
+                                        <h5>8 Question Types Supported</h5>
+                                        <p>MCQ, Fill in Blanks, Short Answer, True/False, Multiple Answer, Ordering, Match Following</p>
+                                    </div>
+                                </li>
+                                <li class="feature-item">
+                                    <i class='bx bx-book-content'></i>
+                                    <div class="feature-item-content">
+                                        <h5>Case-Based Questions</h5>
+                                        <p>Generate complex scenarios with multiple related questions for deeper assessment</p>
+                                    </div>
+                                </li>
+                                <li class="feature-item">
+                                    <i class='bx bx-slider-alt'></i>
+                                    <div class="feature-item-content">
+                                        <h5>Customizable Parameters</h5>
+                                        <p>Topic, difficulty level, number of questions, include hints, explanations</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Faculty Controls -->
+                    <div class="feature-card">
+                        <div class="feature-header">
+                            <i class='bx bx-control'></i>
+                            <h3>Exam Control Powers</h3>
+                        </div>
+                        <div class="feature-body">
+                            <ul class="feature-list">
+                                <li class="feature-item">
+                                    <i class='bx bx-play-circle'></i>
+                                    <div class="feature-item-content">
+                                        <h5>Start/Stop Exam Anytime</h5>
+                                        <p>Full control to start, pause, or stop exam even after scheduled time</p>
+                                    </div>
+                                </li>
+                                <li class="feature-item">
+                                    <i class='bx bx-time-five'></i>
+                                    <div class="feature-item-content">
+                                        <h5>Extend Exam Duration</h5>
+                                        <p>Grant time extensions to specific students or entire batch</p>
+                                    </div>
+                                </li>
+                                <li class="feature-item">
+                                    <i class='bx bx-shield-x'></i>
+                                    <div class="feature-item-content">
+                                        <h5>Override Violations</h5>
+                                        <p>Review and dismiss false positive proctoring alerts</p>
+                                    </div>
+                                </li>
+                                <li class="feature-item">
+                                    <i class='bx bx-edit'></i>
+                                    <div class="feature-item-content">
+                                        <h5>Modify Grades</h5>
+                                        <p>Adjust scores before final publication, add bonus marks</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <!-- Faculty Tools -->
+                    <div class="feature-card">
+                        <div class="feature-header">
+                            <i class='bx bx-wrench'></i>
+                            <h3>Faculty Tools</h3>
+                        </div>
+                        <div class="feature-body">
+                            <div class="quick-access-grid">
+                                <a href="../exam-list" class="quick-access-card">
+                                    <i class='bx bx-list-ol'></i>
+                                    <span>Exam Maker</span>
+                                </a>
+                                <a href="../exam-configure" class="quick-access-card">
+                                    <i class='bx bx-plus-circle'></i>
+                                    <span>Create Exam</span>
+                                </a>
+                                <a href="../student-management" class="quick-access-card">
+                                    <i class='bx bx-group'></i>
+                                    <span>Students</span>
+                                </a>
+                                <a href="../reports" class="quick-access-card">
+                                    <i class='bx bx-bar-chart-alt-2'></i>
+                                    <span>Reports</span>
+                                </a>
+                                <a href="../insights" class="quick-access-card">
+                                    <i class='bx bx-bulb'></i>
+                                    <span>Insights</span>
+                                </a>
+                                <a href="../student-registration" class="quick-access-card">
+                                    <i class='bx bx-user-plus'></i>
+                                    <span>Register</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Import Options -->
+                    <div class="feature-card">
+                        <div class="feature-header">
+                            <i class='bx bx-import'></i>
+                            <h3>Import Questions</h3>
+                        </div>
+                        <div class="feature-body">
+                            <p class="mb-3">Bulk import from:</p>
+                            <ul style="padding-left: 20px;">
+                                <li>Excel spreadsheets (.xlsx)</li>
+                                <li>Word documents (.docx)</li>
+                                <li>Question bank templates</li>
+                                <li>Previous exams</li>
+                            </ul>
+                            <div class="warning-banner mt-3">
+                                <i class='bx bx-info-circle'></i>
+                                <span>Use provided templates for best results</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Question Types -->
+                    <div class="feature-card">
+                        <div class="feature-header">
+                            <i class='bx bx-list-ul'></i>
+                            <h3>Question Types</h3>
+                        </div>
+                        <div class="feature-body">
+                            <div class="mb-2"><strong>MCQ</strong> - Multiple Choice</div>
+                            <div class="mb-2"><strong>SAQ</strong> - Short Answer</div>
+                            <div class="mb-2"><strong>FTB</strong> - Fill in the Blanks</div>
+                            <div class="mb-2"><strong>PRQ</strong> - Programming</div>
+                            <div class="mb-2"><strong>TF</strong> - True/False</div>
+                            <div class="mb-2"><strong>MAQ</strong> - Multiple Answer</div>
+                            <div class="mb-2"><strong>ORD</strong> - Ordering</div>
+                            <div class="mb-2"><strong>MTF</strong> - Match Following</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Admin Section -->
+        <div id="admin-content" class="role-content">
+            <div class="row">
+                <div class="col-lg-8">
+                    <!-- Admin Overview -->
+                    <div class="feature-card">
+                        <div class="feature-header">
+                            <i class='bx bx-shield-alt'></i>
+                            <h3>Administrator Dashboard</h3>
+                        </div>
+                        <div class="feature-body">
+                            <ul class="feature-list">
+                                <li class="feature-item">
+                                    <i class='bx bx-tachometer'></i>
+                                    <div class="feature-item-content">
+                                        <h5>Account Management Dashboard</h5>
+                                        <p>Overview of system usage, credits consumption, active users, storage metrics</p>
+                                    </div>
+                                </li>
+                                <li class="feature-item">
+                                    <i class='bx bx-video'></i>
+                                    <div class="feature-item-content">
+                                        <h5>Video Management</h5>
+                                        <p>Access and manage all exam recordings, proctoring videos, screen captures</p>
+                                    </div>
+                                </li>
+                                <li class="feature-item">
+                                    <i class='bx bx-coin-stack'></i>
+                                    <div class="feature-item-content">
+                                        <h5>Credits Dashboard</h5>
+                                        <p>Monitor credit usage, allocate credits to faculty, track consumption patterns</p>
+                                    </div>
+                                </li>
+                                <li class="feature-item">
+                                    <i class='bx bx-book-bookmark'></i>
+                                    <div class="feature-item-content">
+                                        <h5>Course Management</h5>
+                                        <p>Create and manage courses, assign faculty, set up academic structure</p>
+                                    </div>
+                                </li>
+                                <li class="feature-item">
+                                    <i class='bx bx-medal'></i>
+                                    <div class="feature-item-content">
+                                        <h5>Grade Configuration</h5>
+                                        <p>Set up grading systems, configure grade boundaries, manage transcripts</p>
+                                    </div>
+                                </li>
+                                <li class="feature-item">
+                                    <i class='bx bx-award'></i>
+                                    <div class="feature-item-content">
+                                        <h5>Certificate Management</h5>
+                                        <p>Design certificate templates, manage issuance, track certifications</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Admin Controls -->
+                    <div class="feature-card">
+                        <div class="feature-header">
+                            <i class='bx bx-slider-alt'></i>
+                            <h3>Administrative Controls</h3>
+                        </div>
+                        <div class="feature-body">
+                            <ul class="feature-list">
+                                <li class="feature-item">
+                                    <i class='bx bx-user-plus'></i>
+                                    <div class="feature-item-content">
+                                        <h5>Faculty Management</h5>
+                                        <p>Create faculty accounts, assign permissions, manage access levels</p>
+                                    </div>
+                                </li>
+                                <li class="feature-item">
+                                    <i class='bx bx-cog'></i>
+                                    <div class="feature-item-content">
+                                        <h5>System Configuration</h5>
+                                        <p>Configure college settings, branding, email templates, system parameters</p>
+                                    </div>
+                                </li>
+                                <li class="feature-item">
+                                    <i class='bx bx-envelope'></i>
+                                    <div class="feature-item-content">
+                                        <h5>Email Templates</h5>
+                                        <p>Customize registration, invitation, and report email templates</p>
+                                    </div>
+                                </li>
+                                <li class="feature-item">
+                                    <i class='bx bx-lock-alt'></i>
+                                    <div class="feature-item-content">
+                                        <h5>Security Settings</h5>
+                                        <p>Manage password policies, session timeouts, access restrictions</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <!-- Admin Tools -->
+                    <div class="feature-card">
+                        <div class="feature-header">
+                            <i class='bx bx-briefcase'></i>
+                            <h3>Admin Tools</h3>
+                        </div>
+                        <div class="feature-body">
+                            <div class="quick-access-grid">
+                                <a href="../account-management/dashboard.html" class="quick-access-card">
+                                    <i class='bx bx-dashboard'></i>
+                                    <span>Dashboard</span>
+                                </a>
+                                <a href="../account-management/video-management.html" class="quick-access-card">
+                                    <i class='bx bx-video'></i>
+                                    <span>Videos</span>
+                                </a>
+                                <a href="../account-management/credits-dashboard.html" class="quick-access-card">
+                                    <i class='bx bx-coin'></i>
+                                    <span>Credits</span>
+                                </a>
+                                <a href="../account-management/course.html" class="quick-access-card">
+                                    <i class='bx bx-book'></i>
+                                    <span>Courses</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Admin Privileges -->
+                    <div class="rules-card" style="background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); border-color: #86efac;">
+                        <h4 style="color: #15803d;"><i class='bx bx-shield-check'></i>Admin Privileges</h4>
+                        <div class="rule-item">
+                            <i class='bx bx-check' style="color: #15803d;"></i>
+                            <span>Manage all faculty accounts</span>
+                        </div>
+                        <div class="rule-item">
+                            <i class='bx bx-check' style="color: #15803d;"></i>
+                            <span>Configure college settings</span>
+                        </div>
+                        <div class="rule-item">
+                            <i class='bx bx-check' style="color: #15803d;"></i>
+                            <span>Access all exam data</span>
+                        </div>
+                        <div class="rule-item">
+                            <i class='bx bx-check' style="color: #15803d;"></i>
+                            <span>Manage credits allocation</span>
+                        </div>
+                        <div class="rule-item">
+                            <i class='bx bx-check' style="color: #15803d;"></i>
+                            <span>View all recordings</span>
+                        </div>
+                    </div>
+
+                    <!-- Special Roles -->
+                    <div class="feature-card">
+                        <div class="feature-header">
+                            <i class='bx bx-user-check'></i>
+                            <h3>Account Admin Role</h3>
+                        </div>
+                        <div class="feature-body">
+                            <p class="mb-3">Special faculty role with:</p>
+                            <ul style="padding-left: 20px;">
+                                <li>Access to credits dashboard</li>
+                                <li>Cannot create exams</li>
+                                <li>Manages account settings</li>
+                                <li>Limited admin access</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SuperAdmin Section -->
+        <div id="superadmin-content" class="role-content">
+            <div class="row">
+                <div class="col-lg-8">
+                    <!-- SuperAdmin Overview -->
+                    <div class="feature-card">
+                        <div class="feature-header">
+                            <i class='bx bx-crown'></i>
+                            <h3>SuperAdmin System Control</h3>
+                        </div>
+                        <div class="feature-body">
+                            <div class="warning-banner mb-3">
+                                <i class='bx bx-shield-alt-2'></i>
+                                <div>
+                                    <strong>Highest Access Level:</strong> SuperAdmin has complete control over the entire Digital Screener system across all institutions.
+                                </div>
+                            </div>
+                            <ul class="feature-list">
+                                <li class="feature-item">
+                                    <i class='bx bx-building'></i>
+                                    <div class="feature-item-content">
+                                        <h5>Multi-Tenant Management</h5>
+                                        <p>Manage multiple colleges/institutions, create new tenants, configure isolation</p>
+                                    </div>
+                                </li>
+                                <li class="feature-item">
+                                    <i class='bx bx-history'></i>
+                                    <div class="feature-item-content">
+                                        <h5>Activity Log Access</h5>
+                                        <p>Complete system-wide activity tracking, audit trails, security monitoring</p>
+                                    </div>
+                                </li>
+                                <li class="feature-item">
+                                    <i class='bx bx-server'></i>
+                                    <div class="feature-item-content">
+                                        <h5>System Configuration</h5>
+                                        <p>Global settings, feature toggles, system parameters, performance tuning</p>
+                                    </div>
+                                </li>
+                                <li class="feature-item">
+                                    <i class='bx bx-key'></i>
+                                    <div class="feature-item-content">
+                                        <h5>API Management</h5>
+                                        <p>Manage API keys, configure integrations, monitor API usage</p>
+                                    </div>
+                                </li>
+                                <li class="feature-item">
+                                    <i class='bx bx-cloud'></i>
+                                    <div class="feature-item-content">
+                                        <h5>Cloud Services</h5>
+                                        <p>Configure AWS/GCP settings, manage storage, monitor cloud usage</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- System Monitoring -->
+                    <div class="feature-card">
+                        <div class="feature-header">
+                            <i class='bx bx-pulse'></i>
+                            <h3>System Monitoring & Analytics</h3>
+                        </div>
+                        <div class="feature-body">
+                            <ul class="feature-list">
+                                <li class="feature-item">
+                                    <i class='bx bx-line-chart'></i>
+                                    <div class="feature-item-content">
+                                        <h5>Usage Analytics</h5>
+                                        <p>System-wide usage patterns, peak load analysis, resource utilization</p>
+                                    </div>
+                                </li>
+                                <li class="feature-item">
+                                    <i class='bx bx-error'></i>
+                                    <div class="feature-item-content">
+                                        <h5>Error Tracking</h5>
+                                        <p>System errors, failed operations, performance bottlenecks</p>
+                                    </div>
+                                </li>
+                                <li class="feature-item">
+                                    <i class='bx bx-shield'></i>
+                                    <div class="feature-item-content">
+                                        <h5>Security Monitoring</h5>
+                                        <p>Failed login attempts, suspicious activities, security breach alerts</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <!-- SuperAdmin Access -->
+                    <div class="feature-card">
+                        <div class="feature-header">
+                            <i class='bx bx-key'></i>
+                            <h3>SuperAdmin Access</h3>
+                        </div>
+                        <div class="feature-body">
+                            <div class="warning-banner">
+                                <i class='bx bx-lock-alt'></i>
+                                <div>
+                                    <strong>Access Code:</strong> DIGI1001<br>
+                                    <small>Use special login portal</small>
+                                </div>
+                            </div>
+                            <div class="mt-3">
+                                <p><strong>Exclusive Features:</strong></p>
+                                <ul style="padding-left: 20px;">
+                                    <li>Activity logs</li>
+                                    <li>System configuration</li>
+                                    <li>All institution access</li>
+                                    <li>Global settings</li>
+                                    <li>API management</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- System Stats -->
+                    <div class="rules-card" style="background: linear-gradient(135deg, #fef3ff 0%, #fae8ff 100%); border-color: #e9d5ff;">
+                        <h4 style="color: #7c3aed;"><i class='bx bx-crown'></i>SuperAdmin Powers</h4>
+                        <div class="rule-item">
+                            <i class='bx bx-check' style="color: #7c3aed;"></i>
+                            <span>Override any system setting</span>
+                        </div>
+                        <div class="rule-item">
+                            <i class='bx bx-check' style="color: #7c3aed;"></i>
+                            <span>Access all institutions</span>
+                        </div>
+                        <div class="rule-item">
+                            <i class='bx bx-check' style="color: #7c3aed;"></i>
+                            <span>View all system logs</span>
+                        </div>
+                        <div class="rule-item">
+                            <i class='bx bx-check' style="color: #7c3aed;"></i>
+                            <span>Manage global configuration</span>
+                        </div>
+                        <div class="rule-item">
+                            <i class='bx bx-check' style="color: #7c3aed;"></i>
+                            <span>Emergency system control</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- System Rules Section -->
+        <div id="rules-content" class="role-content">
+            <div class="row">
+                <div class="col-lg-6">
+                    <!-- Exam Lifecycle Rules -->
+                    <div class="feature-card">
+                        <div class="feature-header">
+                            <i class='bx bx-book-bookmark'></i>
+                            <h3>Exam Lifecycle & States</h3>
+                        </div>
+                        <div class="feature-body">
+                            <h5 class="mb-3">Critical Exam Rules</h5>
+                            <div class="rules-card mb-3">
+                                <h4><i class='bx bx-x-circle'></i>The Golden Rule</h4>
+                                <div class="rule-item">
+                                    <i class='bx bx-chevron-right'></i>
+                                    <span><strong style="font-size: 1.1rem;">Students CANNOT start exam until faculty clicks "FINALIZE"</strong></span>
+                                </div>
+                            </div>
+                            
+                            <h5 class="mb-3 mt-4">Exam States Explained</h5>
+                            <ul class="feature-list">
+                                <li class="feature-item">
+                                    <i class='bx bx-circle' style="color: #6b7280;"></i>
+                                    <div class="feature-item-content">
+                                        <h5>Draft State</h5>
+                                        <p>Exam being created, not visible to students, fully editable</p>
+                                    </div>
+                                </li>
+                                <li class="feature-item">
+                                    <i class='bx bx-circle' style="color: #f1c40f;"></i>
+                                    <div class="feature-item-content">
+                                        <h5>Scheduled State</h5>
+                                        <p>Exam configured, visible in student list, but cannot be started</p>
+                                    </div>
+                                </li>
+                                <li class="feature-item">
+                                    <i class='bx bx-circle' style="color: #2f80ed;"></i>
+                                    <div class="feature-item-content">
+                                        <h5>Finalized State</h5>
+                                        <p>Faculty approved, students can now access and start exam</p>
+                                    </div>
+                                </li>
+                                <li class="feature-item">
+                                    <i class='bx bx-circle' style="color: #27ae60;"></i>
+                                    <div class="feature-item-content">
+                                        <h5>Active State</h5>
+                                        <p>Exam in progress, faculty can start/stop anytime</p>
+                                    </div>
+                                </li>
+                                <li class="feature-item">
+                                    <i class='bx bx-circle' style="color: #dc2626;"></i>
+                                    <div class="feature-item-content">
+                                        <h5>Completed State</h5>
+                                        <p>Exam ended, evaluation phase, no new attempts</p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Proctoring Rules -->
+                    <div class="feature-card">
+                        <div class="feature-header">
+                            <i class='bx bx-shield'></i>
+                            <h3>Proctoring & Security Rules</h3>
+                        </div>
+                        <div class="feature-body">
+                            <h5 class="mb-3">Automatic Violations</h5>
+                            <div class="violation-item">
+                                <strong>Tab Switching:</strong> Warning after 3 switches, flagged after 5
+                            </div>
+                            <div class="violation-item">
+                                <strong>Face Not Visible:</strong> Warning after 10 seconds, violation after 30 seconds
+                            </div>
+                            <div class="violation-item">
+                                <strong>Multiple Faces:</strong> Immediate warning and flag
+                            </div>
+                            <div class="violation-item">
+                                <strong>Window Resize:</strong> Immediate return to fullscreen required
+                            </div>
+                            <div class="violation-item">
+                                <strong>ChatGPT Extension:</strong> Exam blocked until removed
+                            </div>
+                            
+                            <h5 class="mb-3 mt-4">Recording Rules</h5>
+                            <ul style="padding-left: 20px;">
+                                <li>Screen recording starts automatically</li>
+                                <li>Webcam recording continuous</li>
+                                <li>All recordings uploaded to cloud</li>
+                                <li>Retained for 90 days</li>
+                                <li>Faculty can review anytime</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <!-- System Policies -->
+                    <div class="feature-card">
+                        <div class="feature-header">
+                            <i class='bx bx-file'></i>
+                            <h3>System Policies</h3>
+                        </div>
+                        <div class="feature-body">
+                            <h5 class="mb-3">Authentication & Access</h5>
+                            <div class="rules-card" style="background: #f9fafb; border: 1px solid #e5e7eb;">
+                                <h4 style="color: #4b5563;"><i class='bx bx-lock'></i>Security Requirements</h4>
+                                <div class="rule-item">
+                                    <i class='bx bx-chevron-right' style="color: #4b5563;"></i>
+                                    <span>Multi-factor authentication for faculty/admin</span>
+                                </div>
+                                <div class="rule-item">
+                                    <i class='bx bx-chevron-right' style="color: #4b5563;"></i>
+                                    <span>Session timeout: 30 minutes inactivity</span>
+                                </div>
+                                <div class="rule-item">
+                                    <i class='bx bx-chevron-right' style="color: #4b5563;"></i>
+                                    <span>Password change every 90 days</span>
+                                </div>
+                                <div class="rule-item">
+                                    <i class='bx bx-chevron-right' style="color: #4b5563;"></i>
+                                    <span>College code required for access</span>
+                                </div>
+                            </div>
+                            
+                            <h5 class="mb-3 mt-4">Data Retention</h5>
+                            <ul style="padding-left: 20px;">
+                                <li><strong>Exam data:</strong> 5 years</li>
+                                <li><strong>Recordings:</strong> 90 days</li>
+                                <li><strong>Activity logs:</strong> 1 year</li>
+                                <li><strong>Student records:</strong> Permanent</li>
+                            </ul>
+                            
+                            <h5 class="mb-3 mt-4">Credit System</h5>
+                            <div class="ai-feature">
+                                <i class='bx bx-coin me-2'></i>
+                                <span>Each exam attempt consumes credits. AI features use additional credits.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Browser Rules -->
+                    <div class="feature-card">
+                        <div class="feature-header">
+                            <i class='bx bx-globe'></i>
+                            <h3>Technical Requirements</h3>
+                        </div>
+                        <div class="feature-body">
+                            <h5 class="mb-3">Supported Browsers</h5>
+                            <div class="system-check-grid">
+                                <div class="system-check-item">
+                                    <i class='bx bxl-chrome' style="color: #4285f4;"></i>
+                                    <span>Chrome (Latest)</span>
+                                </div>
+                                <div class="system-check-item">
+                                    <i class='bx bxl-microsoft' style="color: #0078d4;"></i>
+                                    <span>Edge (Latest)</span>
+                                </div>
+                                <div class="system-check-item">
+                                    <i class='bx bx-shield-alt-2' style="color: #fb542b;"></i>
+                                    <span>Brave (Latest)</span>
+                                </div>
+                                <div class="system-check-item" style="opacity: 0.5;">
+                                    <i class='bx bxl-firefox' style="color: #ff9500;"></i>
+                                    <span>Firefox (Limited)</span>
+                                </div>
+                            </div>
+                            
+                            <div class="warning-banner mt-3">
+                                <i class='bx bx-info-circle'></i>
+                                <span><strong>Safari not recommended</strong> due to screen recording limitations</span>
+                            </div>
+                            
+                            <h5 class="mb-3 mt-4">Minimum Requirements</h5>
+                            <ul style="padding-left: 20px;">
+                                <li>Internet: 5 Mbps up/down</li>
+                                <li>Webcam: 720p resolution</li>
+                                <li>RAM: 4GB minimum</li>
+                                <li>Microphone: Required</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Technical Section -->
+        <div id="technical-content" class="role-content">
+            <div class="row">
+                <div class="col-lg-6">
+                    <!-- AI Models -->
+                    <div class="feature-card">
+                        <div class="feature-header">
+                            <i class='bx bx-brain'></i>
+                            <h3>AI Models & Technology</h3>
+                        </div>
+                        <div class="feature-body">
+                            <h5 class="mb-3">Proctoring AI Models</h5>
+                            <ul class="feature-list">
+                                <li class="feature-item">
+                                    <i class='bx bx-face'></i>
+                                    <div class="feature-item-content">
+                                        <h5>MediaPipe Face Mesh</h5>
+                                        <p>468 facial landmarks detection for accurate face tracking</p>
+                                    </div>
+                                </li>
+                                <li class="feature-item">
+                                    <i class='bx bx-shield-x'></i>
+                                    <div class="feature-item-content">
+                                        <h5>Anti-Spoofing Detection</h5>
+                                        <p>Prevents photo/video spoofing attempts</p>
+                                    </div>
+                                </li>
+                                <li class="feature-item">
+                                    <i class='bx bx-happy'></i>
+                                    <div class="feature-item-content">
+                                        <h5>Emotion Detection</h5>
+                                        <p>Analyzes facial expressions for stress/anxiety</p>
+                                    </div>
+                                </li>
+                                <li class="feature-item">
+                                    <i class='bx bx-body'></i>
+                                    <div class="feature-item-content">
+                                        <h5>MoveNet Pose Estimation</h5>
+                                        <p>Detects body posture and movements</p>
+                                    </div>
+                                </li>
+                                <li class="feature-item">
+                                    <i class='bx bx-move'></i>
+                                    <div class="feature-item-content">
+                                        <h5>Hand Tracking</h5>
+                                        <p>Monitors hand movements and gestures</p>
+                                    </div>
+                                </li>
+                            </ul>
+                            
+                            <h5 class="mb-3 mt-4">Question Generation AI</h5>
+                            <div class="ai-feature">
+                                <i class='bx bx-magic-wand me-2'></i>
+                                <span>Advanced GPT-based model fine-tuned for educational content using Bloom's Taxonomy</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Technology Stack -->
+                    <div class="feature-card">
+                        <div class="feature-header">
+                            <i class='bx bx-code-block'></i>
+                            <h3>Technology Stack</h3>
+                        </div>
+                        <div class="feature-body">
+                            <h5 class="mb-3">Frontend Technologies</h5>
+                            <ul style="padding-left: 20px;">
+                                <li><strong>Framework:</strong> HTML5, CSS3, JavaScript ES6+</li>
+                                <li><strong>UI Library:</strong> Bootstrap 5.0.2</li>
+                                <li><strong>Data Grid:</strong> AG-Grid Enterprise</li>
+                                <li><strong>Charts:</strong> Chart.js</li>
+                                <li><strong>Editor:</strong> Monaco Editor, CKEditor 5</li>
+                                <li><strong>PDF:</strong> jsPDF, pdf-lib</li>
+                                <li><strong>Canvas:</strong> Fabric.js</li>
+                            </ul>
+                            
+                            <h5 class="mb-3 mt-4">Cloud Services</h5>
+                            <div class="system-check-grid">
+                                <div class="system-check-item">
+                                    <i class='bx bxl-aws' style="color: #ff9900;"></i>
+                                    <span>AWS S3, Lambda</span>
+                                </div>
+                                <div class="system-check-item">
+                                    <i class='bx bxl-google-cloud' style="color: #4285f4;"></i>
+                                    <span>GCP Storage</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-6">
+                    <!-- API Integration -->
+                    <div class="feature-card">
+                        <div class="feature-header">
+                            <i class='bx bx-plug'></i>
+                            <h3>API & Integrations</h3>
+                        </div>
+                        <div class="feature-body">
+                            <h5 class="mb-3">External APIs</h5>
+                            <ul class="feature-list">
+                                <li class="feature-item">
+                                    <i class='bx bx-scan'></i>
+                                    <div class="feature-item-content">
+                                        <h5>jscanify Document Scanner</h5>
+                                        <p>Advanced document detection and perspective correction</p>
+                                    </div>
+                                </li>
+                                <li class="feature-item">
+                                    <i class='bx bx-qr'></i>
+                                    <div class="feature-item-content">
+                                        <h5>jsQR Library</h5>
+                                        <p>Real-time QR code detection and decoding</p>
+                                    </div>
+                                </li>
+                                <li class="feature-item">
+                                    <i class='bx bx-mail-send'></i>
+                                    <div class="feature-item-content">
+                                        <h5>Email Service</h5>
+                                        <p>Automated emails for registration, invitations, reports</p>
+                                    </div>
+                                </li>
+                            </ul>
+                            
+                            <h5 class="mb-3 mt-4">Security Features</h5>
+                            <ul style="padding-left: 20px;">
+                                <li>JWT token authentication</li>
+                                <li>API key management</li>
+                                <li>CORS configuration</li>
+                                <li>Rate limiting</li>
+                                <li>Request validation</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- File Formats -->
+                    <div class="feature-card">
+                        <div class="feature-header">
+                            <i class='bx bx-file'></i>
+                            <h3>Supported File Formats</h3>
+                        </div>
+                        <div class="feature-body">
+                            <h5 class="mb-3">Import Formats</h5>
+                            <ul style="padding-left: 20px;">
+                                <li><strong>.xlsx:</strong> Excel question import</li>
+                                <li><strong>.docx:</strong> Word document import</li>
+                                <li><strong>.csv:</strong> Bulk student import</li>
+                                <li><strong>.json:</strong> Question bank format</li>
+                            </ul>
+                            
+                            <h5 class="mb-3 mt-4">Export Formats</h5>
+                            <ul style="padding-left: 20px;">
+                                <li><strong>.pdf:</strong> Reports, certificates</li>
+                                <li><strong>.xlsx:</strong> Grade sheets</li>
+                                <li><strong>.csv:</strong> Data export</li>
+                                <li><strong>.mp4:</strong> Proctoring videos</li>
+                            </ul>
+                            
+                            <h5 class="mb-3 mt-4">Media Support</h5>
+                            <ul style="padding-left: 20px;">
+                                <li>Images: JPG, PNG, GIF</li>
+                                <li>Audio: MP3, WAV</li>
+                                <li>Video: MP4, WebM</li>
+                                <li>Documents: PDF</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Support Footer -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="feature-card" style="background: #f9fafb;">
+                    <div class="feature-body text-center">
+                        <h4 class="mb-3">Need Help?</h4>
+                        <div class="d-flex justify-content-center gap-4 flex-wrap">
+                            <div>
+                                <i class='bx bx-support' style="font-size: 2rem; color: #2f80ed;"></i>
+                                <p class="mb-0">Technical Support</p>
+                                <a href="mailto:support@digitalscreener.com">support@digitalscreener.com</a>
+                            </div>
+                            <div>
+                                <i class='bx bx-phone' style="font-size: 2rem; color: #2f80ed;"></i>
+                                <p class="mb-0">Helpline</p>
+                                <a href="tel:+1234567890">+1 (234) 567-890</a>
+                            </div>
+                            <div>
+                                <i class='bx bx-book-open' style="font-size: 2rem; color: #2f80ed;"></i>
+                                <p class="mb-0">Documentation</p>
+                                <a href="../document/screen-camera-permissions-guide.html">Setup Guide</a>
+                            </div>
+                            <div>
+                                <i class='bx bx-timer' style="font-size: 2rem; color: #2f80ed;"></i>
+                                <p class="mb-0">Response Time</p>
+                                <span>Within 24 hours</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../common/js/college-details.js"></script>
+    <script>
+        function showRole(role) {
+            // Hide all content
+            document.querySelectorAll('.role-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            // Remove active from all tabs
+            document.querySelectorAll('.role-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Show selected content
+            document.getElementById(role + '-content').classList.add('active');
+            
+            // Mark selected tab as active
+            event.target.closest('.role-tab').classList.add('active');
+        }
+
+        // Set college-specific links
+        document.addEventListener('DOMContentLoaded', function() {
+            var collegeCode = localStorage.getItem('collegeCode') || new URLSearchParams(window.location.search).get('cid') || '-';
+            
+            // Update student portal link
+            var studentPortalLinks = document.querySelectorAll('a[href="app-landing"]');
+            studentPortalLinks.forEach(link => {
+                if (collegeCode && collegeCode !== '-') {
+                    link.href = 'app-landing?cid=' + encodeURIComponent(collegeCode);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

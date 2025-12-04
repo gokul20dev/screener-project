@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>DigiScreener - Exam Setup Check</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Font Awesome CDN (jsDelivr) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="../../common/css/common-base.css" />
+  <link rel="stylesheet" href="system-compatibility.css" />
+</head>
+
+<body>
+  <header>
+    <div class="header-back-btn-conatainer">
+      <button class="header-back-btn" onclick="history.back()" id="back-btn-exam-setup">
+        <i id="back-arrow-icon" class="fas fa-arrow-left"></i> <span id="back-history-text"> Back</span>
+      </button>
+    </div>
+    <div class="sub-header">
+      <div>
+        <h1 id="header_title">DigiScreener - Exam Setup Check</h1>
+        <p id="header_description">
+          Ensure your system is ready for a valid exam
+        </p>
+      </div>
+    </div>
+    <div class="toggle-container">
+      <div class="toggle-wrapper">
+        <label class="toggle-switch-lang">
+          <input id="lang-toggle" type="checkbox" />
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
+  </header>
+
+  <!-- Attention Banner -->
+  <div class="attention_banner">
+    <strong id="attention_banner_important">Important!</strong>
+    <span id="attention_banner_message">Please follow all instructions below and use the buttons to test your
+      browser compatibility, webcam, and screen sharing.</span>
+  </div>
+
+  <div class="container">
+    <!-- System Information Section -->
+    <section id="system_info_section">
+      <h2 id="container_system_info_section_title">System Information</h2>
+      <div id="system_info">
+        <div>
+          <h3 id="container_system_info_section_operating_system_label">
+            Your Operating System
+          </h3>
+          <div id="os-icon" class="icon"></div>
+          <p id="container_system_info_section_operating_system_status">
+            Detecting...
+          </p>
+        </div>
+        <div>
+          <h3 id="container_system_info_section_browser_label">
+            Your Browser
+          </h3>
+          <div id="browser-icon" class="icon"></div>
+          <p id="container_system_info_section_browser_status">
+            Detecting...
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Test Your Setup Section -->
+    <section id="test_setup">
+      <h2 id="container_test_setup_title">Test Your Setup</h2>
+      <div class="buttons">
+        <button id="container_test_setup_buttons_webcam" class="btn">
+          Enable Webcam
+        </button>
+        <button id="container_test_setup_buttons_screen_share" class="btn">
+          Share Screen
+        </button>
+      </div>
+      <div id="container_test_setup_status">Status: No actions yet.</div>
+      <div class="video-container">
+        <div class="video-card">
+          <h2 id="container_test_setup_webcam_preview">Webcam Preview</h2>
+          <video id="webcam-video" autoplay muted playsinline></video>
+        </div>
+        <div class="video-card">
+          <h2 id="container_test_setup_screen_share_preview">
+            Screen Share Preview
+          </h2>
+          <video id="screen-video" autoplay muted playsinline></video>
+        </div>
+      </div>
+    </section>
+
+    <!-- Compatibility Section -->
+    <section id="compatibility_section">
+      <h2 id="container_compatibility_section_title">
+        Browser Compatibility
+      </h2>
+      <div class="compat-group">
+        <h3 id="container_compatibility_section_windows_label">Windows</h3>
+        <p id="container_compatibility_section_windows_supported_browsers">
+          Supported Browsers (Latest Version Recommended):
+        </p>
+        <div class="compat-icons">
+          <div class="compat-item">
+            <a href="https://www.google.com/intl/en_in/chrome/" target="_blank" rel="noopener">
+              <i class="fab fa-chrome compat-icon" title="Google Chrome"></i>
+            </a>
+            <p id="container_compatibility_section_windows_chrome_latest">
+              Chrome - Latest
+            </p>
+            <a href="https://www.google.com/intl/en_in/chrome/" target="_blank" rel="noopener"
+              class="download-btn download">Download</a>
+          </div>
+          <div class="compat-item">
+            <a href="https://www.microsoft.com/en-us/edge/download?form=MA13FJ" target="_blank" rel="noopener">
+              <i class="fab fa-edge compat-icon" title="Microsoft Edge"></i>
+            </a>
+            <p id="container_compatibility_section_windows_edge_latest">
+              Edge - Latest
+            </p>
+            <a href="https://www.microsoft.com/en-us/edge/download?form=MA13FJ" target="_blank" rel="noopener"
+              class="download-btn download">Download</a>
+          </div>
+          <div class="compat-item">
+            <a href="https://brave.com/download/" target="_blank" rel="noopener">
+              <i class="fab fa-chrome compat-icon" title="Brave"></i>
+            </a>
+            <p id="container_compatibility_section_windows_brave_latest">
+              Brave - Latest
+            </p>
+            <a href="https://brave.com/download/" target="_blank" rel="noopener"
+              class="download-btn download">Download</a>
+          </div>
+        </div>
+      </div>
+      <div class="compat-group">
+        <h3 id="container_compatibility_section_macos_label">macOS</h3>
+        <p id="container_compatibility_section_macos_supported_browsers">
+          Supported Browsers (Latest Version Recommended):
+        </p>
+        <div class="compat-icons">
+          <div class="compat-item">
+            <a href="https://www.google.com/intl/en_in/chrome/" target="_blank" rel="noopener">
+              <i class="fab fa-chrome compat-icon" title="Google Chrome"></i>
+            </a>
+            <p id="container_compatibility_section_macos_chrome_latest">
+              Chrome - Latest
+            </p>
+            <a href="https://www.google.com/intl/en_in/chrome/" target="_blank" rel="noopener"
+              class="download-btn download">Download</a>
+          </div>
+          <div class="compat-item">
+            <a href="https://www.microsoft.com/en-us/edge/download?form=MA13FJ" target="_blank" rel="noopener">
+              <i class="fab fa-edge compat-icon" title="Microsoft Edge"></i>
+            </a>
+            <p id="container_compatibility_section_macos_edge_latest">
+              Edge - Latest
+            </p>
+            <a href="https://www.microsoft.com/en-us/edge/download?form=MA13FJ" target="_blank" rel="noopener"
+              class="download-btn download">Download</a>
+          </div>
+          <!-- <div class="compat-item">
+            <i class="fab fa-safari compat-icon" title="Safari"></i>
+            <p id="container_compatibility_section_macos_safari_latest">Safari - Latest</p>
+          </div> -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Exam Instructions Section -->
+    <section id="instructions-section">
+      <h2 id="container_instructions_section_title">Exam Instructions</h2>
+      <div class="instructions">
+        <h3 id="container_instructions_section_before_exam_title">
+          Before the Exam
+        </h3>
+        <ul>
+          <li id="container_instructions_section_before_exam_instructions_li_one">
+            If you have a new browser installation, set it as your default and
+            restart your browser.
+          </li>
+          <li id="container_instructions_section_before_exam_instructions_li_two">
+            Close all other applications for optimal performance.
+          </li>
+          <li>
+            <span id="container_instructions_section_before_exam_instructions_li_three">
+              your browser is not compatible, please
+            </span>
+            <a href="https://www.google.com/intl/en_in/chrome/" target="_blank" rel="noopener"
+              style="color: #007bff; font-weight: bold"><span
+                id="container_instructions_section_before_exam_instructions_li_four">download and install Google
+                Chrome</span></a>.
+          </li>
+        </ul>
+        <h3 id="container_instructions_section_during_exam_title">
+          During the Exam
+        </h3>
+        <ul>
+          <li id="container_instructions_section_during_exam_instructions_li_five">
+            <strong>Do not move away</strong> from your screen or change your
+            seating position.
+          </li>
+          <li id="container_instructions_section_during_exam_instructions_li_six">
+            Ensure that <strong>no multiple users</strong> are around your
+            screen.
+          </li>
+          <li id="container_instructions_section_during_exam_instructions_li_sevean">
+            <strong>Do not switch tabs, close the browser, or restart your
+              computer</strong>.
+          </li>
+          <li id="container_instructions_section_during_exam_instructions_li_eight">
+            Ensure your camera is positioned so that your face is clearly
+            visible.
+          </li>
+          <li id="container_instructions_section_during_exam_instructions_li_nine">
+            You must share your <strong>entire screen</strong> to write a
+            valid exam.
+          </li>
+        </ul>
+        <h3 id="container_instructions_section_general_guidelines_title">
+          General Guidelines
+        </h3>
+        <ul>
+          <li id="container_instructions_section_general_guidelines_instructions_li_ten">
+            If you face connectivity issues, contact exam support for extra
+            time.
+          </li>
+          <li id="container_instructions_section_general_guidelines_instructions_li_ten_one">
+            Do not use mobile phones or other electronic gadgets during the
+            exam.
+          </li>
+          <li>
+            <span id="container_instructions_section_general_guidelines_instructions_li_ten_two">If your browser version
+              is not capable, please use the
+              following:</span>
+            <ul>
+              <li id="container_instructions_section_general_guidelines_instructions_li_ten_three">
+                <strong>macOS:</strong> Latest versions of Chrome, Edge (with
+                proper permissions for screen share and camera).
+              </li>
+              <li id="container_instructions_section_general_guidelines_instructions_li_ten_four">
+                <strong>Windows:</strong> Latest versions of Chrome, Edge, or
+                Brave (with proper permissions for screen share and camera).
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Submission Guidelines Section -->
+    <section id="submission-section">
+      <h2 id="container_submission_section_title">Submission Guidelines</h2>
+      <div class="submission">
+        <ul>
+          <li id="container_submission_section_instructions_li_ten_five">
+            Before submitting your exam, ensure that the entire video
+            recording has been fully uploaded.
+          </li>
+          <li id="container_submission_section_instructions_li_ten_six">
+            <strong>Do not close the browser, refresh, or navigate away</strong>
+            from the exam page during submission.
+          </li>
+          <li id="container_submission_section_instructions_li_ten_sevean">
+            Maintain a stable internet connection until you receive
+            confirmation that your submission is complete.
+          </li>
+        </ul>
+      </div>
+    </section>
+  </div>
+
+  <footer>&copy; <span id="footer"> DigiScreener</span></footer>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="../../common/js/common.js"></script>
+  <script src="system-compatibility.js"></script>
+</body>
+
+</html>

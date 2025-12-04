@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam List</title>
+    <!-- <link rel="stylesheet" href="../common/css/loader.css"> -->
+    <!-- <script src="../common/js/loader.js"></script> -->
+    <link rel="stylesheet" href="landing.css">
+    <link rel="stylesheet" href="../../common/css/common-base.css"></link>
+    <link rel="stylesheet"
+        href="../../common/commonLibaries/cdnjs.cloudflare.com.ajax.libs.jqueryui.1.12.1.jquery-ui.min.css">
+    <link rel="stylesheet"
+        href="../../common/commonLibaries/cdnjs.cloudflare.com.ajax.libs.font-awesome.5.15.3.css.all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="../../common/css/sketch.css" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .reload_status {
+            display: none;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+        }
+
+        .exam-card {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .exam-card h2 {
+            margin-top: 0;
+        }
+
+        .exam-status {
+            font-weight: bold;
+        }
+
+        .exam-card button,
+        .exam-card a {
+            margin-top: 10px;
+        }
+
+        #login-modal {
+            display: none;
+        }
+
+        #login-modal form,
+        #email-modal form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        #login-modal label,
+        #email-modal label {
+            margin-top: 10px;
+        }
+
+        #login-modal input,
+        #email-modal input {
+            padding: 8px;
+            margin-top: 5px;
+        }
+
+        .sla-info {
+            font-weight: bold;
+        }
+
+        #login-error {
+            color: red;
+            display: none;
+            margin-top: 10px;
+        }
+
+        .modal-btn {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .modal-btn:hover {
+            background-color: #0056b3;
+        }
+
+        #login-modal,
+        #email-modal {
+            width: 75%;
+        }
+
+        #email-modal {
+            margin: 0 auto;
+            width: 60%;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 10px;
+            }
+
+            .exam-card {
+                padding: 15px;
+            }
+
+            #login-modal form,
+            #email-modal form {
+                align-items: stretch;
+            }
+
+            #login-modal label,
+            #login-modal input,
+            #email-modal label,
+            #email-modal input {
+                width: 90%;
+            }
+
+            #login-modal,
+            #email-modal {
+                width: 95%;
+            }
+
+        }
+
+        .loader {
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            border: 8px solid #f3f3f3;
+            border-top: 8px solid #3498db;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 2s linear infinite;
+            z-index: 9999;
+            display: none;
+        }
+
+        @-webkit-keyframes spin {
+            0% {
+                -webkit-transform: rotate(0deg);
+            }
+
+            100% {
+                -webkit-transform: rotate(360deg);
+            }
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .timeformat {
+            color: red;
+            font-weight: bold;
+        }
+
+        .button-wrap {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .button-wrap button {
+            margin-left: 2px;
+        }
+
+        /* Modal styling */
+        #email-modal {
+            background-color: white;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+
+        /* Label styling */
+        #email-form label {
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        /* Button styling */
+        .modal-btn {
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px 0;
+
+            bottom: 0;
+            font-size: 14px;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var loaderDiv = document.createElement('div');
+            loaderDiv.id = 'loader';
+            loaderDiv.className = 'loader';
+            document.body.prepend(loaderDiv);
+        });
+        function showLoader(show) {
+            if (show) {
+                $('#loader').show();
+            } else {
+                $('#loader').hide();
+            }
+        }
+
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="toggle-container-lang">
+            <div class="toggle-wrapper">
+                <label class="toggle-switch-lang">
+                    <input id="lang-toggle" type="checkbox" />
+                    <span class="slider"></span>
+                </label>
+            </div>
+        </div>
+        <header>
+            <div style="display: flex;align-items: center;" class="header-left">
+                <img class="header-logo logo-img" id="college-logo" onerror="this.src='../../common/imgs/school.png'" src="../../common/imgs/school.png" alt="Logo">
+                <h1 class="header-title" id="college-name">College Name</h1>
+            </div>
+            <!-- <p>Available Exams</p> -->
+        </header>
+
+        <main>
+            <!-- Search Box -->
+            <div class="search-container">
+                <div class="search-box">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" id="exam-search" class="search-input search_placeholder" placeholder="Search by exam name, date, status, or time zone...">
+                    <i class="fas fa-times clear-search" id="clear-search" style="display: none;"></i>
+                </div>
+            </div>
+            
+            <div id="email-modal" style="display: none;" title="Enter Email">
+                <p style="margin-bottom:0;" id="national_id" class="sla-info national_id_validation">Please Enter Your Passcode</p>
+                <form id="email-form">
+                    <input type="text" id="email-check" class="email_form_input" name="emailid"><br>
+                    <button type="submit"  id="email-button"  class="email_form_button modal-btn" >Verify </button>
+                </form>
+            </div>
+
+            <div id="exam-cards-container"></div>
+        </main>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="login-modal">
+        <!-- <p class="sla-info" class="login_national_id_validation">Please enter your <span
+                class="login_national_id_label">National ID</span> <span class="login_national_exam_start">to start the exam.</span></p> -->
+        <form id="login-form"> 
+            <label for="email" class="login_login_form_email_label">Email</label>
+            <input type="text" class="login_form_input1_placeholder" id="email" name="email" readonly><br>
+            <label class="login_form_national_id_label"  id="national_id_label1" style="display: none;">National Id:</label>
+            <input type="text"  id="national-id" placeholder="Please Enter id" class="login_form_national_id_input" name="national-id" style="display: none;"><br>
+            <label  id="sla_id_label1" class="login_form_sla_id_label">SLA Id:</label>
+            <input type="text" id="sla-id" name="sla-id"  class="login_form_sla_id_input" name="sla-id" required><br>
+            <div id="login-error" class="login_form_error" >Credentials not matching. Please try again.</div>
+            <button type="submit" id="login-button"  class="modal-btn login_login_form_button">Login and Start Exam</button>
+        </form>
+    </div>
+
+    <!-- Exit History Modal -->
+    <div id="history-modal" title="Exit History">
+        <div id="history-modal-content"></div>
+    </div>
+    <!-- <footer>
+        &copy; 2024 DigiAssess <a href="https://digi-val.com/">Digival IT Solutions </a> - UAE (in technology partnership with Digival Solutions Pvt Ltd, India v9.2.5)
+    </footer> -->
+
+
+    <script src="../../common/commonLibaries/jquery-3.6.0.min.js"></script>
+    <script src="../../common/commonLibaries/jquery-ui.min.js"></script>
+    <script src="../../common/js/variable.js"></script>
+    <script src="../../common/js/common.js"></script>
+    <script src="../../common/js/sketch.js"></script>
+    <script src="../../common//js/commonApi.js"></script>
+    <script src="../../common/js/label-management.js"></script>
+    <script src="../../common/js/college-details.js"></script>
+    <script src="../../common/js/logManagement.js"></script>
+    <script src="landing.js"></script>
+    
+    <!-- Search functionality script -->
+    <script>
+        $(document).ready(function() {
+            // Initialize original exams data for filtering
+            let originalExamsData = [];
+            
+            // Update search placeholder based on language
+            function updateSearchPlaceholder() {
+                isEnglish = localStorage.getItem("lang") === "en";
+                $("#exam-search").attr("placeholder", isEnglish ? 
+                    change.en.search_placeholder : 
+                    change.ar.search_placeholder);
+            }
+            
+            // Update placeholder on language toggle
+            $("#lang-toggle").on("change", function() {
+                setTimeout(updateSearchPlaceholder, 200);
+            });
+            
+            // Initial placeholder update
+            setTimeout(updateSearchPlaceholder, 500);
+            
+            // Search functionality
+            $("#exam-search").on("input", function() {
+                const searchTerm = $(this).val().toLowerCase().trim();
+                
+                // Show/hide clear button
+                if (searchTerm.length > 0) {
+                    $("#clear-search").show();
+                } else {
+                    $("#clear-search").hide();
+                }
+                
+                // Filter exams
+                filterExams(searchTerm);
+            });
+            
+            // Clear search
+            $("#clear-search").on("click", function() {
+                $("#exam-search").val("");
+                $(this).hide();
+                filterExams("");
+            });
+            
+            // Filter exams function
+            function filterExams(searchTerm) {
+                if (examsData.length === 0) return;
+                
+                if (originalExamsData.length === 0) {
+                    originalExamsData = [...examsData];
+                }
+                
+                if (searchTerm === "") {
+                    // Reset to original data
+                    renderExamCards(originalExamsData);
+                    return;
+                }
+                
+                // Filter exams by name, dates, and timezone
+                const filteredExams = originalExamsData.filter(exam => {
+                    const examName = exam.name.toLowerCase();
+                    const startDate = formatDateTime(exam.session.start).toLowerCase();
+                    const endDate = formatDateTime(exam.session.end).toLowerCase();
+                    
+                    // Get timezone
+                    const timeZone = exam?.settings?.timeZone || "";
+                    const timezone = standardTimezones.find(tz => tz.identifier === timeZone);
+                    const timezoneText = timezone ? 
+                        `${timezone.offset} ${timezone.name} ${timezone.arabic_name || ""}`.toLowerCase() : "";
+                    
+                    return examName.includes(searchTerm) || 
+                            startDate.includes(searchTerm) || 
+                            endDate.includes(searchTerm) || 
+                            timezoneText.includes(searchTerm);
+                });
+                
+                // Render filtered exams
+                renderExamCards(filteredExams);
+                
+                // Show no results message if needed
+                if (filteredExams.length === 0) {
+                    $("#exam-cards-container").append(`
+                        <div class="no-results-message">
+                            <div class="error-badge oops">OOPS !</div>
+                            <div class="search-illustration"></div>
+                            <h3 class="no_results_found">No exams found matching</h3>
+                            <p><span class="search-term">"${searchTerm}"</span></p>
+                            <p class="try_different_search">Try different search terms or clear the search</p>
+                            <div class="no-results-action">
+                                <button class="clear-search-btn clear_search" id="no-results-clear">Clear Search</button>
+                            </div>
+                        </div>
+                    `);
+                    
+                    // Apply translations to the no results message
+                    $(".no_results_found").text(isEnglish ? change.en.no_results_found : change.ar.no_results_found);
+                    $(".try_different_search").text(isEnglish ? change.en.try_different_search : change.ar.try_different_search);
+                    $(".clear_search").text(isEnglish ? change.en.clear_search : change.ar.clear_search);
+                    $(".oops").text(isEnglish ? change.en.oops : change.ar.oops);
+                    
+                    // Add event listener to clear button
+                    $("#no-results-clear").on("click", function() {
+                        $("#exam-search").val("");
+                        $("#clear-search").hide();
+                        filterExams("");
+                    });
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,1082 @@
+:root {
+  --primary: #4f46e5;
+  --primary-light: #818cf8;
+  --primary-dark: #4338ca;
+  --success: #059669;
+  --danger: #dc2626;
+  --border: #e2e8f0;
+  --bg-light: #f8fafc;
+}
+
+:root {
+  --primary-color: #41b9b4;
+  --secondary-color: #92bbb5;
+  --accent-color: #f4f8f9;
+  --bg-gradient: linear-gradient(
+    to top,
+    #c5e1eb,
+    #d1e7ed,
+    #ddedf0,
+    #eaf3f4,
+    #f7f9f9
+  );
+  --text-color: #898989;
+  --text-light-color: #dad3d3;
+  --white-color: #fff;
+  --success-color: #63b98a;
+  --failure-color: #ea8181;
+  --border-color: #dad3d3;
+  --hover-color: #41b9b4;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", system-ui, sans-serif;
+}
+
+/* Both toggle automation */
+input[data-type="both"]:checked {
+  pointer-events: none;
+}
+
+input[data-type="both"]:checked + .slider {
+  background-color: #28a745;
+}
+
+body {
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  min-height: 100vh;
+  padding: 2rem;
+  color: #1e293b;
+}
+
+.required {
+  color: var(--danger);
+  /* Uses the predefined red color (#dc2626) from :root */
+}
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  background: white;
+  border-radius: 24px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+/* Header Styles */
+.welcome-header {
+  background: linear-gradient(135deg, var(--primary), var(--primary-light));
+  padding: 20px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  min-height: 150px;
+}
+
+.toggle-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 15px;
+  padding-right: 10px;
+  position: relative;
+  z-index: 10;
+  margin-top: 5px;
+  order: 0;
+}
+
+.header-content {
+  text-align: center;
+  padding-top: 10px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  order: 1;
+}
+
+.header-content h3 {
+  margin-bottom: 10px;
+}
+
+.welcome-header p {
+  margin-top: 10px;
+}
+
+.toggle-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  min-height: 30px;
+  padding: 2px 30px;
+}
+
+.toggle-switch-lang {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 24px;
+  margin-left: 5px;
+}
+
+.toggle-switch-lang input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.3);
+  transition: .4s;
+  border-radius: 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+input:checked + .slider:before {
+  transform: translateX(26px);
+}
+
+/* Progress Steps */
+.progress-steps {
+  display: flex;
+  justify-content: space-around;
+  padding: 2rem;
+  background: var(--bg-light);
+  border-bottom: 1px solid var(--border);
+  gap: 20px;
+}
+
+.step {
+  display: flex;
+  align-items: center;
+  opacity: 0.7;
+  transition: all 0.3s ease;
+}
+
+.step.active {
+  opacity: 1;
+}
+
+.step-number {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background: var(--primary);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0px 10px;
+  font-weight: bold;
+}
+
+/* Form Styles */
+.form-container {
+  padding: 2rem;
+}
+
+.section-card {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 10px;
+  margin-bottom: 2rem;
+  transition: transform 0.2s;
+}
+
+.section-card:hover {
+  transform: translateY(-2px);
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid var(--border);
+}
+
+.section-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  background: var(--primary);
+  color: white;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0px 10px;
+}
+
+/* Form Grid */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.input-group {
+  margin-bottom: 1.5rem;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+}
+
+.input-group input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+/* Help Text */
+.help-text {
+  display: flex;
+  align-items: center;
+  background: #f8fafc;
+  padding: 15px;
+  border-radius: 8px;
+  margin: 1rem 0;
+}
+
+.help-text i {
+  color: var(--primary);
+  margin: 0px 10px;
+}
+
+/* Photo Options */
+.photo-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  margin: 1.5rem 0;
+}
+
+/* Upload Area */
+.upload-area {
+  border: 2px dashed var(--border);
+  border-radius: 12px;
+  padding: 2rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  max-height: 200px;
+}
+
+.upload-area:hover {
+  border-color: var(--primary);
+  background: var(--bg-light);
+}
+
+.upload-icon {
+  font-size: 2rem;
+  color: var(--primary);
+  margin-bottom: 1rem;
+}
+
+/* Camera Container */
+.camera-container {
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.camera-btn,
+.browse-btn {
+  width: 100%;
+  padding: 1rem;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: all 0.2s;
+}
+
+.camera-btn:hover {
+  background: var(--primary-dark);
+}
+
+.camera-preview {
+  position: relative;
+  width: 100%;
+  background: #000;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+#videoElement {
+  width: 100%;
+  height: auto;
+  transform: scaleX(-1);
+}
+
+.camera-controls {
+  position: absolute;
+  bottom: 1rem;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.capture-btn,
+.cancel-btn {
+  border-radius: 50%;
+  border: 3px solid white;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.capture-btn:hover,
+.cancel-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.1);
+}
+
+.preview-container h3 {
+  margin-bottom: 1rem;
+  color: var(--text-primary);
+}
+
+.preview-box {
+  width: 100%;
+  min-height: 200px;
+  max-height: 200px;
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: var(--bg-light);
+}
+
+.preview-box i {
+  font-size: 2rem;
+  color: var(--primary);
+  margin-bottom: 1rem;
+}
+
+.preview-box img {
+  max-width: 100%;
+  max-height: 180px;
+  border-radius: 8px;
+  object-fit: contain;
+}
+
+/* Submit Section */
+.submit-section {
+  text-align: center;
+  padding: 2rem;
+  background: var(--bg-light);
+  border-top: 1px solid var(--border);
+}
+
+.submit-btn {
+  background: var(--success);
+  color: white;
+  border: none;
+  padding: 1rem 3rem;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(5, 150, 105, 0.2);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  body {
+    padding: 1rem;
+  }
+
+  .progress-steps {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .photo-upload-session,
+  .document-upload-session {
+    display: block !important;
+  }
+
+  .upload-actions,
+  .preview-container {
+    width: 100%;
+    gap: 1rem;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .submit-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .submit-btn,
+  .clear-btn {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 0.5rem;
+  }
+  
+  /* Make files container stack vertically on mobile */
+  .files-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  /* Adjust welcome header for mobile */
+  .welcome-header {
+    padding: 15px 15px 20px;
+    min-height: auto;
+    flex-direction: column;
+  }
+  
+  .header-content {
+    order: 1; /* Keep at top in mobile view */
+    padding-top: 0;
+    padding-bottom: 10px;
+    text-align: center;
+  }
+  
+  .header-content h3 {
+    font-size: 1.2rem;
+    margin-bottom: 8px;
+    line-height: 1.3;
+  }
+  
+  .header-content p {
+    font-size: 0.9rem;
+    margin: 0;
+    line-height: 1.3;
+  }
+  
+  /* Make form inputs more accessible on mobile */
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  /* Improve popup on mobile */
+  .custom-popup-content {
+    width: 95%;
+    max-width: 95%;
+    padding: 13px 10px 10px;
+  }
+  
+  .popup-close {
+    top: 5px;
+    right: 5px;
+  }
+  
+  .popup-image-container img {
+    max-height: 60vh;
+  }
+  
+  /* Improve confirmation section readability */
+  .confirmation-section .details-message {
+    font-size: 0.8rem;
+  }
+  
+  #consent_checkbox_label {
+    font-size: 0.9rem;
+  }
+
+  /* Make preview boxes more suited for mobile */
+  .preview-box {
+    min-height: 150px;
+  }
+
+  .agree-check-error {
+    font-size: 16px;
+  }
+
+  /* Make buttons more finger-friendly on mobile */
+  .camera-btn, .browse-btn, .submit-btn, .clear-btn, .capture-btn, .cancel-btn {
+    padding: 12px 15px;
+    font-size: 16px;
+  }
+  
+  /* Ensure adequate spacing between elements */
+  .section-card {
+    padding: 15px;
+    margin-bottom: 1.5rem;
+  }
+  
+  /* Improve form container spacing */
+  .form-container {
+    padding: 1rem;
+  }
+  
+  /* Better sizing for the camera popup */
+  #cameraPopup .custom-popup-content {
+    width: 95%;
+    max-height: 90vh;
+    overflow-y: auto;
+  }
+  
+  /* Make confirmation text more readable */
+  .checkbox-container {
+    display: flex;
+    align-items: flex-start;
+  }
+  
+  #consent_checkbox_label {
+    line-height: 1.4;
+  }
+  
+  .details-message {
+    white-space: pre-line;
+    line-height: 1.4;
+  }
+
+  .toggle-container {
+    order: 2; /* Move to bottom in mobile view */
+    margin-bottom: 5px;
+    margin-top: 5px;
+    justify-content: center;
+    padding-right: 0;
+    width: 100%;
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    padding-top: 12px;
+  }
+  
+  .toggle-wrapper {
+    margin-right: 0;
+    padding: 5px 0;
+  }
+  
+  .toggle-switch-lang {
+    width: 45px;
+    height: 22px;
+  }
+  
+  .slider:before {
+    height: 16px;
+    width: 16px;
+    left: 3px;
+    bottom: 3px;
+  }
+  
+  input:checked + .slider:before {
+    transform: translateX(23px);
+  }
+  
+  .toggle-label {
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+}
+
+/* Style for the photo upload session layout */
+.photo-upload-session {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+.upload-actions {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.preview-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.document-upload-session {
+  display: flex;
+  gap: 2rem;
+}
+
+#doc-preview-container {
+  display: none;
+}
+
+/* Ensure the camera-dialog controls look good in the modal */
+.camera-dialog-controls button {
+  margin: 0 0.5rem;
+}
+
+/* Confirmation Section: checkbox, label, and details message */
+.confirmation-section {
+  margin: 20px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  font-size: 1rem;
+  color: #333;
+}
+
+.confirmation-section input[type="checkbox"] {
+  margin-right: 8px;
+  transform: scale(1.2);
+  cursor: pointer;
+}
+
+.confirmation-section label {
+  cursor: pointer;
+}
+
+.confirmation-section .details-message {
+  font-size: 0.9rem;
+  color: #555;
+  margin-top: 4px;
+  /* Updated message: */
+  /* Once you complete this step, you will be eligible to take the exam. */
+}
+
+/* Form Action Buttons */
+.form-buttons {
+  margin-top: 20px;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+/* Submit Button (Primary Action - Blue) */
+.submit-btn {
+  background-color: #007bff;
+  /* Primary blue */
+  border: none;
+  padding: 10px 20px;
+  color: #ffffff;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.submit-btn:hover {
+  background-color: #0069d9;
+}
+
+/* Clear All Button (Danger Action - Red) */
+.clear-btn {
+  background-color: #dc3545;
+  /* Danger red */
+  border: none;
+  padding: 10px 20px;
+  color: #ffffff;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.clear-btn:hover {
+  background-color: #c82333;
+}
+
+.checkbox-container {
+  display: flex;
+}
+
+/* Custom Popup Overlay */
+.custom-popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+/* Popup Content */
+.custom-popup-content {
+  background: #fff;
+  border-radius: 8px;
+  padding: 13px 15px 15px;
+  max-width: 450px;
+  width: 85%;
+  position: relative;
+  animation: popupfade 0.3s ease-out;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes popupfade {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Updated Close Icon: Positioned Top Right, Bold and without border */
+.popup-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: #fff;
+  border: none;
+  /* Removed border */
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  color: #dc3545;
+  /* Bold red color */
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Preview Popup Image Container */
+.popup-image-container {
+  max-height: 80vh;
+  overflow-y: auto;
+  text-align: center;
+}
+
+.popup-image-container img {
+  max-width: 100%;
+  max-height: 70vh;
+  margin: 0 auto;
+  display: block;
+}
+
+/* Camera Popup Buttons */
+/* Capture Button: Green background */
+.camera-dialog-controls .capture-btn {
+  padding: 0.8rem 1.2rem;
+  background: #28a745;
+  /* Green */
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  margin-right: 10px;
+}
+
+.camera-dialog-controls .capture-btn:hover {
+  background: #218838;
+}
+
+/* Camera instructions styling */
+.camera-instructions {
+  background: #f8fafc;
+  border-radius: 8px;
+  padding: 4px 16px;
+  margin: 8px 0;
+  font-size: 0.9rem;
+  border-left: 3px solid var(--primary);
+}
+
+.camera-instructions i {
+  color: var(--primary);
+  margin-right: 8px;
+  font-size: 1.1rem;
+  float: left;
+  margin-top: 5px;
+}
+
+.camera-instructions ul {
+  margin: 8px 0 0 25px;
+  padding-left: 10px;
+}
+
+.camera-instructions li {
+  margin-bottom: 5px;
+}
+
+/* Cancel Button: Gray background */
+.camera-dialog-controls .cancel-btn {
+  padding: 0.8rem 1.2rem;
+  background: #6c757d;
+  /* Gray */
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.camera-dialog-controls .cancel-btn:hover {
+  background: #5a6268;
+}
+
+/* Make the Preview Box Look Clickable */
+.preview-box {
+  position: relative;
+  cursor: pointer;
+}
+
+.preview-box:hover::after {
+  content: "\f002";
+  /* FontAwesome search icon (unicode) */
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.5);
+  color: #fff;
+  padding: 10px;
+  border-radius: 50%;
+  font-size: 24px;
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .progress-steps {
+    flex-direction: row;
+    justify-content: space-around;
+  }
+
+  .form-container {
+    padding: 1.5rem;
+  }
+
+  .photo-upload-session {
+    gap: 1.5rem;
+  }
+
+  body {
+    font-size: 1rem;
+  }
+}
+
+input[type="checkbox"] {
+  display: none;
+}
+
+.agree-check::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--text-light-color);
+  border-radius: 4px;
+  background-color: var(--white-color);
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+.check-box-style,
+.agree-check {
+  position: relative;
+  padding-left: 25px;
+  padding-top: 5px;
+  cursor: pointer;
+}
+
+.check-box-style::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 14px;
+  height: 14px;
+  border: 2px solid red;
+  border-radius: 4px;
+  background-color: var(--white-color);
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+input[type="checkbox"]:checked + .check-box-style::before,
+input[type="checkbox"]:checked + .agree-check::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  color: white;
+  font-size: 16px;
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cGF0aCBmaWxsPSJibHVlIiBkPSJNMTczLjg5OCA0MzkuNDA0bC0xNjYuNC0xNjYuNGMtOS45OTctOS45OTctOS45OTctMjYuMjA2IDAtMzYuMjA0bDM2LjIwMy0zNi4yMDRjOS45OTctOS45OTggMjYuMjA3LTkuOTk4IDM2LjIwNCAwTDE5MiAzMTIuNjkgNDMyLjA5NSA3Mi41OTZjOS45OTctOS45OTcgMjYuMjA3LTkuOTk3IDM2LjIwNCAwbDM2LjIwMyAzNi4yMDRjOS45OTcgOS45OTcgOS45OTcgMjYuMjA2IDAgMzYuMjA0bC0yOTQuNCAyOTQuNDAxYy05Ljk5OCA5Ljk5Ny0yNi4yMDcgOS45OTctMzYuMjA0LS4wMDF6Ii8+PC9zdmc+");
+  background-repeat: no-repeat;
+  background-size: 10px 10px;
+  background-position: center center;
+  border-color: blue;
+}
+
+.validation-status {
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+    border: 1px solid #e2e8f0;
+    transition: all 0.3s ease;
+}
+
+.validation-status.valid {
+    background-color: #e8f5e9;
+    border-color: #4caf50;
+}
+
+.validation-status.invalid {
+    background-color: #ffebee;
+    border-color: #f44336;
+}
+
+.validation-status .status-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.validation-status .status-item.valid i {
+    color: #4caf50;
+    font-size: 18px;
+}
+
+.validation-status .status-item.invalid i {
+    color: #f44336;
+    font-size: 18px;
+}
+
+/* Style for disabled capture button */
+.capture-btn.disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* Add a small animation to draw attention to validation issues */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.validation-status.invalid {
+    animation: pulse 1s infinite;
+}
+
+/* Voice Guidance Toggle Button */
+.voice-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: #212529;
+    width: auto;
+}
+
+.voice-toggle:hover {
+    background-color: #e9ecef;
+}
+
+.voice-toggle i {
+    font-size: 16px;
+}
+
+.voice-toggle i.fa-volume-up {
+    color: #4caf50;
+}
+
+.voice-toggle i.fa-volume-mute {
+    color: #dc3545;
+}
+
+.files-container {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.agree-check-error {
+  font-size: 20px;
+  font-weight: 550;
+  margin-bottom: 7px;
+  display: block;
+}
+
+.header-content {
+  align-self: center;
+}
+
+.toggle-label {
+  color: white;
+  font-size: 14px;
+  margin-right: 10px;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+
+.best-results-wrapper{
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
+}

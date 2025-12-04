@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Video Processing Dashboard</title>
+  <meta name="viewport" content="width=device-width">
+  <meta name="theme-color" content="#1877F2">
+  <script src="../common/js/variable.js"></script>
+  <script src="./process_video_anamoly.js" type="module"></script>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+
+<body>
+  <!-- Login Overlay -->
+  <div id="loginOverlay" class="login-overlay">
+    <div class="login-container">
+      <div class="login-header">
+        <h2>Video Processing Dashboard</h2>
+        <p>Please enter your password to continue</p>
+      </div>
+      <form id="loginForm" class="login-form">
+        <input type="password" id="passwordInput" placeholder="Enter password" required>
+        <button type="submit" class="login-btn">Login</button>
+      </form>
+      <div id="loginError" class="login-error">Incorrect password. Please try again.</div>
+    </div>
+  </div>
+
+  <div class="dashboard-container">
+    <!-- Sidebar -->
+    <div class="user-list-section">
+      <div class="dashboard-header">
+        <h2 class="dashboard-title">Users</h2>
+      </div>
+      
+      <div class="list-info">
+        <span class="update-time">Last updated: <span id="lastUpdateTime">8:05:06 PM</span></span>
+        <button id="refreshList" class="btn btn-small">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M8 3a5 5 0 0 0-5 5v.5a.5.5 0 0 1-1 0V8a6 6 0 1 1 6 6 6 6 0 0 1-6-6H1a7 7 0 1 0 7-7z"/>
+          </svg>
+          Refresh
+        </button>
+      </div>
+      
+      <div class="search-container">
+        <input type="text" id="userSearch" placeholder="Search users..." class="search-input" autocomplete="off">
+        <button type="button" id="clearSearch" class="clear-search-btn action-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+            <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+          </svg>
+        </button>
+        <div class="search-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+          </svg>
+        </div>
+      </div>
+      
+      <ul class="user-list" id="userList">
+        <!-- User list will be populated dynamically -->
+      </ul>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="video-section">
+      <div class="dashboard-header">
+        <div class="header-left">
+          <h2 class="dashboard-title">Video Processing</h2>
+          <div class="header-controls">
+            <button id="startEvaluation" class="btn btn-primary">Process All</button>
+            <button id="debugMode" class="btn btn-debug">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M8 1a5 5 0 0 0-5 5v1h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6a6 6 0 1 1 12 0v6a2.5 2.5 0 0 1-2.5 2.5H9.366a1 1 0 0 1-.866.5h-1a1 1 0 1 1 0-2h1a1 1 0 0 1 .866.5H11.5A1.5 1.5 0 0 0 13 12h-1a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1h1V6a5 5 0 0 0-5-5z"/>
+              </svg>
+              Debug Mode
+            </button>
+            <span id="modelStatus" class="model-status not-loaded">Model: Not Loaded</span>
+            <div class="progress-info">
+              <span id="processedCount">0</span>/<span id="totalCount">1</span>
+            </div>
+          </div>
+        </div>
+        <button id="logoutButton" class="btn btn-logout">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0v2z"/>
+            <path d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
+          </svg>
+          Logout
+        </button>
+      </div>
+      
+      <div class="video-container">
+        <div class="video-box">
+          <h3>Original Video</h3>
+          <video id="video"></video>
+          <div id="loadingIndicator" class="loading-indicator" hidden></div>
+          <div id="loadingText" class="loading-text" hidden>Loading model and processing video...</div>
+          
+          <div id="debugSection" class="debug-section">
+            <h3>Debug View</h3>
+            <div class="canvas-container">
+              <canvas id="canvas"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="liveResults" class="live-results">
+        <h3>Live Anomaly Status</h3>
+        <!-- Live results will be populated dynamically -->
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

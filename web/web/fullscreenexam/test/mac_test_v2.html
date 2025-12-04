@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Webcam & Screen Share Test</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background: #f4f4f4;
+      color: #333;
+      text-align: center;
+    }
+
+    h1 {
+      margin-bottom: 10px;
+    }
+
+    .section {
+      margin-bottom: 20px;
+    }
+
+    button {
+      padding: 10px 20px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    #results {
+      margin: 10px auto;
+      padding: 10px;
+      border: 1px solid #ccc;
+      background: #fff;
+      max-width: 600px;
+    }
+
+    .video-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    video {
+      width: 300px;
+      height: 200px;
+      background: #000;
+      border: 2px solid #ccc;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Webcam &amp; Screen Share Test</h1>
+
+  <!-- OS and Browser Details -->
+  <div id="system-info" class="section">
+    <p><strong>OS:</strong> <span id="os-info">Detecting...</span></p>
+    <p><strong>Browser:</strong> <span id="browser-info">Detecting...</span></p>
+  </div>
+
+  <div class="section">
+    <button id="start-test">Start Test</button>
+  </div>
+
+  <div id="results" class="section">
+    <p><strong>Status:</strong> <span id="status-message">Not started</span></p>
+  </div>
+
+  <div class="section">
+    <h2>Webcam Preview</h2>
+    <div class="video-container">
+      <video id="webcam-video" autoplay muted playsinline></video>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>Screen Share Preview</h2>
+    <div class="video-container">
+      <video id="screen-video" autoplay muted playsinline></video>
+    </div>
+  </div>
+
+  <script>
+    const startBtn = document.getElementById("start-test");
+    const statusMsg = document.getElementById("status-message");
+    const webcamVideo = document.getElementById("webcam-video");
+    const screenVideo = document.getElementById("screen-video");
+
+    let webcamStream;
+    let screenStream;
+
+    // Function to detect OS
+    function getOSInfo() {
+      const userAgent = navigator.userAgent;
+      if (/Windows NT 10.0/i.test(userAgent)) return "Windows 10";
+      if (/Windows NT 6.2/i.test(userAgent)) return "Windows 8";
+      if (/Windows NT 6.1/i.test(userAgent)) return "Windows 7";
+      if (/Mac OS X/i.test(userAgent)) return "macOS";
+      if (/Android/i.test(userAgent)) return "Android";
+      if (/Linux/i.test(userAgent)) return "Linux";
+      return "Unknown OS";
+    }
+
+    // Function to detect Browser (Fix for Edge & Chrome mix-up)
+    function getBrowserInfo() {
+      const userAgent = navigator.userAgent;
+      const vendor = navigator.vendor || "";
+
+      if (/Edg/i.test(userAgent)) {
+        const version = userAgent.match(/Edg\/(\d+)/);
+        return `Edge ${version ? version[1] : "Unknown"}`;
+      }
+      if (/Chrome/i.test(userAgent) && /Google Inc/i.test(vendor)) {
+        const version = userAgent.match(/Chrome\/(\d+)/);
+        return `Chrome ${version ? version[1] : "Unknown"}`;
+      }
+      if (/Safari/i.test(userAgent) && /Apple Computer/i.test(vendor)) {
+        const version = userAgent.match(/Version\/(\d+)/);
+        return `Safari ${version ? version[1] : "Unknown"}`;
+      }
+      if (/Firefox/i.test(userAgent)) {
+        const version = userAgent.match(/Firefox\/(\d+)/);
+        return `Firefox ${version ? version[1] : "Unknown"}`;
+      }
+      if (/MSIE/i.test(userAgent) || /Trident/i.test(userAgent)) {
+        const version = userAgent.match(/(MSIE |rv:)(\d+)/);
+        return `Internet Explorer ${version ? version[2] : "Unknown"}`;
+      }
+
+      return "Unknown Browser";
+    }
+
+    // Function to check if browser is Safari
+    function isSafari() {
+      return /^((?!chrome|android).)*safari/i.test(navigator.userAgent) && !/Edg/i.test(navigator.userAgent);
+    }
+
+    // Update OS & Browser Info on Page Load
+    document.getElementById("os-info").textContent = getOSInfo();
+    document.getElementById("browser-info").textContent = getBrowserInfo();
+
+    startBtn.addEventListener("click", async () => {
+      statusMsg.textContent = "Requesting permissions...";
+
+      // Step 1: Request webcam access
+      try {
+        webcamStream = await navigator.mediaDevices.getUserMedia({
+          video: true,
+          audio: false,
+        });
+        webcamVideo.srcObject = webcamStream;
+        statusMsg.textContent = "✅ Webcam granted!";
+      } catch (err) {
+        console.error("Webcam error:", err);
+        statusMsg.textContent = "❌ Webcam permission denied or error occurred.";
+        return;
+      }
+
+      // Step 2: Request screen sharing access
+      try {
+        if (!navigator.mediaDevices.getDisplayMedia) {
+          throw new Error("Your browser does not support screen capture (getDisplayMedia).");
+        }
+
+        // Safari requires "window" instead of "monitor"
+        const constraints = {
+          video: {
+            displaySurface: isSafari() ? "window" : "monitor",
+            cursor: "always",
+          },
+          audio: false,
+        };
+
+        screenStream = await navigator.mediaDevices.getDisplayMedia(constraints);
+        screenVideo.srcObject = screenStream;
+        statusMsg.textContent = "✅ Screen sharing granted!";
+      } catch (err) {
+        console.error("Screen share error:", err);
+        statusMsg.textContent = "❌ Screen share permission denied or error occurred.";
+        return;
+      }
+
+      // Final Status
+      statusMsg.textContent = "✅ All permissions granted! Webcam and screen share should be visible.";
+    });
+  </script>
+</body>
+
+</html>

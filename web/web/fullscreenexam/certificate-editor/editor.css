@@ -1,0 +1,2036 @@
+body {
+  margin: 0;
+  background: #f8f9fa;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    sans-serif;
+  overflow: hidden;
+}
+
+/* Modern Topbar */
+.sidetoolbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  padding: 12px 24px;
+  height: calc(100vh - 24px);
+  background: #ffffff;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+  display: flex;
+  align-items: center;
+}
+
+.topbar button {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+  background: #ffffff;
+  color: #495057;
+  transition: all 0.2s ease;
+}
+
+.topbar button:hover {
+  background: #f8f9fa;
+  border-color: #dee2e6;
+  transform: translateY(-1px);
+}
+
+.topbar button:active {
+  transform: translateY(0);
+}
+
+/* Sidebar Styling */
+.sidebar {
+  width: 64px;
+  background: #ffffff;
+  border-right: 1px solid rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px 0;
+  gap: 12px;
+}
+
+.sidebar button {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #e9ecef;
+  background: #ffffff;
+  color: #495057;
+  transition: all 0.2s ease;
+}
+
+.sidebar button:hover {
+  background: #f8f9fa;
+  border-color: #dee2e6;
+  transform: translateY(-1px);
+}
+
+/* Canvas Area */
+.canvas-area {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+}
+
+/* Canvas styles - Updated styles are now handled in the main section below */
+
+/* Toolbox Container */
+.toolbox-container {
+  width: 320px;
+  background: #ffffff;
+  border-left: 1px solid rgba(0, 0, 0, 0.08);
+  padding: 24px;
+  overflow-y: auto;
+  height: calc(100vh - 64px);
+}
+
+/* Properties Panels */
+.text-properties-panel,
+.shape-properties-panel,
+.background-properties-panel {
+  background: #ffffff;
+  border-radius: 12px;
+  margin-bottom: 28px;
+  border: 1px solid #e9ecef;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  transition: all 0.3s ease;
+}
+
+.text-properties-panel:hover,
+.shape-properties-panel:hover,
+.background-properties-panel:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
+}
+
+.text-properties-panel .panel-content,
+.shape-properties-panel .panel-content,
+.background-properties-panel .panel-content {
+  padding: 20px;
+}
+
+.text-properties-panel .property-group,
+.shape-properties-panel .property-group,
+.background-properties-panel .property-group {
+  margin-bottom: 20px;
+}
+
+.text-properties-panel .property-group:last-child,
+.shape-properties-panel .property-group:last-child,
+.background-properties-panel .property-group:last-child {
+  margin-bottom: 0;
+}
+
+.text-properties-panel .property-group label,
+.shape-properties-panel .property-group label,
+.background-properties-panel .property-group label {
+  display: block;
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 4px;
+}
+
+.text-properties-panel .btn-group,
+.shape-properties-panel .btn-group,
+.background-properties-panel .btn-group {
+  display: flex;
+  gap: 4px;
+  width: 100%;
+}
+
+.text-properties-panel .btn,
+.shape-properties-panel .btn,
+.background-properties-panel .btn {
+  flex: 1;
+  padding: 6px 12px;
+  font-size: 14px;
+  border: 1px solid #dee2e6;
+  background: #fff;
+  color: #666;
+  transition: all 0.2s ease;
+}
+
+.text-properties-panel .btn:hover,
+.shape-properties-panel .btn:hover,
+.background-properties-panel .btn:hover {
+  background: #f8f9fa;
+  border-color: #228be6;
+  color: #228be6;
+}
+
+.text-properties-panel .btn.active,
+.shape-properties-panel .btn.active,
+.background-properties-panel .btn.active {
+  background: #e7f5ff;
+  border-color: #228be6;
+  color: #228be6;
+}
+
+.text-properties-panel input[type="color"],
+.shape-properties-panel input[type="color"],
+.background-properties-panel input[type="color"] {
+  width: 100%;
+  height: 32px;
+  padding: 0;
+  border: 1px solid #e9ecef;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.text-properties-panel .form-control,
+.shape-properties-panel .form-control,
+.background-properties-panel .form-control {
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+  padding: 8px 12px;
+  transition: all 0.2s ease;
+}
+
+.text-properties-panel .form-control:focus,
+.shape-properties-panel .form-control:focus,
+.background-properties-panel .form-control:focus {
+  border-color: #228be6;
+  box-shadow: 0 0 0 3px rgba(34, 139, 230, 0.1);
+}
+
+/* Form Controls */
+.property-group .form-control {
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+  padding: 8px 12px;
+  transition: all 0.2s ease;
+}
+
+.property-group .form-control:focus {
+  border-color: #228be6;
+  box-shadow: 0 0 0 3px rgba(34, 139, 230, 0.1);
+}
+
+/* Dynamic Placeholders */
+.canvas-token {
+  background: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.canvas-token:hover {
+  background: #f1f3f5;
+  border-color: #dee2e6;
+  transform: translateY(-1px);
+}
+
+.token-label {
+  font-size: 12px;
+  color: #868e96;
+  margin-top: 4px;
+}
+
+/* Zoom Controls - Updated Style - this section is now handled in the main zoom-controls section below */
+
+/* Editor Main Layout */
+.editor-main {
+  display: flex;
+  height: 100vh;
+  padding-top: 64px;
+  background: #f8f9fa;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .toolbox-container {
+    width: 280px;
+  }
+}
+
+@media (max-width: 768px) {
+  .editor-main {
+    flex-direction: column;
+  }
+
+  .toolbox-container {
+    width: 100%;
+    height: auto;
+    border-left: none;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+  }
+}
+
+/* Button Groups */
+.property-group .btn-group {
+  display: flex;
+  gap: 8px;
+}
+
+/* Dropdowns */
+.dropdown-menu {
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  padding: 8px;
+}
+
+.dropdown-item {
+  border-radius: 8px;
+  padding: 8px 12px;
+  transition: all 0.2s ease;
+}
+
+.dropdown-item:hover {
+  background: #f8f9fa;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f8f9fa;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #dee2e6;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #ced4da;
+}
+
+/* Dropdown for shapes */
+.shape-dropdown {
+  position: relative;
+}
+
+.shape-dropdown .dropdown-menu {
+  min-width: 160px;
+  left: 100%;
+  top: 0;
+  margin-left: 4px;
+  display: none;
+  position: absolute;
+  z-index: 1000;
+  background-color: white;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  padding: 6px 0;
+  border-radius: 6px;
+}
+
+.shape-dropdown .dropdown-menu button {
+  display: flex;
+  align-items: center;
+  height: 40px;
+  border: none;
+  background-color: #f8f9fa;
+  border-radius: 6px;
+  transition: background-color 0.2s;
+}
+
+.shape-dropdown .dropdown-menu button:hover {
+  background: #f1f1f1;
+  color: #0d6efd;
+}
+
+/* Dropdowns inside sidebar */
+.sidebar .dropdown-menu {
+  left: 100%;
+  /* appear to the right of the button */
+  top: 0;
+  margin-left: 8px;
+  position: absolute;
+  z-index: 1000;
+  width: max-content;
+}
+
+/* Ensure shape dropdowns are consistent */
+.sidebar .shape-dropdown .dropdown-menu {
+  left: 100%;
+  margin-top: 0;
+  margin-left: 8px;
+}
+
+/* Tooltip customization */
+.tooltip-inner {
+  font-size: 12px;
+}
+
+.tooltip {
+  z-index: 99999 !important;
+}
+
+/* Drag and Drop Styles */
+.cursor-grab {
+  cursor: grab;
+}
+
+.cursor-grab:active {
+  cursor: grabbing;
+}
+
+.badge {
+  transition: transform 0.2s, box-shadow 0.2s;
+  user-select: none;
+}
+
+.badge:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.badge:active {
+  transform: translateY(0);
+}
+
+#qrcode {
+  position: absolute;
+  top: 650px;
+  left: 60px;
+}
+
+.canvas-toolbar {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+#backButton {
+  z-index: 9999;
+}
+
+.dotted-canvas {
+  border: 3px dotted #ccc;
+  max-width: calc(100% - 40px);
+  max-height: calc(100% - 40px);
+  position: relative;
+  margin-top: 20px;
+  margin-left: 40px;
+  transition: width 0.2s, height 0.2s;
+}
+
+/* When zoomed in, increase canvas size */
+.zoomed-canvas {
+  width: 1200px !important;
+  height: 800px !important;
+  max-width: none;
+  max-height: none;
+}
+
+.card {
+  width: 250px;
+}
+
+/* Layout Enhancements */
+.sidetoolbar {
+  position: fixed !important;
+  /* Keep sidetoolbar always at top */
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+/* Ensure main editor content sits below the fixed toolbar */
+.editor-main {
+  margin-top: 72px;
+  /* space for fixed topbar */
+  height: calc(100vh - 72px);
+}
+
+/* Make the toolbox scrollable within viewport */
+.toolbox-container {
+  max-height: calc(100vh - 120px);
+  /* Account for toolbar & padding */
+  overflow-y: auto;
+}
+
+/* Center canvas container when in preview mode */
+body.preview-mode .canvas-area {
+  margin-left: 0;
+  /* remove left offset */
+  justify-content: center;
+  /* center horizontally */
+}
+
+/* ---------- Layout Refresh ---------- */
+.editor-main {
+  display: flex;
+  flex-direction: row;
+}
+
+/* Fixed width toolbox – remaining space to canvas */
+.toolbox-container {
+  flex: 0 0 320px;
+  /* fixed width */
+  max-width: 100%;
+  overflow-y: auto;
+}
+
+/* Editing canvas area takes remaining width */
+.canvas-area {
+  flex: 1 1 auto;
+  /* fill leftover */
+
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin-left: 0;
+  /* remove previous offset */
+  padding: 20px;
+  box-sizing: border-box;
+  min-height: calc(100vh - 64px);
+  /* fill below topbar */
+}
+
+/* Collapsed panels */
+body.panels-collapsed .topbar {
+  display: none !important;
+}
+
+body.panels-collapsed .editor-main {
+  margin-top: 0;
+  height: 100vh;
+}
+
+/* Toggle toolbox button */
+.toggle-toolbox-btn {
+  position: fixed;
+  top: 13%;
+  right: 288px;
+  /* toolbox width + 10px */
+  transform: translateY(-50%);
+  z-index: 1099;
+  width: 10px;
+  height: 16px;
+  padding: 10px;
+  margin: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #ccc;
+  border-radius: 50%;
+  background: #ffffffee;
+  cursor: pointer;
+  transition: right 0.3s, background 0.2s;
+}
+
+.toggle-toolbox-btn:hover {
+  background: #f1f1f1;
+}
+
+/* Remove Add-Text button row */
+.text-properties-panel .d-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+/* Preview Controls Styling */
+#previewControls {
+  width: 60px;
+  height: 100vh;
+  background: #f8f9fa;
+  border-left: 1px solid #ccc;
+  z-index: 9999;
+  right: 0;
+  /* Ensure it's on the right */
+}
+
+.editor-container {
+  width: 100%;
+  height: 100vh;
+  background: #f8f9fa;
+  position: relative;
+  overflow: hidden;
+}
+
+.canvas-wrapper {
+  position: relative;
+  transform-origin: center center;
+}
+
+.canvas-wrapper.dragging {
+  cursor: grabbing;
+}
+
+#canvas {
+  background: #fff;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+}
+
+/* Mini Map - Updated styles are now handled in the main section below */
+
+/* Properties Panel */
+.properties-panel {
+  width: 300px;
+  background: #fff;
+  border-left: 1px solid #e9ecef;
+  display: none;
+  /* Hidden by default, shown when text is selected */
+}
+
+.properties-panel.show {
+  display: block;
+}
+
+.panel-header {
+  padding: 16px;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.panel-header h5 {
+  margin: 0;
+  color: #495057;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.panel-content {
+  padding: 16px;
+}
+
+.property-group {
+  margin-bottom: 16px;
+  cursor: pointer;
+}
+
+.property-group label {
+  display: block;
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 4px;
+}
+
+.property-group .form-control,
+.property-group .form-select {
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.property-group .btn-group {
+  display: flex;
+  gap: 4px;
+  width: 100%;
+}
+
+.property-group .btn {
+  flex: 1;
+  padding: 6px 12px;
+  font-size: 14px;
+  border: 1px solid #dee2e6;
+  background: #fff;
+  color: #666;
+  transition: all 0.2s ease;
+}
+
+.property-group .btn:hover {
+  background: #f8f9fa;
+  border-color: #228be6;
+  color: #228be6;
+}
+
+.property-group .btn.active {
+  background: #e7f5ff;
+  border-color: #228be6;
+  color: #228be6;
+}
+
+.property-group input[type="color"] {
+  padding: 0;
+  width: 100%;
+  height: 32px;
+  cursor: pointer;
+}
+
+/* Text Properties Panel */
+#textProperties {
+  background: #fff;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+#textProperties .panel-content {
+  padding: 16px;
+}
+
+.text-bold {
+  font-weight: bold;
+}
+
+.text-italic {
+  font-style: italic;
+}
+
+.text-underline {
+  text-decoration: underline;
+}
+
+/* Canvas cursors */
+.canvas-container.dragging {
+  cursor: grabbing !important;
+}
+
+/* Main Layout */
+.editor-container {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  background: #f8f9fa;
+  overflow: hidden;
+}
+
+/* Left sidetoolbar */
+.sidetoolbar {
+  width: 120px;
+  /* Increased width to accommodate 2 columns */
+  background: linear-gradient(135deg, #ffffff, #f8f9fa);
+  border-right: 1px solid #e9ecef;
+  padding: 16px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  box-shadow: 2px 0 12px rgba(0, 0, 0, 0.08);
+  position: relative;
+}
+
+.tool-group {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  /* Two columns */
+  gap: 8px;
+  padding: 12px 0;
+  border-bottom: 1px solid #e9ecef;
+  position: relative;
+}
+
+.tool-group:last-child {
+  border-bottom: none;
+}
+
+/* Tool Group Header */
+.tool-group-header {
+  grid-column: 1 / -1;
+  /* Span full width */
+  margin-bottom: 8px;
+  text-align: center;
+  position: relative;
+}
+
+.tool-group-title {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #6c757d;
+  background: #ffffff;
+  padding: 0 8px;
+  position: relative;
+  z-index: 1;
+}
+
+.tool-group-header::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg,
+      transparent,
+      #e9ecef 20%,
+      #e9ecef 80%,
+      transparent);
+  z-index: 0;
+}
+
+/* Remove the old before pseudo-element */
+.tool-group::before {
+  display: none;
+}
+
+.tool-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  border: 1px solid #e9ecef;
+  background: #ffffff;
+  color: #495057;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 16px;
+  position: relative;
+  overflow: hidden;
+}
+
+.tool-btn:hover {
+  background: linear-gradient(135deg, #f8f9fa, #e7f5ff);
+  border-color: #228be6;
+  color: #228be6;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(34, 139, 230, 0.15);
+}
+
+.tool-btn.active {
+  background: linear-gradient(135deg, #e7f5ff, #d0ebff);
+  border-color: #228be6;
+  color: #228be6;
+  box-shadow: 0 2px 8px rgba(34, 139, 230, 0.2);
+}
+
+.tool-btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg,
+      transparent,
+      rgba(255, 255, 255, 0.4),
+      transparent);
+  transition: left 0.5s ease;
+}
+
+.tool-btn:hover::before {
+  left: 100%;
+}
+
+/* Icon styling */
+.tool-btn i {
+  font-size: 18px;
+  transition: transform 0.3s ease;
+}
+
+.tool-btn:hover i {
+  transform: scale(1.1);
+}
+
+/* Special styling for different tool types */
+.tool-btn.text {
+  background: linear-gradient(135deg, #fff5f5, #ffffff);
+}
+
+.tool-btn.text:hover {
+  background: linear-gradient(135deg, #ffe0e0, #ffebee);
+  border-color: #e91e63;
+  color: #e91e63;
+}
+
+.tool-btn.shape {
+  background: linear-gradient(135deg, #f0f9ff, #ffffff);
+}
+
+.tool-btn.shape:hover {
+  background: linear-gradient(135deg, #dbeafe, #e0f2fe);
+  border-color: #0ea5e9;
+  color: #0ea5e9;
+}
+
+.tool-btn.background {
+  background: linear-gradient(135deg, #f0fdf4, #ffffff);
+}
+
+.tool-btn.background:hover {
+  background: linear-gradient(135deg, #dcfce7, #ecfdf5);
+  border-color: #22c55e;
+  color: #22c55e;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+  .sidetoolbar {
+    width: 100px;
+  }
+
+  .tool-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 14px;
+  }
+
+  .tool-btn i {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .sidetoolbar {
+    width: 80px;
+    padding: 12px 8px;
+  }
+
+  .tool-group {
+    gap: 6px;
+  }
+
+  .tool-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 12px;
+  }
+
+  .tool-btn i {
+    font-size: 14px;
+  }
+}
+
+/* Main Content Area - Updated styles are now handled in the main section below */
+
+/* Zoom Controls */
+.zoom-controls {
+  position: fixed;
+  left: 144px;
+  /* Updated to account for wider sidetoolbar (120px + 24px margin) */
+  bottom: 24px;
+  display: flex;
+  gap: 8px;
+  background: #ffffff;
+  padding: 12px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.zoom-controls button {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  border: 1px solid #dee2e6;
+  color: #495057;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.zoom-controls button:hover {
+  background: #f8f9fa;
+  border-color: #228be6;
+  color: #228be6;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(34, 139, 230, 0.15);
+}
+
+.zoom-display {
+  min-width: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 500;
+  color: #495057;
+  user-select: none;
+  background: #f8f9fa;
+  border-radius: 8px;
+  padding: 0 12px;
+  border: 1px solid #dee2e6;
+}
+
+/* Mini Map */
+.mini-map {
+  position: fixed;
+  right: 320px;
+  bottom: 24px;
+  width: 200px;
+  height: 150px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  z-index: 100;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.mini-map-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 8px;
+}
+
+.mini-map-viewport {
+  position: absolute;
+  border: 2px solid #228be6;
+  background: rgba(34, 139, 230, 0.1);
+  pointer-events: none;
+  border-radius: 4px;
+}
+
+#miniMapCanvas {
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  border-radius: 8px;
+}
+
+/* Right Panel */
+.properties-panel {
+  width: 300px;
+  background: #ffffff;
+  border-left: 1px solid #e9ecef;
+  display: flex;
+  flex-direction: column;
+}
+
+.panel-section {
+  border-bottom: 1px solid #e9ecef;
+}
+
+.panel-header {
+  padding: 16px;
+  background: #f8f9fa;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.panel-header h5 {
+  margin: 0;
+  color: #495057;
+  font-weight: 500;
+}
+
+.close-btn {
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: transparent;
+  color: #868e96;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.close-btn:hover {
+  background: #e9ecef;
+  color: #495057;
+}
+
+.panel-content {
+  padding: 16px;
+}
+
+.property-group {
+  margin-bottom: 24px;
+}
+
+.property-group:last-child {
+  margin-bottom: 0;
+}
+
+.property-group label {
+  display: block;
+  margin-bottom: 12px;
+  color: #495057;
+  font-weight: 500;
+}
+
+/* Style Controls */
+.style-controls,
+.align-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.style-btn,
+.align-btn {
+  width: 40px;
+  height: 40px;
+  border: 1px solid #e9ecef;
+  background: #ffffff;
+  color: #495057;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.style-btn:hover,
+.align-btn:hover {
+  background: #f8f9fa;
+  border-color: #228be6;
+  color: #228be6;
+}
+
+.style-btn.active,
+.align-btn.active {
+  background: #e7f5ff;
+  border-color: #228be6;
+  color: #228be6;
+}
+
+/* Color Controls */
+.color-controls {
+  display: flex;
+  gap: 16px;
+}
+
+.color-picker {
+  flex: 1;
+}
+
+.color-picker label {
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+input[type="color"] {
+  width: 100%;
+  height: 40px;
+  padding: 2px;
+  border: 1px solid #e9ecef;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* Shape Controls */
+.shape-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.shape-btn {
+  width: 40px;
+  height: 40px;
+  border: 1px solid #e9ecef;
+  background: #ffffff;
+  color: #495057;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.shape-btn:hover {
+  background: #f8f9fa;
+  border-color: #228be6;
+  color: #228be6;
+}
+
+/* Background Controls */
+.color-with-clear {
+  display: flex;
+  gap: 8px;
+}
+
+.clear-btn {
+  width: 40px;
+  height: 40px;
+  border: 1px solid #e9ecef;
+  background: #ffffff;
+  color: #495057;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.clear-btn:hover {
+  background: #f8f9fa;
+  border-color: #dc3545;
+  color: #dc3545;
+}
+
+.bg-image-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.gradient-colors {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+/* Placeholders */
+.placeholder-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.placeholder-item {
+  cursor: grab;
+  padding: 8px 12px;
+  margin: 4px 0;
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  user-select: none;
+  position: relative;
+}
+
+.placeholder-item:hover {
+  background: #e9ecef;
+  border-color: #228be6;
+  transform: translateY(-1px);
+}
+
+.placeholder-item:active {
+  cursor: grabbing;
+  transform: translateY(0);
+}
+
+.placeholder-item.dragging {
+  opacity: 0.5;
+  background: #e7f5ff;
+  border-color: #228be6;
+  box-shadow: 0 2px 8px rgba(34, 139, 230, 0.2);
+}
+
+/* Add a subtle indicator for draggable items */
+.placeholder-item::after {
+  content: "⋮";
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #adb5bd;
+  font-size: 16px;
+}
+
+.placeholder-item:hover::after {
+  color: #228be6;
+}
+
+.placeholder-desc {
+  font-size: 12px;
+  color: #868e96;
+  margin-top: 4px;
+}
+
+/* Canvas drop zone */
+.canvas-container {
+  /* cursor: default; */
+}
+
+.canvas-container.dragover {
+  outline: 2px dashed #228be6;
+  outline-offset: -2px;
+  background-color: rgba(34, 139, 230, 0.05);
+}
+
+.canvas-container.dragging {
+  cursor: copy !important;
+}
+
+/* Preview button */
+.preview-btn {
+  position: fixed;
+  right: 324px;
+  top: 24px;
+  padding: 12px 24px;
+  background: #228be6;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(34, 139, 230, 0.2);
+  z-index: 1000;
+}
+
+.preview-btn:hover {
+  background: #1c7ed6;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(34, 139, 230, 0.3);
+}
+
+.preview-btn:active {
+  transform: translateY(0);
+}
+
+.preview-btn i {
+  font-size: 16px;
+}
+
+/* Form Controls */
+.property-group .form-select,
+.property-group .form-control {
+  border: 1px solid #e9ecef;
+  border-radius: 4px;
+  padding: 8px 12px;
+  color: #495057;
+  transition: all 0.2s ease;
+}
+
+.property-group .form-select:focus,
+.form-control:focus {
+  border-color: #228be6;
+  box-shadow: 0 0 0 3px rgba(34, 139, 230, 0.1);
+  outline: none;
+}
+
+/* Hide elements */
+.d-none {
+  display: none !important;
+}
+
+.right-panel {
+  position: fixed;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 300px;
+  background: linear-gradient(135deg, #ffffff, #f8f9fa);
+  box-shadow: -2px 0 12px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+  position: relative;
+}
+
+.right-panel-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px 20px;
+  margin-top: 4px;
+  /* Account for the top border */
+}
+
+.panel-section {
+  margin-bottom: 28px;
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #e9ecef;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  transition: all 0.3s ease;
+}
+
+.panel-section:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
+}
+
+.panel-section-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 0;
+  padding: 16px 16px 12px 16px;
+  border-bottom: 1px solid #f1f3f5;
+  background: linear-gradient(135deg, #f8f9fa, #ffffff);
+  position: relative;
+}
+
+/* Dynamic Placeholders Section */
+.dynamic-placeholders {
+  padding: 20px;
+  max-height: calc(100vh - 100px);
+  overflow-y: auto;
+}
+
+.placeholder-item {
+  cursor: grab;
+  padding: 8px 12px;
+  margin: 4px 0;
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+  user-select: none;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.placeholder-item:hover {
+  background: #e9ecef;
+  border-color: #228be6;
+  transform: translateY(-1px);
+}
+
+.placeholder-item:active {
+  cursor: grabbing;
+  transform: translateY(0);
+}
+
+.placeholder-item.dragging {
+  opacity: 0.5;
+  background: #e7f5ff;
+  border-color: #228be6;
+  box-shadow: 0 2px 8px rgba(34, 139, 230, 0.2);
+}
+
+/* Removed - replaced with new context menu styling */
+
+/* Context Menu */
+.contextmenu {
+  position: fixed !important;
+  /* Changed to fixed for better positioning */
+  display: none;
+  z-index: 99999 !important;
+  /* Increased z-index significantly */
+  background: linear-gradient(135deg, #ffffff, #f8f9fa);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+  padding: 12px;
+  min-width: 240px;
+  max-width: 280px;
+  backdrop-filter: blur(10px);
+  animation: contextMenuSlide 0.2s ease-out;
+  pointer-events: auto !important;
+  /* Ensure it can receive mouse events */
+  user-select: none;
+  /* Prevent text selection */
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+/* Ensure context menu is always visible when shown */
+.contextmenu.show {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Override any conflicting styles */
+.contextmenu * {
+  pointer-events: auto !important;
+}
+
+/* Ensure the context menu container doesn't interfere */
+body.context-menu-open {
+  overflow: hidden;
+}
+
+/* Prevent any parent elements from hiding the context menu */
+.contextmenu {
+  isolation: isolate;
+}
+
+/* Final visibility and positioning fixes */
+#contextMenu {
+  position: fixed !important;
+  z-index: 999999 !important;
+  transform-origin: top left;
+  will-change: transform, opacity;
+}
+
+/* Ensure context menu doesn't get clipped by parent containers */
+#contextMenu.show {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  pointer-events: auto !important;
+}
+
+/* Prevent canvas or other elements from interfering */
+.canvas-container,
+.main-content,
+.editor-container {
+  overflow: visible !important;
+}
+
+/* Override any z-index conflicts */
+#contextMenu {
+  z-index: 2147483647 !important;
+  /* Maximum possible z-index */
+}
+
+@keyframes contextMenuSlide {
+  from {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Prevent context menu from going off-screen */
+.contextmenu.position-adjusted {
+  transform: translateX(-50%) translateY(-100%);
+}
+
+.contextmenu.position-left {
+  transform: translateX(-100%);
+}
+
+.contextmenu.position-top {
+  transform: translateY(-100%);
+}
+
+/* Context Menu Items */
+.contextmenu .dropdown-item {
+  padding: 10px 12px;
+  margin: 2px 0;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+  font-size: 14px;
+  color: #495057;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 500;
+}
+
+.contextmenu .dropdown-item:hover {
+  background: linear-gradient(135deg, #e7f5ff, #f0f9ff);
+  color: #228be6;
+  transform: translateX(2px);
+}
+
+.contextmenu .dropdown-item i {
+  width: 16px;
+  text-align: center;
+  font-size: 14px;
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+}
+
+.contextmenu .dropdown-item:hover i {
+  opacity: 1;
+}
+
+/* Context Menu Sections */
+.context-section {
+  margin-bottom: 12px;
+}
+
+.context-section:last-child {
+  margin-bottom: 0;
+}
+
+.context-section-title {
+  font-size: 11px;
+  font-weight: 600;
+  color: #6c757d;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+  padding: 0 4px;
+}
+
+/* Action Grid Layout */
+.context-actions-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px;
+}
+
+.context-actions-row {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 4px;
+}
+
+.context-actions-row:last-child {
+  margin-bottom: 0;
+}
+
+.context-actions-row .dropdown-item {
+  flex: 1;
+  justify-content: flex-start;
+  padding: 8px 10px;
+  font-size: 13px;
+}
+
+.context-actions-grid .dropdown-item {
+  padding: 8px 10px;
+  font-size: 13px;
+  justify-content: flex-start;
+}
+
+/* Opacity Control */
+.opacity-control {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 4px 8px;
+}
+
+.opacity-control .form-range {
+  flex: 1;
+  margin: 0;
+}
+
+.opacity-value {
+  font-size: 12px;
+  font-weight: 600;
+  color: #495057;
+  min-width: 40px;
+  text-align: right;
+}
+
+/* Icon and text layout */
+.dropdown-item span {
+  font-size: 13px;
+}
+
+.dropdown-item i {
+  min-width: 16px;
+}
+
+/* Delete item special styling */
+.delete-item {
+  color: #dc3545 !important;
+}
+
+.delete-item:hover {
+  background: linear-gradient(135deg, #ffe6e6, #ffebee) !important;
+  color: #c82333 !important;
+}
+
+/* Override old context menu hover styles */
+#contextMenu a.dropdown-item:hover {
+  background: linear-gradient(135deg, #e7f5ff, #f0f9ff);
+  color: #228be6;
+  cursor: pointer;
+}
+
+/* Single item sections (like Lock/Unlock) */
+.context-section>.dropdown-item {
+  width: 100%;
+  justify-content: flex-start;
+  padding: 10px 12px;
+}
+
+/* Add subtle box-shadow to sections */
+.context-section {
+  position: relative;
+  z-index: 2;
+}
+
+/* Divider */
+.contextmenu .dropdown-divider {
+  height: 1px;
+  background: linear-gradient(90deg,
+      transparent,
+      #e9ecef 20%,
+      #e9ecef 80%,
+      transparent);
+  margin: 8px 0;
+  border: none;
+}
+
+/* Opacity Slider */
+.contextmenu .form-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #6c757d;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.contextmenu .form-range {
+  width: 100%;
+  height: 6px;
+  background: linear-gradient(90deg, #e9ecef, #dee2e6);
+  border-radius: 3px;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.contextmenu .form-range:hover {
+  background: linear-gradient(90deg, #228be6, #74c0fc);
+}
+
+.contextmenu .form-range::-webkit-slider-thumb {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  background: linear-gradient(135deg, #228be6, #74c0fc);
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(34, 139, 230, 0.3);
+  transition: all 0.2s ease;
+}
+
+.contextmenu .form-range::-webkit-slider-thumb:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(34, 139, 230, 0.5);
+}
+
+.contextmenu .form-range::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  background: linear-gradient(135deg, #228be6, #74c0fc);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(34, 139, 230, 0.3);
+  transition: all 0.2s ease;
+}
+
+.contextmenu .form-range::-moz-range-thumb:hover {
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(34, 139, 230, 0.5);
+}
+
+/* Button specific styling in context menu */
+.contextmenu button.dropdown-item {
+  border: none;
+  background: none;
+  text-align: left;
+  width: 100%;
+}
+
+.contextmenu button.dropdown-item:hover {
+  background: linear-gradient(135deg, #e7f5ff, #f0f9ff);
+  color: #228be6;
+}
+
+/* Special styling for action buttons */
+.contextmenu .dropdown-item[id="deselect"] {
+  color: #6c757d;
+}
+
+.contextmenu .dropdown-item[id="deselect"]:hover {
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+  color: #495057;
+}
+
+.contextmenu .dropdown-item[id="deleteBtn"] {
+  color: #dc3545;
+}
+
+.contextmenu .dropdown-item[id="deleteBtn"]:hover {
+  background: linear-gradient(135deg, #ffe6e6, #ffebee);
+  color: #c82333;
+}
+
+/* Property Groups */
+.property-group {
+  margin-bottom: 16px;
+}
+
+.property-group label {
+  display: block;
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 4px;
+}
+
+.property-group .form-control,
+.property-group .form-select {
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.property-group .btn-group {
+  display: flex;
+  gap: 4px;
+  width: 100%;
+}
+
+.property-group .btn {
+  flex: 1;
+  padding: 6px 12px;
+  font-size: 14px;
+  border: 1px solid #dee2e6;
+  background: #fff;
+  color: #666;
+  transition: all 0.2s ease;
+}
+
+.property-group .btn:hover {
+  background: #f8f9fa;
+  border-color: #228be6;
+  color: #228be6;
+}
+
+.property-group .btn.active {
+  background: #e7f5ff;
+  border-color: #228be6;
+  color: #228be6;
+}
+
+.property-group input[type="color"] {
+  padding: 0;
+  width: 100%;
+  height: 32px;
+  cursor: pointer;
+}
+
+/* Text Properties Panel */
+#textProperties {
+  background: #fff;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+#textProperties .panel-content {
+  padding: 16px;
+}
+
+.text-bold {
+  font-weight: bold;
+}
+
+.text-italic {
+  font-style: italic;
+}
+
+.text-underline {
+  text-decoration: underline;
+}
+
+/* Scrollbar styling */
+.right-panel-content::-webkit-scrollbar,
+.dynamic-placeholders::-webkit-scrollbar {
+  width: 8px;
+}
+
+.right-panel-content::-webkit-scrollbar-track,
+.dynamic-placeholders::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.right-panel-content::-webkit-scrollbar-thumb,
+.dynamic-placeholders::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 4px;
+}
+
+.right-panel-content::-webkit-scrollbar-thumb:hover,
+.dynamic-placeholders::-webkit-scrollbar-thumb:hover {
+  background: #aaa;
+}
+
+/* Remove old selectors for #textProperties, #shapeProperties, #backgroundProperties */
+#textProperties,
+#shapeProperties,
+#backgroundProperties {
+  display: none !important;
+}
+
+.dynamic-placeholders-section {
+  background: #ffffff;
+  border-radius: 12px;
+  margin-bottom: 28px;
+  border: 1px solid #e9ecef;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  transition: all 0.3s ease;
+}
+
+.dynamic-placeholders-section:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
+}
+
+.dynamic-placeholders-section .panel-section-title {
+  padding: 16px 16px 12px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  border-bottom: 1px solid #f1f3f5;
+  background: linear-gradient(135deg, #f8f9fa, #ffffff);
+  position: relative;
+}
+
+/* Smooth transitions for color pickers and sliders */
+input[type="color"],
+input[type="range"],
+select,
+button,
+.panel-section,
+#bgPreview {
+  transition: all 0.3s ease;
+}
+
+/* Smooth zoom effect on preview image */
+#bgPreview:hover {
+  transform: scale(1.02);
+}
+
+/* Fade-in effect for UI panels */
+.panel-section {
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.bordergallery-properties-panel img {
+  width: 80px;
+  height: 60px;
+  object-fit: cover;
+  cursor: pointer;
+  border: 2px solid transparent;
+  border-radius: 4px;
+  transition: border-color 0.2s;
+}
+
+.bordergallery-properties-panel img:hover {
+  border-color: #228be6;
+}
+
+/* Main Content Area - Updated for wider toolbar */
+.main-content {
+  flex: 1;
+  position: relative;
+  background: linear-gradient(45deg, #f1f3f5 25%, transparent 25%),
+    linear-gradient(-45deg, #f1f3f5 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #f1f3f5 75%),
+    linear-gradient(-45deg, transparent 75%, #f1f3f5 75%);
+  background-size: 20px 20px;
+  background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  margin-left: 0;
+  /* Remove any extra margin since toolbar width is already accounted for */
+}
+
+.canvas-wrapper {
+  position: relative;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  border-radius: 12px;
+  background: #ffffff;
+  width: fit-content;
+  height: fit-content;
+  padding: 20px;
+  transition: all 0.3s ease;
+}
+
+.canvas-wrapper:hover {
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+#canvas {
+  display: block;
+  border-radius: 8px;
+  margin: 0 auto;
+  transition: all 0.3s ease;
+}
+
+/* Canvas container from fabric.js */
+.canvas-container {
+  position: relative;
+  margin: auto;
+  background: #fff;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.canvas-container.dragover {
+  box-shadow: 0 0 0 2px #228be6;
+  background-color: rgba(34, 139, 230, 0.05);
+}
+
+/* Responsive adjustments for positioning */
+@media (max-width: 1200px) {
+  .zoom-controls {
+    left: 124px;
+    /* Adjusted for smaller toolbar */
+  }
+}
+
+@media (max-width: 768px) {
+  .zoom-controls {
+    left: 104px;
+    /* Adjusted for mobile toolbar */
+    bottom: 20px;
+    padding: 8px;
+  }
+
+  .zoom-controls button {
+    width: 36px;
+    height: 36px;
+    font-size: 14px;
+  }
+
+  .zoom-display {
+    min-width: 60px;
+    font-size: 12px;
+    padding: 0 8px;
+  }
+
+  .mini-map {
+    right: 280px;
+    width: 160px;
+    height: 120px;
+  }
+}
+
+/* Color inputs inline layout */
+.color-inputs-inline {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.color-input-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.color-input-group label {
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+
+.color-input-group input[type="color"] {
+  width: 100%;
+  height: 40px;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.color-input-group input[type="color"]:hover {
+  border-color: #228be6;
+  box-shadow: 0 2px 8px rgba(34, 139, 230, 0.15);
+  transform: translateY(-1px);
+}
+
+/* Gradient colors specific styling */
+.d-flex.justify-content-between.gap-2.mb-2 {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.d-flex.justify-content-between.gap-2.mb-2 .color-input-group {
+  flex: 1;
+}
+
+.d-flex.justify-content-between.gap-2.mb-2 .color-input-group input[type="color"] {
+  width: 100%;
+  height: 40px;
+}

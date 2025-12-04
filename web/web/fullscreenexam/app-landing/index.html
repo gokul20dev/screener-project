@@ -1,0 +1,2866 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Exam List</title>
+    <!-- <link rel="stylesheet" href="../common/css/loader.css"> -->
+    <!-- <script src="../common/js/loader.js"></script> -->
+    <link rel="stylesheet" href="landing.css" />
+    <link rel="stylesheet" href="../../common/css/common-base.css" />
+    <link
+      rel="stylesheet"
+      href="../../common/commonLibaries/cdnjs.cloudflare.com.ajax.libs.jqueryui.1.12.1.jquery-ui.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="../../common/commonLibaries/cdnjs.cloudflare.com.ajax.libs.font-awesome.5.15.3.css.all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <link rel="stylesheet" href="../../common/css/sketch.css" />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+
+      .reload_status {
+        display: none;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+      }
+
+      .exam-card {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .exam-card h2 {
+        margin-top: 0;
+      }
+
+      .exam-status {
+        font-weight: bold;
+      }
+
+      .exam-card button,
+      .exam-card a {
+        margin-top: 10px;
+      }
+
+      
+      #login-modal {
+        display: none;
+      }
+
+      #login-modal form,
+      #email-modal form {
+        display: flex;
+        flex-direction: column;
+      }
+
+      #login-modal label,
+      #email-modal label {
+        margin-top: 10px;
+      }
+
+      #login-modal input,
+      #email-modal input {
+        padding: 8px;
+        margin-top: 5px;
+      }
+
+      .sla-info {
+        font-weight: bold;
+      }
+
+      #login-error {
+        color: red;
+        display: none;
+        margin-top: 10px;
+      }
+
+      .modal-btn {
+        margin-top: 20px;
+        padding: 10px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      .modal-btn:hover {
+        background-color: #0056b3;
+      }
+
+      #login-modal,
+      #email-modal {
+        width: 75%;
+      }
+
+      #email-modal {
+        margin: 0 auto;
+        width: 60%;
+      }
+
+      @media (max-width: 600px) {
+        .container {
+          padding: 10px;
+        }
+
+        .exam-card {
+          padding: 15px;
+        }
+
+        #login-modal form,
+        #email-modal form {
+          align-items: stretch;
+        }
+
+        #login-modal label,
+        #login-modal input,
+        #email-modal label,
+        #email-modal input {
+          width: 90%;
+        }
+
+        #login-modal,
+        #email-modal {
+          width: 95%;
+        }
+      }
+
+      .loader {
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        border: 8px solid #f3f3f3;
+        border-top: 8px solid #3498db;
+        border-radius: 50%;
+        width: 60px;
+        height: 60px;
+        animation: spin 2s linear infinite;
+        z-index: 9999;
+        display: none;
+      }
+
+      @-webkit-keyframes spin {
+        0% {
+          -webkit-transform: rotate(0deg);
+        }
+
+        100% {
+          -webkit-transform: rotate(360deg);
+        }
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      .timeformat {
+        color: red;
+        font-weight: bold;
+      }
+
+      .button-wrap {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .button-wrap button {
+        margin-left: 2px;
+      }
+
+      /* Modal styling */
+      #email-modal {
+        background-color: white;
+        padding: 20px;
+        margin-top: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        width: 400px;
+      }
+
+      /* Label styling */
+      #email-form label {
+        margin-bottom: 5px;
+        color: #555;
+      }
+
+      /* Button styling */
+      .modal-btn {
+        padding: 10px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+
+      footer {
+        text-align: center;
+        padding: 10px 0;
+
+        bottom: 0;
+        font-size: 14px;
+        bottom: 0;
+        width: 100%;
+      }
+
+      /* Report Styles */
+      .question-card.unattempted {
+        border-left: 4px solid #9e9e9e;
+        background-color: #f5f5f5;
+      }
+
+      .unattempted-status {
+        color: #757575;
+        font-weight: bold;
+      }
+
+      .unattempted-notice {
+        margin: 10px 0;
+        padding: 8px 12px;
+        background-color: #f5f5f5;
+        border-radius: 4px;
+        color: #757575;
+        font-weight: bold;
+        display: inline-block;
+      }
+
+      .not-evaluated-status {
+        color: #757575;
+        font-weight: bold;
+      }
+
+      .question-card.not-evaluated {
+        border-left: 4px solid #9e9e9e;
+      }
+
+      .success-rate {
+        color: #2196f3;
+        font-weight: bold;
+      }
+
+      .score-card h3 {
+        margin-bottom: 5px;
+      }
+
+      .score-summary {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        justify-content: space-between;
+      }
+
+      .score-card {
+        flex: 1;
+        min-width: 150px;
+        text-align: center;
+      }
+
+      .stat-value.success {
+        color: #2196f3;
+      }
+
+      .report-container {
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+        padding: 10px;
+      }
+
+      .export-buttons-container {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        margin-top: 10px;
+      }
+
+      .export-btn {
+        padding: 10px 16px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .export-btn:hover:not(:disabled) {
+        background-color: #0056b3;
+        transform: translateY(-1px);
+        box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
+      }
+
+      .export-btn:disabled {
+        background-color: #6c757d;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+      }
+
+      .export-btn-arabic {
+        background-color: #28a745;
+      }
+
+      .export-btn-arabic:hover:not(:disabled) {
+        background-color: #1e7e34;
+        box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
+      }
+
+      .report-header {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+        gap: 15px;
+      }
+
+      .report-header-title {
+        flex: 1;
+        min-width: 300px;
+      }
+
+      /* Simple Print styles */
+      @media print {
+        /* Hide browser default headers and footers */
+        @page {
+          margin: 0;
+          size: auto;
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+
+        @page :first {
+          margin-top: 0;
+        }
+
+        @page :left {
+          margin: 0;
+        }
+
+        @page :right {
+          margin: 0;
+        }
+
+        /* Hide browser title and URL */
+        html,
+        body {
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+          margin: 0 !important;
+          padding: 0 !important;
+        }
+
+        * {
+          -webkit-print-color-adjust: exact !important;
+          print-color-adjust: exact !important;
+        }
+
+        .export-buttons-container {
+          display: none !important;
+        }
+
+        .back-button {
+          display: none !important;
+        }
+
+        .report-container {
+          width: 100% !important;
+          max-width: 100% !important;
+          margin: 0 !important;
+          padding: 15px !important;
+        }
+
+        .question-card {
+          page-break-inside: avoid !important;
+          margin-bottom: 15px !important;
+        }
+
+        /* Preserve student response background colors */
+        .student-answer {
+          background-color: #e7f3ff !important;
+          -webkit-print-color-adjust: exact !important;
+          print-color-adjust: exact !important;
+        }
+
+        .crtmarkKey {
+          background-color: #d4edda !important;
+          -webkit-print-color-adjust: exact !important;
+          print-color-adjust: exact !important;
+        }
+
+        .markKey {
+          background-color: #f8d7da !important;
+          -webkit-print-color-adjust: exact !important;
+          print-color-adjust: exact !important;
+        }
+
+        .correct {
+          color: #28a745 !important;
+          -webkit-print-color-adjust: exact !important;
+          print-color-adjust: exact !important;
+        }
+
+        .incorrect {
+          color: #dc3545 !important;
+          -webkit-print-color-adjust: exact !important;
+          print-color-adjust: exact !important;
+        }
+
+        .percentage-display {
+          display: none !important;
+        }
+
+        .percentage-bar {
+          display: none !important;
+        }
+
+        .percentage-fill {
+          display: none !important;
+        }
+
+        .toggle-container-lang {
+          display: none !important;
+        }
+
+        .saq-view-captures-btn {
+          display: none !important;
+        }
+      }
+
+      /* SAQ Captures Styles */
+      .saq-captures-section {
+        margin-top: 15px;
+        padding-top: 15px;
+        border-top: 1px solid #e5e7eb;
+        display: flex;
+        justify-content: flex-end;
+      }
+
+      .saq-view-captures-btn {
+        background: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 16px;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.2s ease;
+        box-shadow: 0 2px 4px rgba(0, 123, 255, 0.2);
+      }
+
+      .saq-view-captures-btn:hover {
+        background: #0056b3;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+      }
+
+      .saq-view-captures-btn:active {
+        transform: translateY(0);
+        box-shadow: 0 2px 4px rgba(79, 70, 229, 0.2);
+      }
+
+      .saq-view-captures-btn i {
+        font-size: 16px;
+      }
+
+      /* Mobile responsive */
+      @media (max-width: 768px) {
+        .report-header {
+          flex-direction: column;
+          align-items: stretch;
+        }
+
+        .export-buttons-container {
+          justify-content: center;
+          flex-wrap: wrap;
+        }
+
+        .export-btn {
+          flex: 1;
+          min-width: 140px;
+        }
+
+        .saq-view-captures-btn {
+          font-size: 13px;
+          padding: 8px 14px;
+        }
+      }
+
+      /* Additional mobile styles for smaller screens */
+      @media (max-width: 480px) {
+        .saq-view-captures-btn {
+          font-size: 12px;
+          padding: 8px 12px;
+        }
+
+        .saq-view-captures-btn i {
+          font-size: 14px;
+        }
+      }
+    </style>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        var loaderDiv = document.createElement("div");
+        loaderDiv.id = "loader";
+        loaderDiv.className = "loader";
+        document.body.prepend(loaderDiv);
+      });
+
+      function showLoader(show) {
+        if (show) {
+          $("#loader").show();
+        } else {
+          $("#loader").hide();
+        }
+      }
+    </script>
+    <script>
+      window.addEventListener("pageshow", function (event) {
+        if (event.persisted) {
+          window.location.reload();
+        }
+      });
+    </script>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="toggle-container-lang">
+        <div class="toggle-wrapper">
+          <label class="toggle-switch-lang">
+            <input id="lang-toggle" type="checkbox" />
+            <span class="slider"></span>
+          </label>
+        </div>
+      </div>
+      <header>
+        <div style="display: flex; align-items: center" class="header-left">
+          <img
+            class="header-logo logo-img"
+            id="college-logo"
+            onerror="this.src='../../common/imgs/school.png'"
+            src="../../common/imgs/school.png"
+            alt="Logo"
+          />
+          <h1 class="header-title" id="college-name">College Name</h1>
+        </div>
+        <!-- <p>Available Exams</p> -->
+      </header>
+
+      <main>
+        <!-- Search Box -->
+        <div class="search-container">
+          <div class="search-box">
+            <i class="fas fa-search search-icon"></i>
+            <input
+              type="text"
+              id="exam-search"
+              class="search-input search_placeholder"
+              placeholder="Search exams by name, time, or timezone..."
+            />
+            <i
+              class="fas fa-times clear-search"
+              id="clear-search"
+              style="display: none"
+            ></i>
+          </div>
+        </div>
+
+        <div id="email-modal" style="display: none" title="Enter Email">
+          <p style="margin-bottom: 0" class="sla-info email_id_validation">
+            Please Enter Your Email Id
+          </p>
+          <form id="email-form">
+            <!-- <label for="emailid" id="national_id">Email ID :</label> -->
+            <input
+              id="email-check"
+              name="emailid"
+              class="email_form_input"
+            /><br />
+            <button
+              type="submit"
+              id="email-button"
+              class="email_form_button modal-btn"
+            >
+              Verify
+            </button>
+          </form>
+        </div>
+
+        <div id="exam-cards-container"></div>
+      </main>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="login-modal">
+      <!-- <p class="sla-info" class="login_national_id_validation">Please enter your <span
+        class="login_national_id_label">Passport Number</span> <span class="login_national_exam_start">to start the
+        exam.</span></p> -->
+      <form id="login-form">
+        <label for="email" class="login_login_form_email_label">Email:</label>
+        <input
+          type="text"
+          class="login_login_form_input1_placeholder"
+          id="email"
+          name="email"
+          readonly
+        /><br />
+        <label
+          class="login_login_form_national_id_label"
+          id="national_id_label1"
+          >Email Id:</label
+        >
+        <input
+          type="text"
+          id="national-id"
+          class="login_login_form_national_id_input"
+          name="national-id"
+          required
+        /><br />
+        <!-- <label class="hidden" id="sla_id_label1">SLA Id:</label>
+            <input class="hidden"  type="text" placeholder="Please Enter id" id="sla-id" name="sla-id" required><br> -->
+        <div id="login-error" class="login_login_form_error">
+          Credentials not matching. Please try again.
+        </div>
+        <button
+          type="submit"
+          id="login-button"
+          class="modal-btn login_login_form_button"
+        >
+          Login and Start Exam
+        </button>
+      </form>
+    </div>
+
+    <!-- Exit History Modal -->
+    <div id="history-modal" title="Exit History">
+      <div id="history-modal-content"></div>
+    </div>
+    <!-- <footer>
+        &copy; 2024 DigiAssess <a href="https://digi-val.com/">Digival IT Solutions </a> - UAE (in technology partnership with Digival Solutions Pvt Ltd, India v9.2.5)
+    </footer> -->
+
+    <script src="../../common/commonLibaries/jquery-3.6.0.min.js"></script>
+    <script src="../../common/commonLibaries/jquery-ui.min.js"></script>
+    <script src="../../common/js/commonApi.js"></script>
+    <script src="../../common/js/common.js"></script>
+    <script src="../../common/js/sketch.js"></script>
+    <script src="../../common/js/variable.js"></script>
+    <script src="../../common/js/label-management.js"></script>
+    <script src="../../common/js/college-details.js"></script>
+    <script src="../../common/js/logManagement.js"></script>
+    <script src="../../common/js/image-slider.js"></script>
+    <!-- No external PDF libraries needed - using browser print -->
+    <script>
+      let examsData = []; // Global variable to store exams data
+      let email;
+      let isEnglish;
+      $(document).ready(function () {
+        checkBrowserCompatibility();
+
+        if (!localStorage.getItem("lang")) localStorage.setItem("lang", "en");
+        isEnglish = localStorage.getItem("lang") === "en";
+        $(".email_form_input").prop(
+          "placeholder",
+          isEnglish ? "Email ID" : "معرف البريد الإلكتروني"
+        );
+        $("#login-modal").prop("title", "Login Exam / امتحان تسجيل الدخول");
+        const urlParams = new URLSearchParams(window.location.search);
+        email = urlParams.get("email");
+
+        // const apiURL = base_url
+        // const key = ApiKey
+
+        const nid = urlParams.get("nid");
+        if (nid) {
+          $("#national-id").val(nid);
+        }
+
+        console.log("nid", nid, "national-id", $("#national-id").length);
+        if (email) {
+          $("#email").val(email);
+          fetchExamList(email);
+          console.log("fetch exam details called", email);
+        } else {
+          $("#email-modal").show();
+          $(".search-container").css({ display: "none" });
+          //  alert('Email ID is missing in the query parameters.');
+        }
+
+        // setTimeout(function () {
+        //   $(".reload_status").show();
+        // }, 4000);
+
+        $("#email-form").submit(function (event) {
+          event.preventDefault();
+
+          let baseUrl = window.location.origin;
+          const urlParams = new URLSearchParams(window.location.search);
+          let uid = $("#email-check").val().trim();
+          email = uid;
+          if (
+            !$("#email-check").val().trim() ||
+            !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test($("#email-check").val().trim())
+          ) {
+            alert("Please enter a valid Email ID.");
+            return false;
+          }
+
+          $("#email-button").text("loading");
+
+          $("#email").val(uid);
+          urlParams.append("email", uid);
+          window.location.search = urlParams.toString();
+
+          fetchExamList(uid);
+          // $.ajax({
+          //     url: `${apiURL}/api/v1/entrance-exam/student/info`,
+          //     method: 'GET',
+          //     headers: {
+          //         'x-api-key': key
+          //     },
+          //     data: {
+          //         email   : uid
+          //     },
+          //     success: function(response) {
+          //         $("#email-button").text("verify")
+          //         if(!response.data.mail){
+          //             alert("invalid email");
+          //             return false;
+          //         }
+          //         if(uid.trim()==response.data.id2.trim()){
+          //             let uid=response.data.mail;
+          //         console.log("get data from back",response.data.mail);
+
+          //                 if(window.location.origin.indexOf("localhost")!=-1){
+          //                     baseUrl=baseUrl+"/full-screen-exam/fullscreenexam"
+          //                 }
+
+          //                 const examUrl = `${baseUrl}/fullscreenexam/email-landing/?email=${uid}&nid=${response.data.id2}`
+          //                 window.location.href = examUrl;
+          //         }
+          //         else{
+          //             alert("No Exams Found for National id"+uid)
+          //         }
+
+          //     },
+          //     error: function(error) {
+          //         $("#email-button").text("verify")
+
+          //         alert("No Exams Planned or not a valid id" ,uid)
+          //         console.error('Error:', error);
+          //         // Handle the error
+          //     }
+          // });
+        });
+
+        $("#national_id").text(`${national_ID}`);
+        $("#national_id_label").text(`${national_ID}`);
+        // $("#sla_id_label").text(`${sla_ID}`);
+        $("#national_id_label1").text(`${national_ID}`);
+        // $("#sla_id_label1").text(`${sla_ID}`);
+
+        $("#login-form").submit(function (event) {
+          event.preventDefault();
+
+          // const slaId = $('#sla-id').val();
+          const nationalId = $("#national-id").val();
+          const examId = $("#login-button").data("exam-id");
+          const attenderId = $("#login-button").data("attender-id");
+
+          validateAndStartExam(nationalId, examId, attenderId);
+        });
+      
+       
+      });
+
+      function fetchExamList(email) {
+        makeApiCall({
+          url: `${STUDENT_END_POINT}/exam/list?mail=${encodeURIComponent(
+            email
+          )}`,
+          method: "GET",
+          isApiKey: true,
+          successCallback: function (response) {
+            if (response.message === "Retrieved successfully") {
+              examsData = response.data.data; // Store data in global variable
+              renderExamCards(response.data.data);
+
+              const urlParams = new URLSearchParams(window.location.search);
+              const examId = urlParams.get("entranceExamId");
+
+              if (examId) {
+                const exam = examsData.find((exam) => exam._id === examId);
+
+                if (exam && exam.isReportPublished) {
+                  showReportPopup(examId, exam.name);
+                }
+              }
+              renderLanguage();
+            }
+          },
+          errorCallback: function (error) {
+            console.error("Error fetching exam list:", error);
+          },
+        });
+      }
+
+      function renderExamCards(exams) {
+        const examCardsContainer = $("#exam-cards-container");
+        examCardsContainer.empty();
+
+        // Check if we need to show the refresh notification
+        let showRefreshNotification = false;
+        let hasActiveExams = false;
+
+        // Sort exams with ON_GOING status first
+        exams.sort((a, b) => {
+          if (a.examStatus === "ON_GOING" && b.examStatus !== "ON_GOING") {
+            return -1;
+          } else if (
+            a.examStatus !== "ON_GOING" &&
+            b.examStatus === "ON_GOING"
+          ) {
+            return 1;
+          } else {
+            return 0;
+          }
+        });
+
+        // First check if any exams need the notification
+        exams.forEach((exam) => {
+          if (
+            exam.examStatus === "ON_GOING" ||
+            exam.examStatus === "NOT_STARTED"
+          ) {
+            hasActiveExams = true;
+
+            const isExamOngoing = exam.examStatus === "ON_GOING";
+            const isStudentRegistered =
+              exam.attender && exam.attender.registrationStatus === APPROVED;
+            const isStudentExamEnded =
+              exam.attender && exam.attender.studentExamStatus === "ENDED";
+            const isTimeOver = exam?.isTimeOver;
+            const isallowStudentsWithoutRegistration =
+              exam?.settings?.allowStudentsWithoutRegistration;
+            const studentStatusLabel = isStudentExamEnded
+              ? "Exam Completed"
+              : exam.attender.studentExamStatus;
+            const canStartAnytime =
+              exam?.attender?.canStartExamAfterExamEndTime?.value;
+
+            const isButtonDisabled = canStartAnytime
+              ? isStudentExamEnded
+              : (!isExamOngoing &&
+                  !(
+                    studentStatusLabel === "ON_GOING" &&
+                    exam.examStatus === "ENDED" &&
+                    !isTimeOver
+                  )) ||
+                isStudentExamEnded ||
+                (!isStudentRegistered && !isallowStudentsWithoutRegistration);
+
+            if (
+              (isExamOngoing && isButtonDisabled) ||
+              (exam.examStatus === "NOT_STARTED" && isStudentRegistered)
+            ) {
+              showRefreshNotification = true;
+            }
+          }
+        });
+
+        // If we need to show the refresh notification, add it at the top
+        if (showRefreshNotification && hasActiveExams) {
+          const refreshNotification = `
+          <div class="refresh-notification">
+            <div class="refresh-notification-icon">
+              <i class="fas fa-info-circle"></i>
+            </div>
+            <div class="refresh-notification-content">
+              <p class="refresh-notification-title">Exam Status Update Required</p>
+              <p class="refresh-notification-text login_exam_card_refresh_notice">The system has detected that some exam statuses may need to be updated. Please refresh the page to ensure you have the latest exam information.</p>
+            </div>
+            <button class="refresh-notification-button" onclick="location.reload()">
+              <i class="fas fa-sync-alt"></i> Refresh Now
+            </button>
+          </div>`;
+          examCardsContainer.append(refreshNotification);
+        }
+
+        exams.forEach((exam) => {
+          const exitCount =
+            exam.attender && exam.attender.fullScreen
+              ? exam.attender.fullScreen.exitCount
+              : 0;
+          const showExitCount =
+            exam.examStatus !== "NOT_STARTED" && exitCount > 0;
+          const isExamOngoing = exam.examStatus === "ON_GOING";
+          const isTimeOver = exam?.isTimeOver;
+          const isallowStudentsWithoutRegistration =
+            exam?.settings?.allowStudentsWithoutRegistration;
+          const isStudentExamEnded =
+            exam.attender && exam.attender.studentExamStatus === "ENDED";
+          const buttonLabel = isStudentExamEnded
+            ? "Exam Completed"
+            : "Start Exam";
+          const studentStatusLabel = isStudentExamEnded
+            ? "Exam Completed"
+            : exam.attender.studentExamStatus;
+          const isStudentRegistered =
+            exam.attender && exam.attender.registrationStatus === APPROVED;
+
+          const isRegistered =
+            exam.attender && exam.attender.registrationStatus === "REGISTERED";
+          const masterAttenderId = exam.attender
+            ? exam.attender?.masterAttenderId
+            : "";
+
+          const canStartAnytime =
+            exam?.attender?.canStartExamAfterExamEndTime?.value;
+
+          const isButtonDisabled = canStartAnytime
+            ? isStudentExamEnded
+            : (!isExamOngoing &&
+                !(
+                  studentStatusLabel === "ON_GOING" &&
+                  exam.examStatus === "ENDED" &&
+                  !isTimeOver
+                )) ||
+              isStudentExamEnded ||
+              (!isStudentRegistered && !isallowStudentsWithoutRegistration);
+
+          const timeZone = exam?.settings?.timeZone;
+
+          console.log(
+            "canStartAnytime",
+            canStartAnytime,
+            "isButtonDisabled",
+            isButtonDisabled
+          );
+
+          const examCard = `
+            <div class="exam-card">
+                <h2>${exam.name}</h2>
+                <p><span class="login_exam_card_start_time">Date / Start Time:</span> ${formatDateTime(
+                  exam.session.start
+                )}</p>
+                <p><span class="login_exam_card_end_time">Date / End Time:</span> ${formatDateTime(
+                  exam.session.end
+                )}</p>
+                <p class="exam-status"><span class="login_exam_card_exam_status">Exam Status:</span> ${getStatusHTML(
+                  exam.examStatus
+                )}</p>
+                <p class="exam-status"><span class="login_exam_card_student_status">Student Status:</span> ${getStudentStatusHTML(
+                  studentStatusLabel,
+                  exam.attender ? exam.attender.registrationStatus : null
+                )}</p>
+                <p class="exam-status"><span class="login_exam_card_time_zone">Time Zone:</span> ${getTimezoneDisplay(
+                  timeZone
+                )}</p>
+                
+                ${
+                  showExitCount
+                    ? `<p ><span class="login_exam_card_exit_count">Exit Count:</span> ${exitCount}</p>`
+                    : ""
+                }
+
+                <a href="#" class="toggle-history-link login_exam_card_show_history" data-exam-id="${
+                  exam._id
+                }" data-attender-id="${
+            exam.attender ? exam.attender._id : ""
+          }" data-master-attender-id="${masterAttenderId}">Show Exit History</a>
+                
+                <div class="button-wrap" style="justify-content: ${
+                  (exam?.enabledFeatures?.includes("screenRecording") ||
+                    exam?.enabledFeatures?.includes("webCamRecording")) &&
+                  !isButtonDisabled
+                    ? "space-between"
+                    : "flex-end"
+                }">
+                  ${
+                    (exam?.enabledFeatures?.includes("screenRecording") ||
+                      exam?.enabledFeatures?.includes("webCamRecording")) &&
+                    !isButtonDisabled
+                      ? `<div class="test-button-container">
+                <button class="test-button" data-exam-id="${
+                  exam._id
+                }" data-attender-id="${
+                          exam.attender ? exam.attender._id : ""
+                        }"><i class="fas fa-desktop"></i> <i class="fas fa-video"></i><span class="test-button-text">Test System Compatibility</span> </button>
+                <button class="exam-guide-button" data-exam-id="${
+                  exam._id
+                }" data-attender-id="${
+                          exam.attender ? exam.attender._id : ""
+                        }"><i class="fas fa-book"></i><span class="exam-guide-button-text">Permissions setup guide</span> </button>
+              </div>`
+                      : ""
+                  }
+                    ${
+                      !isStudentRegistered &&
+                      !(isExamOngoing && isTimeOver && !isStudentExamEnded) &&
+                      !isallowStudentsWithoutRegistration
+                        ? `<div class="registration-warning">
+                            <span><i class="fas fa-exclamation-triangle"></i> <span class="login_exam_card_register_validation">Please register for this exam to participate.</span></span>
+                            <button class="register-now-btn" data-regis="${isRegistered}"  data-attender-id="${masterAttenderId}">
+                                <i class="fas fa-user-plus"></i> <span class="${
+                                  isRegistered
+                                    ? "login_exam_card_waiting_approve"
+                                    : "login_exam_card_register_button"
+                                }">Register Now</span>
+                            </button>
+                            ${
+                              exam.examStatus == "NOT_STARTED"
+                                ? `<!-- Individual reload button removed in favor of centralized refresh notification
+                            <button class="reload_status login_exam_card_reload_button">Reload Exam Status</button>
+                            -->`
+                                : ""
+                            }
+                          </div>`
+                        : ""
+                    }
+                    ${
+                      exam.examStatus == "NOT_STARTED" &&
+                      isStudentRegistered &&
+                      !(isExamOngoing && isTimeOver && !isStudentExamEnded)
+                        ? `<span class="reload_status_span"><span class="login_exam_card_will_start">Exam will start on</span> - ${formatDateTime(
+                            exam.session.start
+                          )}</span>`
+                        : ""
+                    }
+
+                    ${
+                      isExamOngoing && isTimeOver && !isStudentExamEnded
+                        ? `<div class="time-over-message"> <i class="fas fa-info-circle"></i> <span class="login_exam_card_time_over_message">${
+                            $("#lang-toggle").prop("checked")
+                              ? "انتهى وقت الامتحان - لا يمكن البدء الآن"
+                              : "Exam Time Over - Cannot Start Now"
+                          }</span></div>`
+                        : exam?.enabledFeatures?.includes("canPublishReport") &&
+                          exam?.isReportPublished
+                        ? `<button class=" report-btn" 
+                              data-exam-id="${exam._id}"
+                              data-exam-name="${encodeURIComponent(exam.name)}"
+                              data-user-email="${email}">
+                              <i class="fas fa-chart-line"></i> <span class="login_exam_card_report_button">View Report</span>
+                          </button>`
+                        : !isStudentRegistered &&
+                          !isallowStudentsWithoutRegistration
+                        ? ""
+                        : `<button class="startexam-btn login_exam_card_save_button ${
+                            isButtonDisabled ? "disabled" : ""
+                          }" 
+                                data-exam-id="${exam._id}"
+                                data-attender-id="${
+                                  exam.attender ? exam.attender._id : ""
+                                }"
+                                data-master-attender-id="${masterAttenderId}"
+                                ${isButtonDisabled ? "disabled" : ""}>
+                                ${buttonLabel}
+                              </button>`
+                    }
+                    ${
+                      exam.examStatus == "NOT_STARTED" &&
+                      isStudentRegistered &&
+                      !(isExamOngoing && isTimeOver && !isStudentExamEnded)
+                        ? `<!-- Individual reload button removed in favor of centralized refresh notification
+            <button class="reload_status login_exam_card_reload_status">Reload Exam Status</button>
+            -->`
+                        : ""
+                    }
+                </div>
+            </div>
+        `;
+          examCardsContainer.append(examCard);
+        });
+
+        // Only show "No Active Exams Found" if the search box is empty
+        if (exams.length == 0 && !$("#exam-search").val().trim()) {
+          examCardsContainer.append(
+            "<h4 class='login_exam_card_active_exams_found'>No Active Exams Found</h4>"
+          );
+        } else if (exams.length == 0) {
+          $("#email-modal").remove();
+        }
+
+        // Event listener for toggle history link
+        $(document).on("click", ".toggle-history-link", function (event) {
+          event.preventDefault();
+          const examId = $(this).data("exam-id");
+          const attenderId = $(this).data("attender-id");
+          showHistoryModal(examId, attenderId);
+        });
+
+        // Event listener for reload status button
+        // $(document).on("click", ".reload_status", function (event) {
+        //   $(".reload_status").text("Please Wait Reloading Exam Status");
+        //   setTimeout(function () {
+        //     location.reload();
+        //   }, 8000);
+        // });
+
+        // Event listener for Start Exam button
+        $(document).on(
+          "click",
+          ".exam-card .startexam-btn:not(.disabled)",
+          function () {
+            const examId = $(this).data("exam-id");
+            const attenderId = $(this).data("attender-id");
+            showLoginModal(examId, attenderId);
+          }
+        );
+
+        // Event listener for Register Now button
+        $(document).on("click", ".register-now-btn", function () {
+          if (!$(this).data("regis")) {
+            const masterAttenderId = $(this).data("attender-id");
+            const registrationUrl = `${window.location.origin}/fullscreenexam/student-registration/?attenderId=${masterAttenderId}`;
+            window.location.href = registrationUrl;
+          }
+        });
+
+        // Replace vanilla JS click handler with jQuery event delegation
+        $(document)
+          .off("click", ".report-btn")
+          .on("click", ".report-btn", function () {
+            const examId = $(this).data("exam-id");
+            const examName = decodeURIComponent($(this).data("exam-name"));
+            showReportPopup(examId, examName);
+          });
+
+        $(document).on("click", ".test-button", function () {
+          const baseUrl = window.location.origin;
+          const systemCompatibilityUrl = new URL(
+            `${baseUrl}/fullscreenexam/test/system-compatibility.html`
+          );
+          window.location.href = systemCompatibilityUrl.toString();
+        });
+
+        $(document).on("click", ".exam-guide-button", function () {
+          const baseUrl = window.location.origin;
+          const examGuideUrl = `../../document/screen-camera-permissions-guide.html`;
+          window.location.href = examGuideUrl.toString();
+        });
+      }
+
+      function formatDateTime(dateTime) {
+        const date = new Date(dateTime.date);
+        const hours = dateTime.hour.toString().padStart(2, "0");
+        const minutes = dateTime.minute.toString().padStart(2, "0");
+        const period = dateTime.format;
+
+        const day = date.getDate().toString().padStart(2, "0");
+        const month = (date.getMonth() + 1).toString().padStart(2, "0"); // Months are zero-based
+        const year = date.getFullYear();
+
+        return `${day}-${month}-${year} <span class="timeformat">${hours}:${minutes} ${period}</span`;
+      }
+
+      function showHistoryModal(examId, attenderId) {
+        const exam = examsData.find((exam) => exam._id === examId); // Use global variable
+        if (
+          !exam ||
+          !exam.attender ||
+          !exam.attender.fullScreen ||
+          !exam.attender.fullScreen.history
+        ) {
+          $("#history-modal-content").html(
+            `<p class='no_exit_history'>${
+              isEnglish ? "No exit history available" : "لا يوجد سجل خروج متاح"
+            }</p>`
+          );
+        } else {
+          const { exitCount, history } = exam.attender.fullScreen;
+          const historyEntries = history
+            .map((entry) => {
+              const date = new Date(entry.createdAt);
+              const formattedDate = date.toLocaleString();
+              return `<li>${entry.reason} - ${formattedDate}</li>`;
+            })
+            .join("");
+
+          const modalContent = `
+                    <b><p><span class="summary_content">You have exited the exam</span><span style= "color: red"> ${exam.attender.fullScreen.exitCount}</span> <span class="summary_content_2">times. To ensure a smooth completion, please remain focused on the exam window and avoid any interruptions.</span></p></b>
+                    <p><span class="exit_count">Exit Count:</span> <span style= "color: red"> ${exam.attender.fullScreen.exitCount}</span></p>
+                    <p><b class="exit_history">Exit History:</b></p>
+                    <ul>
+                        ${historyEntries}
+                    </ul>
+                `;
+
+          $("#history-modal-content").html(modalContent);
+          const selectedLanguage = localStorage.getItem("lang") || "en";
+          $(".summary_content").text(
+            change[selectedLanguage]["summary_content"]
+          );
+          $(".summary_content_2").text(
+            change[selectedLanguage]["summary_content_2"]
+          );
+          $(".exit_count").text(change[selectedLanguage]["exit_count"]);
+          $(".exit_history").text(change[selectedLanguage]["exit_history"]);
+        }
+        $("#history-modal").dialog({
+          modal: true,
+          width: 600,
+          create: function (event, ui) {
+            var closeButton = $(
+              '<button type="button" class="ui-button ui-corner-all ui-widget ui-dialog-titlebar-close" title="Close">X</button>'
+            );
+            closeButton.on("click", function () {
+              $("#history-modal").dialog("close");
+            });
+            $(this)
+              .closest(".ui-dialog")
+              .find(".ui-dialog-titlebar")
+              .append(closeButton);
+          },
+        });
+      }
+      function showLoginModal(examId, attenderId) {
+        $("#login-button")
+          .data("exam-id", examId)
+          .data("attender-id", attenderId);
+        $("#login-modal").dialog({
+          modal: true,
+          open: function () {
+            $(".ui-widget-overlay").css({
+              "background-color": "rgba(0, 0, 0, 0.5)", // Custom backdrop color
+              opacity: "0.8", // Custom opacity
+            });
+          },
+          create: function (event, ui) {
+            var closeButton = $(
+              '<button type="button" class="ui-button ui-corner-all ui-widget ui-dialog-titlebar-close" title="Close">X</button>'
+            );
+            closeButton.on("click", function () {
+              $("#login-modal").dialog("close");
+            });
+            $(this)
+              .closest(".ui-dialog")
+              .find(".ui-dialog-titlebar")
+              .append(closeButton);
+          },
+        });
+        renderLanguage();
+      }
+
+      function validateAndStartExam(nationalId, examId, attenderId) {
+        // Trim the input strings to remove spaces from both ends
+        // const trimmedSlaId = slaId.trim();
+        const trimmedNationalId = nationalId.trim();
+        const trimmedExamId = examId.trim();
+        const trimmedAttenderId = attenderId.trim();
+
+        const exam = examsData.find((exam) => exam._id == trimmedExamId); // Use global variable
+        console.log("exam data", exam);
+        if (
+          exam &&
+          exam.attender &&
+          exam.attender.id2.trim() == trimmedNationalId
+        ) {
+          startExam(
+            trimmedExamId,
+            trimmedAttenderId,
+            exam?.enabledFeatures,
+            exam.attender._id
+          );
+        } else {
+          $("#login-error").show();
+          setTimeout(function () {
+            $("#login-error").hide();
+          }, 4000);
+        }
+      }
+
+      function startExam(examId, attenderId, enabledFeatures, attender_id) {
+        const baseUrl = window.location.origin;
+        const urlParams = new URLSearchParams(window.location.search);
+        const cid = urlParams.get("cid");
+
+        // Create base URL with essential parameters
+        const examUrl = new URL(`${baseUrl}/fullscreenexam/exam-portal/`);
+        examUrl.searchParams.set("examid", examId);
+        examUrl.searchParams.set("uid", attenderId);
+        examUrl.searchParams.set("attender_id", attender_id);
+        examUrl.searchParams.set("shuffleqtn", "true");
+        examUrl.searchParams.set("shuffleoptions", "true");
+        if (cid) {
+          examUrl.searchParams.set("cid", cid);
+        }
+
+        if (Array.isArray(enabledFeatures)) {
+          enabledFeatures.forEach((feature) => {
+            examUrl.searchParams.set(feature, "true");
+          });
+        }
+
+        window.location.href = examUrl.toString();
+      }
+
+      // function startExamApi(examId, attenderId){
+      //   const apiUrl = `${STUDENT_END_POINT}/start?entranceExamId=${examId}&studentId=${attenderId}`
+
+      //   makeApiCall({
+      //     url: apiUrl,
+      //     method: "PUT",
+      //     isApiKey: true,
+      //     successCallback: function (response) {
+      //     },
+      //     errorCallback: function (jqXHR) {
+      //     },
+      //   });
+      // }
+
+      // Add new popup function
+      function showReportPopup(examId, examName) {
+        const apiUrl = `${REPORT_END_POINT}?entranceExamId=${examId}&canPaginate=false&mail=${email}`;
+
+        // Hide exam list and show report container
+        $("#exam-cards-container").fadeOut(300, function () {
+          $(".container header").fadeOut(300);
+          $("#report-container").remove();
+          $(".search-container").hide();
+
+          // Create report container
+          const reportContainer = $(
+            '<div id="report-container" style="opacity:0;"></div>'
+          );
+          $(".container").append(reportContainer);
+          reportContainer.animate({ opacity: 1 }, 400);
+
+          // Add back button with enhanced icon
+          const backButton = $(
+            `<div class="back-button"><i class="fas fa-arrow-left"></i> <span class="back_button_text">Back to Exam List</span></div>`
+          );
+          reportContainer.append(backButton);
+
+          // Add loading animation with message
+          const loading = $(
+            `<div class="report-loading">
+        <div class="loading-message">Loading your exam report...</div>
+      </div>`
+          );
+          reportContainer.append(loading);
+
+          // Fetch report data with timeout to show error if it takes too long
+          let isLoaded = false;
+          const loadTimeout = setTimeout(function () {
+            if (!isLoaded) {
+              loading.html(
+                `<div class="loading-message">Taking longer than expected. Please wait...</div>`
+              );
+            }
+          }, 5000);
+
+          // Fetch report data
+          makeApiCall({
+            url: apiUrl,
+            method: "GET",
+            isApiKey: true,
+            successCallback: function (response) {
+              isLoaded = true;
+              clearTimeout(loadTimeout);
+              loading.fadeOut(300, function () {
+                $(this).remove();
+                if (response.data.data.length > 0) {
+                  if (response?.data?.data[0].status?.exam === "NOT_STARTED") {
+                    reportContainer.append(
+                      '<div class="error">No report data available for this exam.</div>'
+                    );
+                  }
+                  const reportContent = $(
+                    renderReportData(response?.data, examName)
+                  );
+                  reportContent.hide();
+                  reportContainer.append(reportContent);
+                  reportContent.fadeIn(500);
+                  renderLanguage();
+                  // Add event handlers for Show More/Less buttons
+                  setupSaqExpandButtons();
+
+                  setupReportExport();
+                } else {
+                  reportContainer.append(
+                    '<div class="error">No report data available for this exam.</div>'
+                  );
+                }
+              });
+            },
+            errorCallback: function (jqXHR) {
+              isLoaded = true;
+              clearTimeout(loadTimeout);
+              loading.fadeOut(300, function () {
+                $(this).remove();
+                reportContainer.append(
+                  `<div class="error">
+              <i class="fas fa-exclamation-circle"></i> 
+              Error loading report: ${jqXHR.status || "Unknown error"}
+              <p>Please try again later or contact support if the problem persists.</p>
+            </div>`
+                );
+              });
+            },
+          });
+
+          // Back button handler with smooth transition
+          backButton.on("click", () => {
+            $("#report-container").fadeOut(300, function () {
+              $(this).remove();
+              $("#exam-cards-container").fadeIn(300);
+              $(".container header").fadeIn(300);
+              $(".search-container").show();
+            });
+          });
+        });
+      }
+
+      // Function to set up event handlers for Show More/Less buttons
+      function setupSaqExpandButtons() {
+        // Show More button click handler
+        $(document).on("click", ".show-more-btn", function () {
+          const saqResponse = $(this).closest(".saq-response");
+          saqResponse.find(".truncated-answer").hide();
+          saqResponse.find(".full-answer").fadeIn(300);
+          $(this).hide();
+          saqResponse.find(".show-less-btn").show();
+        });
+
+        // Show Less button click handler
+        $(document).on("click", ".show-less-btn", function () {
+          const saqResponse = $(this).closest(".saq-response");
+          saqResponse.find(".full-answer").hide();
+          saqResponse.find(".truncated-answer").fadeIn(300);
+          $(this).hide();
+          saqResponse.find(".show-more-btn").show();
+        });
+      }
+
+      // Add render function for report data
+      function renderReportData(data, examName) {
+        const exam = data.data[0];
+        const studentData = data?.data[0];
+        const questions = studentData?.questions;
+        const totalMarks = data.totalMarks;
+        const cutoff = data?.settings?.cutoff;
+        const totalScore = exam.totalAchievedMarks;
+        // Calculate both percentages
+        const overallPercentage = ((totalScore / totalMarks) * 100).toFixed(1);
+
+        // Calculate success rate based on attempted questions
+        const attemptedPercentage =
+          exam.attended > 0
+            ? ((exam.correct / exam.attended) * 100).toFixed(1)
+            : "0.0";
+
+        // Use overall percentage for pass/fail determination
+        const percentage = overallPercentage;
+
+        // Determine pass/fail status based on given conditions
+        let passOrFail = "Fail";
+        let cutoffPercentage = 50; // Default cutoff percentage
+        let statusChangeInfo = ""; // For storing status change information
+
+        if (exam.passStatus && exam.passStatus.length > 0) {
+          // If passStatus is available, take the last array item
+          const lastStatus = exam.passStatus[exam.passStatus.length - 1];
+          passOrFail = lastStatus.newResult === "pass" ? "Pass" : "Fail";
+
+          // Add information about who changed the result and why
+          const changedBy = lastStatus.changedBy.mail || "Unknown";
+          const reason = lastStatus.reason || "No reason provided";
+          const changedAt =
+            new Date(lastStatus.changedAt).toLocaleString() || "Unknown date";
+
+          statusChangeInfo = `
+      <div class="status-change-info">
+        <p><strong>Result modified by:</strong> ${changedBy}</p>
+        <p><strong>Reason:</strong> ${reason}</p>
+        <p><strong>Changed on:</strong> ${changedAt}</p>
+        <p><strong>Original Result:</strong> ${
+          lastStatus.oldResult.charAt(0).toUpperCase() +
+          lastStatus.oldResult.slice(1)
+        }</p>
+      </div>
+    `;
+        } else {
+          // If no passStatus, check for cutoff in settings
+          if (data.settings && cutoff) {
+            cutoffPercentage = cutoff;
+          }
+          // Compare percentage with cutoff
+          if (parseFloat(percentage) >= cutoffPercentage) {
+            passOrFail = "Pass";
+          }
+        }
+
+        // Determine CSS class based on pass/fail status
+        const resultClass = passOrFail.toLowerCase();
+
+        // Function to handle SAQ responses with "Show More" button for long answers
+        const formatSaqResponse = (studentResponse, hasDigitalInk = false) => {
+          if (!studentResponse) {
+            if (hasDigitalInk) {
+              return "<div>This question has been answered with Digital Ink</div>";
+            }
+            return "<div>No answer provided</div>";
+          }
+
+          // Define the character limit for truncation
+          const charLimit = 150;
+
+          if (studentResponse.length <= charLimit) {
+            // If answer is short, just display it directly
+            return `
+        <div class="saq-response">
+          <strong>Student Answer:</strong>
+          <div>${studentResponse}</div>
+        </div>
+      `;
+          }
+      else {
+
+            // If answer is long, truncate it and add Show More/Show Less buttons
+            const truncatedAnswer =
+              studentResponse.substring(0, studentResponse.length)
+            return `
+        <div class="saq-response">
+          <strong>Student Answer:</strong>
+          <div class="truncated-answer limited-height">${truncatedAnswer}</div>
+          <div class="full-answer" style="display:none;">${studentResponse}</div>
+          <button class="show-more-btn">Show More</button>
+          <button class="show-less-btn" style="display:none;">Show Less</button>
+        </div>
+      `;
+          }
+        };
+
+        let choiceHtml = "";
+        questions?.forEach((questionData, index) => {
+          if (questionData?.question?.type === "MCQ") {
+            const mcqQuestion = {
+              number: index + 1,
+              text: questionData?.question?.question,
+              choices: questionData?.question?.choices,
+              correctChoices: questionData?.question?.correctChoices,
+              captures: questionData?.captures || [],
+               questionTotalMark:questionData?.question?.marks,
+                questionMark:
+                  questionData?.awardedMarks ?? questionData?.question?.marks,
+                  isAnsweredCorrect: questionData?.isAnsweredCorrect,
+              studentResponse: {
+                isCorrect: questionData?.question?.correctChoices?.includes(
+                  questionData?.studentResponse
+                ),
+                answer: questionData.studentResponse || "Not answered",
+                text:
+                  questionData?.question?.choices?.find(
+                    (c) => c.key === questionData?.studentResponse
+                  )?.label || "",
+              },
+            };
+            //  console.log(createQuestionsCard(mcqQuestion, "MCQ"))
+            choiceHtml += createQuestionsCard(mcqQuestion, "MCQ");
+          } else if (questionData?.question?.type === "SAQ") {
+            
+            const hasDigitalInk = questionData?.studentDigitalInk && questionData?.studentDigitalInk.length > 0;
+            const saqQuestion = {
+              number: index + 1,
+              text: questionData?.question?.question,
+              captures: questionData?.captures || [],
+               questionTotalMark:questionData?.question?.marks,
+                questionMark:
+                  questionData?.awardedMarks ?? questionData?.question?.marks,
+                  isAnsweredCorrect: questionData?.isAnsweredCorrect,
+              studentResponse: {
+
+                answer: "",
+                text: hasDigitalInk && !questionData?.studentResponse ? "" : (questionData?.studentResponse || "Not answered"),
+              },
+              digitalInk: questionData?.studentDigitalInk || [],
+            };
+            choiceHtml += createQuestionsCard(saqQuestion, "SAQ");
+          } else if (questionData?.question?.type === "FTB") {
+            const ftbQuestion = {
+              number: index + 1,
+              text: questionData?.question?.question,
+              blanks: questionData?.question?.blanks,
+              captures: questionData?.captures || [],
+               questionTotalMark:questionData?.question?.marks,
+                questionMark:
+                  questionData?.awardedMarks ?? questionData?.question?.marks,
+              studentBlanks: questionData?.studentBlanks || [],
+              isAnsweredCorrect: questionData?.isAnsweredCorrect,
+            };
+
+            choiceHtml += createQuestionsCard(ftbQuestion, "FTB");
+          } else if (questionData?.question?.type === "TF") {
+            const tfQuestion = {
+              number: index + 1,
+              text: questionData?.question?.question,
+              correctChoices: questionData?.question?.correctChoices,
+              captures: questionData?.captures || [],
+              choices: [
+                { key: "true", label: "True" },
+                { key: "false", label: "False" },
+              ],
+               questionTotalMark:questionData?.question?.marks,
+                questionMark:
+                  questionData?.awardedMarks ?? questionData?.question?.marks,
+                  isAnsweredCorrect: questionData?.isAnsweredCorrect,
+              studentResponse: {
+                isCorrect: questionData?.question?.correctChoices?.includes(
+                  questionData?.studentResponse
+                ),
+                answer: questionData.studentResponse || "Not answered",
+                text:
+                  questionData?.question?.choices?.find(
+                    (c) => c.key === questionData?.studentResponse
+                  )?.label || "",
+              },
+            };
+            choiceHtml += createQuestionsCard(tfQuestion, "TF");
+          } else if (questionData?.question?.type === "MTF") {
+            const mtfQuestion = {
+              number: index + 1,
+              text: questionData?.question?.question,
+              blanks: questionData?.question?.blanks,
+              captures: questionData?.captures || [],
+               questionTotalMark:questionData?.question?.marks,
+                questionMark:
+                  questionData?.awardedMarks ?? questionData?.question?.marks,
+              studentBlanks: questionData?.studentBlanks || [],
+              isAnsweredCorrect: questionData?.isAnsweredCorrect,
+            };
+
+            choiceHtml += createQuestionsCard(mtfQuestion, "MTF");
+          } else if (questionData?.question?.type === "OR") {
+            const orQuestion = {
+              number: index + 1,
+              text: questionData?.question?.question,
+              correctOrder: questionData?.question?.correctOrder,
+              captures: questionData?.captures || [],
+               questionTotalMark:questionData?.question?.marks,
+                questionMark:
+                  questionData?.awardedMarks ?? questionData?.question?.marks,
+              studentResponse: questionData?.studentResponse || [],
+              isAnsweredCorrect: questionData?.isAnsweredCorrect,
+            };
+            choiceHtml += createQuestionsCard(orQuestion, "OR");
+          } else if (questionData?.question?.type === "IR") {
+            const irQuestion = {
+              number: index + 1,
+              text: questionData?.question?.question,
+              captures: questionData?.captures || [],
+               questionTotalMark:questionData?.question?.marks,
+                questionMark:
+                  questionData?.awardedMarks ?? questionData?.question?.marks,
+                  isAnsweredCorrect: questionData?.isAnsweredCorrect,
+              studentResponse: questionData?.studentAttachments || [],
+              answer: questionData?.studentResponse,
+              digitalInk: questionData?.studentDigitalInk || [],
+            };
+            choiceHtml += createQuestionsCard(irQuestion, "IR");
+          } else if (questionData?.question?.type === "UD") {
+            const udQuestion = {
+              number: index + 1,
+              text: questionData?.question?.question,
+              captures: questionData?.captures || [],
+               questionTotalMark:questionData?.question?.marks,
+                questionMark:
+                  questionData?.awardedMarks ?? questionData?.question?.marks,
+                  isAnsweredCorrect: questionData?.isAnsweredCorrect,
+              studentResponse: questionData?.studentAttachments || [],
+              answer: questionData?.studentResponse,
+              digitalInk: questionData?.studentDigitalInk || [],
+            };
+            choiceHtml += createQuestionsCard(udQuestion, "UD");
+          } else if (questionData?.question?.type === "PRQ") {
+            const hasDigitalInk = questionData?.studentDigitalInk && questionData?.studentDigitalInk.length > 0;
+            const prqQuestion = {
+              number: index + 1,
+              text: questionData?.question?.question,
+              captures: questionData?.captures || [],
+               questionTotalMark:questionData?.question?.marks,
+                questionMark:
+                  questionData?.awardedMarks ?? questionData?.question?.marks,
+              isAnsweredCorrect: questionData?.isAnsweredCorrect,
+              answer: hasDigitalInk && !questionData?.studentResponse ? "" : (questionData?.studentResponse || "Not answered"),
+              digitalInk: questionData?.studentDigitalInk || [],
+            };
+            choiceHtml += createQuestionsCard(prqQuestion, "PRQ");
+          } else if (questionData?.question?.type === "TAB") {
+            const tabQuestion = {
+              number: index + 1,
+              text: questionData?.question?.question,
+              blanks: questionData?.question?.blanks,
+              table: questionData?.question?.table,
+              captures: questionData?.captures || [],
+               questionTotalMark:questionData?.question?.marks,
+                questionMark:
+                  questionData?.awardedMarks ?? questionData?.question?.marks,
+              studentResponse: questionData?.studentBlanks || [],
+              isAnsweredCorrect: questionData?.isAnsweredCorrect,
+            };
+            choiceHtml += createQuestionsCard(tabQuestion, "TAB");
+          }
+        });
+
+        function checkBlankCorrectness(studentBlank, questionBlanks) {
+          if (!questionBlanks || !studentBlank || !studentBlank.identity)
+            return false;
+
+          const matchingBlank = questionBlanks.find(
+            (b) => b.identity === studentBlank.identity
+          );
+          if (!matchingBlank || !matchingBlank.values) return false;
+
+          // Check if the student's answer matches any of the correct values (without case sensitivity)
+          return matchingBlank.values.some(
+            (v) =>
+              v.isCorrect &&
+              toLowerCase(v.value) === (toLowerCase(studentBlank.answer) || "")
+          );
+        }
+
+        //Show the correct or incorrect icon and class depending on answer correctness, selection, and question type.
+        function answerValidationHighlighter({
+          isCorrect,
+          questionType,
+          isSelected,
+          isAttend,
+        } = {}) {
+          let typeArray = ["MCQ", "TF"];
+          let optionClass = "";
+          let iconHtml = "";
+          if (isAttend) return {};
+          if (isCorrect) {
+            optionClass = "correct";
+            iconHtml = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>`;
+          } else if (isSelected && typeArray.includes(questionType)) {
+            optionClass = "selected";
+            iconHtml = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M16.192 6.344L11.949 10.586 7.707 6.344 6.293 7.758 10.535 12 6.293 16.242 7.707 17.656 11.949 13.414 16.192 17.656 17.606 16.242 13.364 12 17.606 7.758z"></path></svg>`;
+          } else if (!typeArray.includes(questionType)) {
+            iconHtml = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M16.192 6.344L11.949 10.586 7.707 6.344 6.293 7.758 10.535 12 6.293 16.242 7.707 17.656 11.949 13.414 16.192 17.656 17.606 16.242 13.364 12 17.606 7.758z"></path></svg>`;
+          }
+          return { optionClass, iconHtml };
+        }
+
+        function createQuestionsCard(question, questionType) {
+          const responseClass = question.studentResponse?.isCorrect
+            ? "correct"
+            : "incorrect";
+
+          // Create question number display like Q1, Q2, etc.
+          const questionNum = `Q${question.number}`;
+          // Handle different question types
+          let studentResponseHtml = "";
+          let ftbQuestion = question.text.replace(/<\/?p>/g, "");
+          let mtfQuestion;
+
+          if (questionType === "MCQ") {
+            // For MCQ, we'll render all the options
+            if (question.choices && question.choices.length > 0) {
+              studentResponseHtml = `
+          <div class="mcq-options">
+            ${question.choices
+              .map((choice) => {
+                const isSelected =
+                  choice.key === question.studentResponse.answer;
+                const isCorrect =
+                  question.correctChoices &&
+                  question.correctChoices.includes(choice.key);
+                let { optionClass = "", iconHtml = "" } =
+                  answerValidationHighlighter({
+                    isCorrect,
+                    questionType,
+                    isSelected,
+                  });
+
+                return `
+                <div class="mcq-option ${optionClass}">
+                <div>
+                  <span class="mcq-option-label">${
+                    choice.key
+                  }) ${choice.label.replace(/<\/?p>/g, "")}</span>
+                 ${iconHtml}
+                  </div>
+                 <div class="mx-4 ${
+                   isCorrect ? "text-success" : isSelected ? "text-danger" : ""
+                 }">
+                    ${
+                      isCorrect && !isSelected
+                        ? "Correct Answer"
+                        : isSelected && !isCorrect
+                        ? "Your Response"
+                        : isCorrect && isSelected
+                        ? "Your Response"
+                        : ""
+                    }
+                  </div>
+                </div>
+              `;
+              })
+              .join("")}
+          </div>
+        `;
+            } else {
+              // Fallback if no choices are available
+              studentResponseHtml = `<div class="student-response-text ${responseClass}">
+          ${
+            question.studentResponse.text ||
+            question.studentResponse.answer ||
+            "Not answered"
+          }
+        </div>`;
+            }
+          } else if (questionType === "TF") {
+            if (question.choices && question.choices.length > 0) {
+              studentResponseHtml = `
+          <div class="mcq-options">
+            ${question.choices
+              .map((choice) => {
+                const isSelected =
+                  choice.key === question.studentResponse.answer;
+                const isCorrect =
+                  question.correctChoices &&
+                  question.correctChoices.includes(choice.key);
+
+                let { optionClass = "", iconHtml = "" } =
+                  answerValidationHighlighter({
+                    isCorrect,
+                    questionType,
+                    isSelected,
+                  });
+
+                return `
+                <div class="mcq-option ${optionClass} d-flex justify-content-between">
+                <div>
+                  <span class="mcq-option-label"> ${choice.label.replace(
+                    /<\/?p>/g,
+                    ""
+                  )}</span>
+                  ${iconHtml}
+                  </div>
+              <div class="mx-4 ${
+                isCorrect ? "text-success" : isSelected ? "text-danger" : ""
+              }">
+                  ${
+                    isCorrect && !isSelected
+                      ? "Correct Answer"
+                      : isSelected && !isCorrect
+                      ? "Your Response"
+                      : isCorrect && isSelected
+                      ? "Your Response"
+                      : ""
+                  }
+                </div>
+
+                </div>
+              `;
+              })
+              .join("")}
+          </div>
+        `;
+            } else {
+              // Fallback if no choices are available
+              studentResponseHtml = `<div class="student-response-text ${responseClass}">
+          ${
+            question.studentResponse.text ||
+            question.studentResponse.answer ||
+            "Not answered"
+          }
+        </div>`;
+            }
+          } else if (questionType === "SAQ") {
+            // For SAQ questions
+            let isCorrect = question?.isAnsweredCorrect;
+            let { optionClass = "", iconHtml = "" } =
+              answerValidationHighlighter({ isCorrect, questionType });
+
+            const hasDigitalInk = question.digitalInk && question.digitalInk.length > 0;
+            const studentResponseText = question.studentResponse.text || question.studentResponse.answer;
+
+            studentResponseHtml = `<div class="student-response-saq ${optionClass}">
+        ${formatSaqResponse(studentResponseText, hasDigitalInk)}${iconHtml}
+      </div>`;
+          } else if (questionType === "FTB" || questionType === "FIBQ") {
+            // Sanitize base text
+            let sanitizedText = question.text.replace(/<\/?p>/g, "");
+            let ftbAnswer = sanitizedText;
+            // Replace each emoji placeholder (like 1️⃣, 2️⃣...) with correct answer
+            question.blanks.forEach((blank) => {
+              const emoji = parseInt(blank.identity) + "\uFE0F\u20E3";
+              const emojiWithUnderScore = parseInt(blank.identity) + "\uFE0F\u20E3" + "_";
+
+              const correctValues = blank.values
+                .filter((v) => v.isCorrect)
+                .map((v) => v.value);
+
+              const displayText =
+                correctValues.length > 0
+                  ? correctValues.join(" | ")
+                  : "Correct Answer";
+
+              // Important: Update the text after each replacement!
+           ftbAnswer = ftbAnswer
+                .replaceAll(emojiWithUnderScore,`<span class="ftb-bold">${displayText}</span>`)
+                .replaceAll(emoji,`<span class="ftb-bold">${displayText}</span>`); //remove the blanks emoji and replace the correct answer in the aswer key
+           sanitizedText = sanitizedText
+              .replaceAll(emojiWithUnderScore, `<span class="ftb-bold">________</span>`)
+              .replaceAll(emoji, `<span class="ftb-bold">________</span>`);
+            });
+
+            // This will be used in question display
+            ftbQuestion = sanitizedText;
+
+            // Replace with student response + correctness indicators
+            if (question.studentBlanks && question.studentBlanks.length > 0) {
+              let studentSanitizedText = question.text.replace(/<\/?p>/g, "");
+
+              question.studentBlanks.forEach((data) => {
+                const emoji = parseInt(data.identity) + "\uFE0F\u20E3";
+                const emojiWithUnderScore = parseInt(data.identity) + "\uFE0F\u20E3" + "_";
+                const answer = data.answer || "Not answered";
+                const isCorrect = checkBlankCorrectness(data, question.blanks);
+                let { optionClass = "", iconHtml = "" } =
+                  answerValidationHighlighter({ isCorrect });
+
+                const icon = isCorrect
+                  ? `<div class="ftb-correct-icon">${answer}${iconHtml}</div>`
+                  : `<div class="ftb-incorrect-icon">${answer}${iconHtml}</div>`;
+
+              studentSanitizedText = studentSanitizedText
+              .replaceAll(emojiWithUnderScore, icon)
+                .replaceAll(emoji, icon);
+              });
+
+              studentResponseHtml = `
+            <div class="ftb-container">
+              ${studentSanitizedText}
+            </div>
+            <div class="ftb-answer-container">
+              <div class="ftb-answer-heading">ANSWER KEY</div>
+              <div>${ftbAnswer}</div>
+            </div>
+          `;
+            } else {
+              const hasDigitalInk = question.digitalInk && question.digitalInk.length > 0;
+              const noResponseText = hasDigitalInk ? "This question has been answered with Digital Ink" : "No responses provided";
+
+              studentResponseHtml = `
+            <div class="ftb-container">
+              <div class="student-response-text">${noResponseText}</div>
+            </div>
+            <div class="ftb-answer-container">
+              <div class="ftb-answer-heading">ANSWER KEY</div>
+              <div>${ftbAnswer}</div>
+            </div>
+          `;
+            }
+          } else if (questionType === "MTF") {
+            // For MTF (Match the Following) questions
+            let matchingPairs = [];
+            const sanitizedText = question.text.replace(/<\/?p>/g, "");
+
+            // Extract the base question without the numbered placeholders
+            let baseQuestion = sanitizedText;
+
+            // Find the position of the first numbered emoji
+            let firstEmojiIndex = -1;
+            for (let i = 0; i < question.blanks.length; i++) {
+              const emoji =
+                parseInt(question.blanks[i].identity) + "\uFE0F\u20E3";
+              const emojiIndex = sanitizedText.indexOf(emoji);
+
+              if (
+                emojiIndex !== -1 &&
+                (firstEmojiIndex === -1 || emojiIndex < firstEmojiIndex)
+              ) {
+                firstEmojiIndex = emojiIndex;
+              }
+            }
+
+            // Extract the text before the first emoji as the question prompt
+            if (firstEmojiIndex !== -1) {
+              baseQuestion = sanitizedText.substring(0, firstEmojiIndex).trim();
+            }
+
+            // If no clear base question is found, use a default prompt
+            if (!baseQuestion) {
+              baseQuestion = "Match the following items:";
+            }
+
+            mtfQuestion = baseQuestion;
+            // Create the matching cards layout
+            let matchingCardsHtml = `
+        <div class="mtf-container">
+      `;
+
+            // Process each matching item
+            question.blanks.forEach((blank) => {
+              const emoji = parseInt(blank.identity) + "\uFE0F\u20E3";
+
+              // Enhanced text extraction for MTF items
+              // Find the position of the current emoji in the question text
+              const emojiIndex = sanitizedText.indexOf(emoji);
+              let itemText = "";
+
+              if (emojiIndex !== -1) {
+                // Extract text after this emoji, until the next emoji or end of string
+                const startPos = emojiIndex + emoji.length;
+                let endPos = sanitizedText.length;
+
+                // Look for the next emoji to find where this item's text ends
+                for (let i = 0; i < question.blanks.length; i++) {
+                  const nextEmoji =
+                    parseInt(question.blanks[i].identity) + "\uFE0F\u20E3";
+                  const nextEmojiIndex = sanitizedText.indexOf(
+                    nextEmoji,
+                    startPos
+                  );
+
+                  if (nextEmojiIndex !== -1 && nextEmojiIndex < endPos) {
+                    endPos = nextEmojiIndex;
+                  }
+                }
+
+                itemText = sanitizedText.substring(startPos, endPos).trim();
+              }
+
+              // Find student's response for this item
+              const studentBlank = question.studentBlanks.find(
+                (sb) => sb.identity === blank.identity
+              );
+              const studentAnswer = studentBlank
+                ? studentBlank.answer
+                : "Not answered";
+
+              // Find correct answer
+              const correctAnswer =
+                blank.values.find((v) => v.isCorrect)?.value || "";
+
+              // Determine if student's answer is correct
+              const isCorrect =
+                studentAnswer.toLowerCase() === correctAnswer.toLowerCase();
+              const responseClass = isCorrect ? "correct" : "incorrect";
+              let { optionClass = "", iconHtml = "" } =
+                answerValidationHighlighter({ isCorrect });
+              // Create card for this matching pair
+              matchingCardsHtml += `
+          <div class="mtf-card">
+            <div class="mtf-item">
+              <div class="mtf-item-number">${blank.identity}</div>
+              <div class="mtf-item-text">${itemText}</div>
+            </div>
+            <div class="mtf-student-answer ${
+              isCorrect ? "crt-answer" : "wrg-answer"
+            } ">
+              <div class="mtf-label">Student Answer</div>
+              <div class="mtf-value ${optionClass}">${studentAnswer}
+                 ${iconHtml}
+              </div>
+            </div>
+            <div class="mtf-correct-answer">
+              <div class="mtf-label">Correct Answer</div>
+              <div class="mtf-value">${correctAnswer}</div>
+            </div>
+          </div>
+        `;
+            });
+
+            matchingCardsHtml += `
+        </div>
+      `;
+
+            studentResponseHtml = matchingCardsHtml;
+          } else if (questionType === "OR") {
+            let studentOrder = "";
+            let correctOrder = "";
+
+            question.correctOrder.forEach((data, i) => {
+              const check =
+                toLowerCase(question.studentResponse[i]) === toLowerCase(data);
+              const checkCorrectAnswer = check
+                ? `<svg class="svg-correct" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"></path></svg>`
+                : `<svg class="svg-inCorrect" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.192 6.344L11.949 10.586 7.707 6.344 6.293 7.758 10.535 12 6.293 16.242 7.707 17.656 11.949 13.414 16.192 17.656 17.606 16.242 13.364 12 17.606 7.758z"></path></svg>`;
+              const answerClass = check
+                ? "or-option correct "
+                : "response-option student-response ";
+
+              correctOrder += `<div class="or-data-table">${data}</div>`;
+              studentOrder += `<div class="or-data-table ${answerClass}">${
+                question?.studentResponse?.[i] != null &&
+                question.studentResponse[i] !== ""
+                  ? ` ${question.studentResponse[i]} <div>${checkCorrectAnswer}</div>`
+                  : "Not Answered"
+              }
+         </div>`;
+            });
+
+            studentResponseHtml += `
+    <div class="or-headings">
+  <div><strong>Correct Order:</strong></div>
+  <div class="student-response"><strong>Student Response:</strong></div>
+</div>
+    <div class="or-container">
+        <div class="or-response-container">
+        
+            ${correctOrder}
+        </div>
+          <div class="or-response-container ">
+            ${studentOrder}
+        </div>
+    </div>`;
+          } else if (questionType === "IR" || questionType === "UD") {
+            let fileHtml = "";
+
+            question.studentResponse.forEach((file, i) => {
+              const fileExt = file.url.split(".").pop().toLowerCase();
+
+              if (fileExt === "pdf") {
+                fileHtml += `
+        <div id="pdf-${question.number}-${i}" class="pdf-box">
+          <div class="loading">Loading PDF...</div>
+        </div>
+      `;
+              } else {
+                fileHtml += `
+        <img 
+          id="image-${question.number}-${i}" 
+          data-original-src="${file.url}" 
+          class="ir-image" 
+          alt="${file.name || `Image ${i + 1}`}" 
+        />
+      `;
+              }
+            });
+
+            studentResponseHtml = `
+              <div>${question.answer || ""}</div>
+              <div class="file-container file-container-${question.number}">
+                <div class="image-wrapper">${fileHtml}</div>
+                <div class="show-more-btn-wrapper">
+                  <button class="show-more-loader-btn" data-question="${
+                    question.number
+                  }">Show more</button>
+                </div>
+              </div>
+            `;
+
+            // ✅ Store question and load state together
+            questionState[question.number] = {
+              question: question,
+              nextIndex: 1,
+            };
+
+            // ✅ Load first file
+            setTimeout(() => {
+              const questionNum = question.number;
+              const $container = $(`.file-container-${questionNum}`);
+              const firstFile = question.studentResponse[0];
+              if (!firstFile) return;
+
+              const ext = firstFile.url.split(".").pop().toLowerCase();
+
+              if (ext === "pdf") {
+                const $pdfBox = $container.find(`#pdf-${questionNum}-0`);
+                getSignedUrl(firstFile.url, null, {
+                  appendPDF: (signedUrl) => {
+                    $pdfBox.find(".loading").remove();
+                    $pdfBox.append(
+                      `<embed src="${signedUrl}" type="application/pdf"/>`
+                    );
+                    $pdfBox.show();
+                  },
+                  onError: () => {
+                    $pdfBox.find(".loading").remove();
+                    $pdfBox.append(
+                      `<div class="error">Failed to load PDF</div>`
+                    );
+                  },
+                });
+              } else {
+                const $img = $container.find(`#image-${questionNum}-0`);
+                if ($img.length) {
+                  getSignedUrl(firstFile.url, $img, $container);
+                }
+              }
+            }, 0);
+          } else if (questionType === "PRQ") {
+            let isCorrect = question?.isAnsweredCorrect;
+
+            let { optionClass = "", iconHtml = "" } =
+              answerValidationHighlighter({ isCorrect, questionType });
+
+            const hasDigitalInk = question.digitalInk && question.digitalInk.length > 0;
+            let displayCode = question?.answer || "";
+
+            if (!displayCode && hasDigitalInk) {
+              displayCode = "This question has been answered with Digital Ink";
+            } else if (!displayCode) {
+              displayCode = "Not answered";
+            }
+
+            let escapedCode = escapeHtml(displayCode);
+            studentResponseHtml = `<div class="student-response-prq ${optionClass}"> <pre>${escapedCode}</pre>${iconHtml}</div>`;
+          } else if (questionType === "TAB") {
+            let numRows = question?.table[0]?.rows;
+            let numColumns = question?.table[0]?.columns;
+            let tableHtml =
+              '<div class="tab-accountence-table-container"><table class="tab-accountence-table">';
+            let tabAnswerHtml = '<table class="tab-accountence-table">';
+
+            for (let r = 1; r <= numRows; r++) {
+              let count = (r - 1) * numColumns;
+              tableHtml += "<tr>";
+              tabAnswerHtml += "<tr>";
+
+              for (let c = 0; c < numColumns; c++) {
+                const cellId = String.fromCharCode(65 + c) + r;
+                const result = question?.blanks?.find(
+                  (item) => item.identity === cellId
+                );
+                const value = result?.values?.[0]?.value ?? "";
+                const studentResponse = question?.studentResponse?.find(
+                  (item) => item.identity === cellId
+                );
+                const studentResponseValue = studentResponse?.answer ?? "";
+                const cellData = question?.table[0]?.cells[count + c].value;
+
+                if (cellData === "[blank]") {
+                  const isCorrect =
+                    toLowerCase(studentResponseValue) === toLowerCase(value);
+                  const cellClass = isCorrect
+                    ? "prevtab-correct-answer"
+                    : "prevtab-wrong-answer";
+                  tableHtml += `<td class="editable-cell ${cellClass}">${
+                    !studentResponseValue
+                      ? `<svg class="svg-inCorrect" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.192 6.344L11.949 10.586 7.707 6.344 6.293 7.758 10.535 12 6.293 16.242 7.707 17.656 11.949 13.414 16.192 17.656 17.606 16.242 13.364 12 17.606 7.758z"></path></svg>`
+                      : studentResponseValue
+                  }</td>`;
+                  tabAnswerHtml += `<td class="editable-cell">${value}</td>`;
+                } else {
+                  tableHtml += `<td class="editable-cell">&nbsp;${cellData}</td>`;
+                  tabAnswerHtml += `<td class="editable-cell">&nbsp;${cellData}</td>`;
+                }
+              }
+
+              tableHtml += "</tr>";
+              tabAnswerHtml += "</tr>";
+            }
+
+            tableHtml += "</table></div>";
+            tabAnswerHtml += "</table>";
+
+            studentResponseHtml += `
+              <div class="ftb-container">
+                ${tableHtml}
+              </div>
+              <div class="ftb-answer-container">
+                <div class="ftb-answer-heading">ANSWER KEY</div>
+                <div>
+                  ${tabAnswerHtml}
+                </div>
+              </div>`;
+          }
+
+          // Sanitize question text
+
+          let questionText;
+          if (questionType === "FTB") {
+            questionText = ftbQuestion;
+          } else if (questionType === "MTF") {
+            questionText = mtfQuestion;
+          } else {
+            questionText = question.text.replace(/<\/?p>/g, "");
+          }
+
+          let statusHtml = "";
+
+          const hasDigitalInk = question.digitalInk && question.digitalInk.length > 0;
+          const notAttempted =
+            (question.answer === "Not answered" ||
+            question.studentResponse?.answer === "Not answered" ||
+            question.studentResponse?.text === "Not answered" ||
+            question?.studentBlanks?.length === 0 ||
+            question.studentResponse?.length === 0) && !hasDigitalInk;
+
+          if (notAttempted) {
+            statusHtml = `<span class="unattempted-status"><i class="fas fa-minus-circle"></i> Not Attempted</span>`;
+          } 
+          // else if (
+          //   question.isAnsweredCorrect 
+          // ) {
+          //   statusHtml = `<span class="correct-status"><i class="fas fa-check-circle"></i> Correct</span>`;
+          // } else {
+          //   statusHtml = `<span class="incorrect-status"><i class="fas fa-times-circle"></i> Incorrect</span>`;
+          // }
+
+          // Handle captures for all question types
+          let capturesHtml = "";
+          if (question.captures && question.captures.length > 0) {
+            capturesHtml = `
+            <div class="saq-captures-section">
+              <button class="saq-view-captures-btn" data-question-number="${
+                question.number
+              }" data-captures='${JSON.stringify(question.captures)}'>
+                <i class="fas fa-images"></i>
+                <span>View Captures</span>
+              </button>
+            </div>
+          `;
+          }
+
+          // Handle digital ink for all question types
+          let digitalInkHtml = "";
+          if (question.digitalInk && question.digitalInk.length > 0) {
+            digitalInkHtml = `
+            <div class="digital-ink-section">
+              <button class="btn-view-digital-ink" data-question-number="${
+                question.number
+              }" data-digital-ink='${JSON.stringify(question.digitalInk)}'>
+                <i class="fas fa-eye"></i> View Digital Ink
+              </button>
+            </div>
+          `;
+          }
+
+          return `
+            <div class="mcq-card" data-id="${questionType}">
+              <div class="fixed-question">
+                <div class="question-number">${questionNum}</div>
+                <div class="question-text">${questionText}</div>
+                <div class="question-status-container"><div>${!notAttempted? `<span class="question-mark">Mark : <span class="${
+          question?.isAnsweredCorrect ? "mark-correct" : "mark-incorrect"
+        }">${question?.isAnsweredCorrect ? question?.questionMark : 0}/${
+          question?.questionTotalMark
+        }</span></span>`:""}</div>${statusHtml}</div>
+              </div>
+              
+              <div class="student-response-section">
+                <div class="student-response-label">ANSWER</div>
+                <div class="student-response-content">
+                  ${studentResponseHtml}
+                </div>
+                ${capturesHtml}
+                ${digitalInkHtml}
+              </div>
+            </div>
+          `;
+        }
+
+        return `
+        <div class="report-container" id="report-content">
+            <div class="report-header">
+                <div class="report-header-title">
+                    <h2 class="exam_report">Exam Report</h2>
+                    <h3><span class="exam_name">Exam Name </span>: ${examName}</h3>
+                    ${
+                      exam.reportGeneratedAt
+                        ? `<p class="report-generation-time">Generated on: ${new Date(
+                            exam.reportGeneratedAt
+                          ).toLocaleString()}</p>`
+                        : ""
+                    }
+                </div>
+                <div class="export-buttons-container">
+                    <button id="export-pdf" class="export-btn export-btn-english print_save_pdf">
+                        Print/Save PDF
+                    </button>
+
+                </div>
+                <div class="score-summary">
+                    <div class="score-card">
+                        <h3>${totalScore}/${totalMarks}</h3>
+                        <p class="total_score">Total Score</p>
+                    </div>
+                    <div class="score-card">
+                        <h3>${overallPercentage}%</h3>
+                        <p class="percentage">Overall Percentage</p>
+                        
+                    </div>
+                    <div class="score-card">
+                        <h3>${attemptedPercentage}%</h3>
+                        <p class="success-rate">Success Rate (Attempted Questions)</p>
+                    </div>
+                    <div class="score-card">
+                        <h3>${exam.attended}/${data.questionsCount}</h3>
+                        <p class="questions_attempted">Questions Attempted</p>
+                    </div>
+                    <div class="score-card result-card">
+                        <h3 class="${resultClass}">${passOrFail}</h3>
+                        <p><span class="result">Result</span> ${
+                          exam.passStatus && exam.passStatus.length > 0
+                            ? '<span class="modified">Modified</span>)'
+                            : `<span class="cutoff">Cutoff</span>: ${cutoffPercentage}%`
+                        }</p>
+                    </div>
+                </div>
+                ${statusChangeInfo}
+            </div>
+
+            <div class="detailed-stats">
+                <h3 class="section-title performance_summary">Performance Summary</h3>
+                <div class="stat-item">
+                    <span class="stat-label correct_answers">Correct Answers:</span>
+                    <span class="stat-value correct">${exam.correct}</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label incorrect_answers">Incorrect Answers:</span>
+                    <span class="stat-value incorrect">${exam.incorrect}</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label unattempted_answers">Unattempted:</span>
+                    <span class="stat-value">${
+                      data.questionsCount - exam.attended
+                    }</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Overall Percentage:</span>
+                    <span class="stat-value">${overallPercentage}%</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Success Rate:</span>
+                    <span class="stat-value success">${attemptedPercentage}% of attempted questions</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label result_label">Result:</span>
+                    <span class="stat-value ${resultClass}">${passOrFail} ${
+          exam.passStatus && exam.passStatus.length > 0
+            ? "(Modified)"
+            : `(Cutoff: ${cutoffPercentage}%)`
+        }</span>
+                </div>
+                ${
+                  exam?.name && (exam?.name?.first || exam?.name?.last)
+                    ? `
+                <div class="stat-item">
+                    <span class="stat-label student_name">Student Name:</span>
+                    <span class="stat-value">${exam?.name?.first || ""} ${
+                        exam?.name?.last || ""
+                      }</span>
+                </div>
+                `
+                    : ""
+                }
+            </div>
+            ${
+              exam?.enabledFeatures?.includes("canShowDetailedReport")
+                ? `
+                <h3 class="section-title question_wise_breakdown">Question-wise Breakdown</h3>
+                <div class="questions-grid">
+                 ${choiceHtml}
+                </div>`
+                : ""
+            }
+        </div>
+    `;
+      }
+      // Add this function to get email from URL params
+      function getEmailFromParams() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const email = urlParams.get("email");
+        if (!email) {
+          console.error("Email parameter missing in URL");
+          return "";
+        }
+        return email;
+      }
+
+      function getStatusHTML(status) {
+        let statusText = "";
+        let statusClass = "";
+        let icon = "";
+
+        switch (status) {
+          case "ON_GOING":
+            statusText = "Active - Exam in Progress";
+            statusClass = "status-active on_going_content_status";
+            icon = "fa-clock";
+            break;
+          case "ENDED":
+            statusText = "Completed - Exam has ended";
+            statusClass = "status-completed ended_content_status";
+            icon = "fa-check-circle";
+            break;
+          case "NOT_STARTED":
+            statusText = "Scheduled - Exam has not started yet";
+            statusClass = "status-scheduled not_started_status";
+            icon = "fa-calendar";
+            break;
+          default:
+            statusText = status;
+            statusClass = "";
+            icon = "fa-info-circle";
+        }
+
+        return `<span class="status-indicator ${statusClass}"><i class="fas ${icon}"></i> ${statusText}</span>`;
+      }
+
+      function getStudentStatusHTML(studentStatus, registrationStatus) {
+        let statusText = "";
+        let statusClass = "";
+        let icon = "";
+
+        if (registrationStatus === "APPROVED") {
+          if (studentStatus === "Exam Completed") {
+            statusText = "Completed - You have finished this exam";
+            statusClass = "status-completed exam_completed_content";
+            icon = "fa-check-circle";
+          } else if (studentStatus === "ON_GOING") {
+            statusText = "In Progress - You are taking this exam";
+            statusClass = "status-active on_going_content";
+            icon = "fa-pen";
+          } else if (studentStatus === "NOT_STARTED") {
+            statusText = "Ready - You can start this exam when it begins";
+            statusClass = "status-ready not_started_content";
+            icon = "fa-thumbs-up";
+          }
+        } else if (registrationStatus === "REJECTED") {
+          statusText = "Registration Rejected - Contact administrator";
+          statusClass = "status-rejected rejected_content";
+          icon = "fa-times-circle";
+        } else if (registrationStatus === "REGISTERED") {
+          statusText = "Waiting for Approval - Your registration is pending";
+          statusClass = "status-pending registered_content";
+          icon = "fa-hourglass-half";
+        } else {
+          statusText = "Not Registered - Registration required";
+          statusClass = "status-not-registered not_registered_content";
+          icon = "fa-exclamation-triangle";
+        }
+
+        return `<span class="status-indicator ${statusClass}"><i class="fas ${icon}"></i> ${statusText}</span>`;
+      }
+
+      function getTimezoneDisplay(timezoneIdentifier) {
+        const timezone = standardTimezones.find(
+          (tz) => tz.identifier === timezoneIdentifier
+        );
+        if (timezone) {
+          // Use currentLang variable which is updated by the language toggle
+          const lang = localStorage.getItem("lang") || "en";
+          const displayName =
+            lang === "ar" ? timezone.arabic_name : timezone.name;
+          return `${timezone.offset} ${displayName}`;
+        }
+        return timezoneIdentifier || "Unknown timezone";
+      }
+
+      // Add event listener for language toggle to refresh timezone displays
+      $(document).on("click", "#lang-toggle", function () {
+        $(".email_form_input").prop(
+          "placeholder",
+          $("#lang-toggle").prop("checked")
+            ? "معرف البريد الإلكتروني"
+            : "Email ID"
+        );
+        $("#login-modal").prop("title", "Login Exam / امتحان تسجيل الدخول");
+        setTimeout(function () {
+          renderLanguage();
+          if (examsData.length > 0) {
+            renderExamCards(examsData);
+          }
+        }, 100);
+      });
+      renderLanguage();
+
+      window.onload = function () {
+        checkBrowserCompatibility();
+      };
+
+      function checkBrowserCompatibility() {
+        const os = getOSInfo();
+        const browser = getBrowserInfo();
+        const browserName = browser.split(" ")[0];
+
+        // Define supported browsers by OS
+        const supportedBrowsers = {
+          "Windows 11": ["Chrome", "Edge", "Brave"],
+          "Windows 10": ["Chrome", "Edge", "Brave"],
+          "Windows 8": ["Chrome", "Edge", "Brave"],
+          "Windows 7": ["Chrome", "Edge", "Brave"],
+          iPad: ["Chrome", "Edge", "Brave", "Safari"],
+          iPhone: ["Chrome", "Edge", "Brave", "Safari"],
+          Android: ["Chrome", "Edge", "Brave", "Samsung"],
+          // "macOS": ["Chrome", "Edge", "Safari"],
+          macOS: ["Chrome", "Edge"],
+          Linux: ["Chrome", "Edge"],
+        };
+
+        let isSupported = false;
+
+        // Check if current OS has supported browsers defined
+        if (supportedBrowsers[os]) {
+          isSupported = supportedBrowsers[os].includes(browserName);
+        }
+
+        if (!isSupported) {
+          setTimeout(function () {
+            // Redirect to browser compatibility page
+            window.location.href = "browser-compatibility.html";
+          }, 100);
+          return false;
+        }
+
+        return true;
+      }
+
+      // Add this function after the renderReportData function
+      function setupReportExport() {
+        // Add click handlers for PDF export buttons
+        $("#export-pdf").on("click", function () {
+          window.print();
+        });
+
+        // Event handler for SAQ captures button
+        $(document).on("click", ".saq-view-captures-btn", function () {
+          const capturesData = $(this).data("captures");
+
+          if (capturesData && capturesData.length > 0) {
+            // Convert captures data to the format expected by image slider
+            const captures = capturesData.map((capture) => ({
+              url: capture.url,
+            }));
+
+            // Use centralized image slider with signed URLs
+            openImageSliderWithSignedUrls(captures, 0);
+          }
+        });
+      }
+    </script>
+
+    <!-- Search functionality script -->
+    <script>
+      $(document).ready(function () {
+        // Initialize original exams data for filtering
+        let originalExamsData = [];
+
+        // Update search placeholder based on language
+        function updateSearchPlaceholder() {
+          $("#exam-search").attr(
+            "placeholder",
+            $("#lang-toggle").prop("checked")
+              ? change.ar.search_placeholder
+              : change.en.search_placeholder
+          );
+        }
+
+        // Update placeholder on language toggle
+        $("#lang-toggle").on("change", function () {
+          setTimeout(updateSearchPlaceholder, 200);
+        });
+
+        // Initial placeholder update
+        setTimeout(updateSearchPlaceholder, 500);
+
+        // Search functionality
+        $("#exam-search").on("input", function () {
+          const searchTerm = $(this).val().toLowerCase().trim();
+
+          // Show/hide clear button
+          if (searchTerm.length > 0) {
+            $("#clear-search").show();
+          } else {
+            $("#clear-search").hide();
+          }
+
+          // Filter exams
+          filterExams(searchTerm);
+        });
+
+        // Clear search
+        $("#clear-search").on("click", function () {
+          $("#exam-search").val("");
+          $(this).hide();
+          filterExams("");
+        });
+
+        $(document).on("click", ".btn-view-digital-ink", function () {
+
+          const digitalInk = $(this).data("digital-ink");
+          const questionNumber = $(this).data("question-number");
+          showDigitalInkModal(questionNumber,digitalInk);
+
+        });
+        
+        
+        // Filter exams function
+        function filterExams(searchTerm) {
+          if (examsData.length === 0) return;
+
+          if (originalExamsData.length === 0) {
+            originalExamsData = [...examsData];
+          }
+
+          if (searchTerm === "") {
+            // Reset to original data
+            renderExamCards(originalExamsData);
+            return;
+          }
+
+          // Filter exams by name, dates, and timezone
+          const filteredExams = originalExamsData.filter((exam) => {
+            const examName = exam.name.toLowerCase();
+            const startDate = formatDateTime(exam.session.start).toLowerCase();
+            const endDate = formatDateTime(exam.session.end).toLowerCase();
+
+            // Get timezone
+            const timeZone = exam?.settings?.timeZone || "";
+            const timezone = standardTimezones.find(
+              (tz) => tz.identifier === timeZone
+            );
+            const timezoneText = timezone
+              ? `${timezone.offset} ${timezone.name} ${
+                  timezone.arabic_name || ""
+                }`.toLowerCase()
+              : "";
+
+            return (
+              examName.includes(searchTerm) ||
+              startDate.includes(searchTerm) ||
+              endDate.includes(searchTerm) ||
+              timezoneText.includes(searchTerm)
+            );
+          });
+
+          // Render filtered exams
+          renderExamCards(filteredExams);
+
+          // Show no results message if needed
+          if (filteredExams.length === 0) {
+            $("#exam-cards-container").append(`
+            <div class="no-results-message">
+              <div class="error-badge oops">OOPS !</div>
+              <div class="search-illustration"></div>
+              <h3 class="no_results_found">No exams found matching</h3>
+              <p><span class="search-term">"${searchTerm}"</span></p>
+              <p class="try_different_search">Try different search terms or clear the search</p>
+              <div class="no-results-action">
+                <button class="clear-search-btn clear_search" id="no-results-clear">Clear Search</button>
+              </div>
+            </div>
+          `);
+
+            // Apply translations to the no results message
+            $(".no_results_found").text(
+              isEnglish
+                ? change.en.no_results_found
+                : change.ar.no_results_found
+            );
+            $(".try_different_search").text(
+              isEnglish
+                ? change.en.try_different_search
+                : change.ar.try_different_search
+            );
+            $(".clear_search").text(
+              isEnglish ? change.en.clear_search : change.ar.clear_search
+            );
+            $(".oops").text(isEnglish ? change.en.oops : change.ar.oops);
+
+            // Add event listener to clear button
+            $("#no-results-clear").on("click", function () {
+              $("#exam-search").val("");
+              $("#clear-search").hide();
+              filterExams("");
+            });
+          }
+        }
+
+        // Function to show digital ink modal
+        function showDigitalInkModal(questionNumber, digitalInkData) {
+          
+          // Create modal HTML if it doesn't exist
+          if (!$("#digital-ink-modal").length) {
+            const modalHtml = `
+              <div id="digital-ink-modal" class="custom-modal">
+                <div class="modal-overlay"></div>
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h3 class="modal-title">Digital Ink - Question ${questionNumber}</h3>
+                    <button class="modal-close" type="button">
+                      <i class="fas fa-times"></i>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <div id="digital-ink-container">
+                      <div id="sketch-widget-container"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            `;
+            $("body").append(modalHtml);
+          } else {
+            // Update the title for the current question
+            $("#digital-ink-modal .modal-title").text(`Digital Ink - Question ${questionNumber}`);
+          }
+
+          // Clear previous content
+          $("#sketch-widget-container").empty();
+
+          // Show the modal
+          $("#digital-ink-modal").addClass("active");
+          $("body").addClass("modal-open");
+
+          // Initialize SketchWidget when modal opens
+          setTimeout(() => {
+            initializeSketchWidget(digitalInkData);
+          }, 100);
+
+          // Add event listeners for closing modal
+          $("#digital-ink-modal .modal-close, #digital-ink-modal .modal-overlay").off("click").on("click", function() {
+            closeDigitalInkModal();
+          });
+
+          // Close modal on Escape key
+          $(document).off("keydown.modal").on("keydown.modal", function(e) {
+            if (e.key === "Escape") {
+              closeDigitalInkModal();
+            }
+          });
+        }
+
+        // Function to close digital ink modal
+        function closeDigitalInkModal() {
+          $("#digital-ink-modal").removeClass("active");
+          $("body").removeClass("modal-open");
+          $("#sketch-widget-container").empty();
+          $(document).off("keydown.modal");
+        }
+      });
+    </script>
+  </body>
+</html>

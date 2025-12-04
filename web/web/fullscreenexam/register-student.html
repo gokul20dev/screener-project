@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Student</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="../common/commonLibaries/toastr.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../common/css/loader.css" />
+    <link rel="stylesheet" href="../common/css/common-base.css" />
+    <link rel="stylesheet" href="register-student.css">
+</head>
+
+<body>
+    <div class="main-content">
+
+        <div class="bread-crumb-container-cls" id="bread-crumb-container"></div>
+
+        <div class="content-area">
+            <div class="form-container">
+                <!-- <h2 class="page-title">Register Student</h2> -->
+                <form id="registerStudentForm">
+                    <div class="mb-4">
+                        <label for="studentEmail" class="form-label">Student Email <span>*</span></label>
+                        <input type="email" class="form-control" id="studentEmail" name="email" required
+                            placeholder="Enter student email" autocomplete="off" />
+                    </div>
+                    <div class="alert alert-danger d-none" id="errorMessage" role="alert"></div>
+                    <div class="d-flex justify-content-end gap-2 mt-4">
+                        <button type="submit" class="btn btn-primary d-flex align-items-center">
+                            Register
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../common/commonLibaries/toastr.min.js"></script>
+    <script src="../common/js/loader.js"></script>
+    <script src="../common/js/variable.js"></script>
+    <script src="../common/js/common.js"></script>
+    <script src="../common/js/commonApi.js"></script>
+    <script src="../common/js/label-management.js"></script>
+    <!-- <script src="../common/js/auth.js"></script> -->
+    <script src="register-student.js"></script>
+</body>
+
+</html> 

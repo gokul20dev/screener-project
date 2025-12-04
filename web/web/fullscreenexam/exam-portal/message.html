@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Status Page - صفحة الحالة</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      :root {
+        --primary-color: #4361ee;
+        --success-color: #2ecc71;
+        --warning-color: #f1c40f;
+        --danger-color: #e74c3c;
+        --light-bg: #f8f9fa;
+        --border-radius: 16px;
+        --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        --icon-size: 80px;
+        --transition-speed: 0.3s;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        margin: 0;
+        padding: 20px;
+        min-height: 100vh;
+        background: linear-gradient(135deg, #f6f9fc 0%, #e9ecef 100%);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        direction: ltr;
+        transition: all var(--transition-speed) ease;
+      }
+
+      body[dir="rtl"] {
+        font-family: "Noto Kufi Arabic", sans-serif;
+        direction: rtl;
+      }
+
+      .container {
+        max-width: 900px;
+        width: 100%;
+        margin: 0 auto;
+        background: rgba(255, 255, 255, 0.98);
+        box-shadow: var(--box-shadow);
+        padding: 40px;
+        border-radius: var(--border-radius);
+        position: relative;
+        overflow: hidden;
+        animation: slideIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      @keyframes slideIn {
+        0% {
+          transform: translateY(30px);
+          opacity: 0;
+        }
+        100% {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      .container::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(
+          90deg,
+          var(--primary-color),
+          var(--success-color)
+        );
+      }
+
+      .container h1 {
+        margin-bottom: 30px;
+        font-size: 32px;
+        font-weight: 600;
+        text-align: center;
+        line-height: 1.4;
+        color: #2d3436;
+        letter-spacing: -0.5px;
+      }
+
+      .status-icon {
+        width: var(--icon-size);
+        height: var(--icon-size);
+        margin: 0 auto 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        animation: iconAppear 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      @keyframes iconAppear {
+        0% {
+          transform: scale(0.5);
+          opacity: 0;
+        }
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+
+      .status-icon i {
+        font-size: calc(var(--icon-size) * 0.6);
+      }
+
+      .status-icon::before {
+        display: none;
+      }
+
+      .completed .status-icon i {
+        color: #2ecc71;
+      }
+
+      .ended .status-icon i {
+        color: #f1c40f;
+      }
+
+      .already-completed .status-icon i {
+        color: #3498db;
+      }
+
+      .terminated .status-icon i {
+        color: #e74c3c;
+      }
+
+      .permission-denied .status-icon i {
+        color: #9b59b6;
+      }
+
+      .completed .status-icon,
+      .ended .status-icon,
+      .already-completed .status-icon,
+      .terminated .status-icon,
+      .permission-denied .status-icon {
+        background: none;
+        box-shadow: none;
+      }
+
+      .message-box {
+        background: var(--light-bg);
+        padding: 30px;
+        border-radius: var(--border-radius);
+        margin: 20px 0;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        transition: transform var(--transition-speed) ease;
+      }
+
+      .message-box:hover {
+        transform: translateY(-2px);
+      }
+
+      .message-box p {
+        color: #2d3436;
+        margin: 15px 0;
+        line-height: 1.8;
+        font-size: 16px;
+      }
+
+      strong {
+        color: var(--primary-color);
+        font-weight: 600;
+      }
+
+      ul {
+        list-style: none;
+        padding-left: 0;
+        margin: 20px 0;
+      }
+
+      ul li {
+        position: relative;
+        padding-left: 35px;
+        margin: 15px 0;
+        line-height: 1.6;
+        color: #2d3436;
+      }
+
+      ul li::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 24px;
+        height: 24px;
+        background: var(--primary-color);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-family: "Font Awesome 6 Free";
+        font-weight: 900;
+        font-size: 12px;
+        box-shadow: 0 4px 10px rgba(67, 97, 238, 0.2);
+      }
+
+      .completed ul li::before {
+        content: "\f00c";
+        background: var(--success-color);
+      }
+
+      .terminated ul li::before {
+        content: "\f071";
+        background: var(--danger-color);
+      }
+
+      .permission-denied ul li::before {
+        content: "\f023";
+        background: var(--primary-color);
+      }
+
+      .language-toggle {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: white;
+        border-radius: 30px;
+        padding: 5px;
+        box-shadow: var(--box-shadow);
+        display: flex;
+        gap: 5px;
+        z-index: 1000;
+      }
+
+      .language-btn {
+        padding: 8px 16px;
+        border: none;
+        background: none;
+        border-radius: 25px;
+        cursor: pointer;
+        font-weight: 500;
+        font-size: 14px;
+        color: #666;
+        transition: all var(--transition-speed) ease;
+      }
+
+      .language-btn.active {
+        background: var(--primary-color);
+        color: white;
+        box-shadow: 0 4px 10px rgba(67, 97, 238, 0.2);
+      }
+
+      .language-btn:hover:not(.active) {
+        background: rgba(67, 97, 238, 0.1);
+      }
+
+      @media (max-width: 768px) {
+        .container {
+          padding: 25px;
+          margin: 15px;
+        }
+
+        h1 {
+          font-size: 24px;
+        }
+
+        .status-icon {
+          --icon-size: 60px;
+        }
+
+        .language-toggle {
+          top: 10px;
+          right: 10px;
+          transform: scale(0.9);
+        }
+      }
+
+      /* RTL Support */
+      body[dir="rtl"] ul li {
+        padding-left: 0;
+        padding-right: 35px;
+      }
+
+      body[dir="rtl"] ul li::before {
+        left: auto;
+        right: 0;
+      }
+
+      body[dir="rtl"] .language-toggle {
+        left: 20px;
+        right: auto;
+      }
+
+      /* Animation classes */
+      .fade-enter {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      .fade-enter-active {
+        opacity: 1;
+        transform: translateY(0);
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="language-toggle">
+      <button
+        onclick="setLanguage('en')"
+        id="en-btn"
+        class="language-btn active"
+      >
+        <i class="fas fa-globe"></i> English
+      </button>
+      <button onclick="setLanguage('ar')" id="ar-btn" class="language-btn">
+        <i class="fas fa-globe"></i> العربية
+      </button>
+    </div>
+
+    <div class="container">
+      <div id="message-content"></div>
+    </div>
+
+    <script>
+      const translations = {
+        en: null,
+        ar: null,
+      };
+      let currentLang = "en";
+
+      async function loadTranslations() {
+        try {
+          const [enResponse, arResponse] = await Promise.all([
+            fetch("translations/en.json"),
+            fetch("translations/ar.json"),
+          ]);
+          translations.en = await enResponse.json();
+          translations.ar = await arResponse.json();
+
+          const urlParams = new URLSearchParams(window.location.search);
+          const status = urlParams.get("status") || "unknown_status";
+
+          const lang = localStorage.getItem("lang");
+          setLanguage(lang || "en");
+          updateContent(status);
+        } catch (error) {
+          console.error("Error loading translations:", error);
+        }
+      }
+
+      function setLanguage(lang) {
+        currentLang = lang;
+        localStorage.setItem("lang", lang);
+        document.body.dir = lang === "ar" ? "rtl" : "ltr";
+        document
+          .getElementById("en-btn")
+          .classList.toggle("active", lang === "en");
+        document
+          .getElementById("ar-btn")
+          .classList.toggle("active", lang === "ar");
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const status = urlParams.get("status") || "unknown_status";
+        updateContent(status);
+      }
+
+      function updateContent(status) {
+        const trans = translations[currentLang];
+        if (!trans) return;
+
+        const messageContent = document.getElementById("message-content");
+        messageContent.className = status;
+
+        let iconClass = "";
+        switch (status) {
+          case "completed":
+            iconClass = "fa-circle-check";
+            break;
+          case "ended":
+            iconClass = "fa-clock";
+            break;
+          case "already-completed":
+            iconClass = "fa-circle-exclamation";
+            break;
+          case "terminated":
+            iconClass = "fa-triangle-exclamation";
+            break;
+          case "permission-denied":
+            iconClass = "fa-shield-halved";
+            break;
+          case "not-visible":
+            iconClass = "fa-face-dizzy";
+            break;
+          default:
+            iconClass = "fa-circle-question";
+        }
+
+        let content = `
+                <div class="status-icon">
+                    <i class="fas ${iconClass}"></i>
+                </div>
+                <h1>${trans.titles[status]}</h1>
+            `;
+
+        const messages = trans.messages[status];
+        if (messages) {
+          if (status === "completed") {
+            content += `
+                        <p><strong>${messages.congrats}</strong></p>
+                        <p>${messages.success_message}</p>
+                        <p>${messages.submission}</p>
+                        <p>${messages.next_steps}</p>
+                    `;
+          } else if (status === "ended") {
+            content += `
+                        <p><strong>${messages.notice}</strong></p>
+                        <p>${messages.time_ended}</p>
+                        <p>${messages.auto_submit}</p>
+                        <p>${messages.no_changes}</p>
+                    `;
+          } else if (status === "already-completed") {
+            content += `
+                        <p><strong>${messages.notice}</strong></p>
+                        <p>${messages.already_submitted}</p>
+                        <p>${messages.no_multiple}</p>
+                        <p>${messages.contact_admin}</p>
+                    `;
+          } else if (status === "terminated") {
+            content += `
+                        <p><strong>${messages.warning}</strong></p>
+                        <p>${messages.terminated_message}</p>
+                        <p>${messages.violation}</p>
+                        <p>${messages.contact_admin}</p>
+                        <p><strong>${messages.reasons_title}</strong></p>
+                        <ul>
+                            <li>${messages.reasons.fullscreen}</li>
+                            <li>${messages.reasons.tab_switch}</li>
+                            <li>${messages.reasons.prohibited}</li>
+                            <li>${messages.reasons.webcam}</li>
+                        </ul>
+                    `;
+          } else if (status === "permission-denied") {
+            content += `
+                        <p><strong>${messages.access_required}</strong></p>
+                        <p>${messages.permissions_needed}</p>
+                        <p><strong>${messages.proceed_title}</strong></p>
+                        <ul>
+                            <li>${messages.steps.camera}</li>
+                            <li>${messages.steps.screen}</li>
+                            <li>${messages.steps.refresh}</li>
+                            <li>${messages.steps.check_apps}</li>
+                        </ul>
+                    `;
+          } else if (status === "not-visible") {
+            content += `
+                        <div class="message-box">
+                            <p><strong>${messages.warning}</strong></p>
+                            <p>${messages.not_visible_message}</p>
+                            <p>${messages.violation}</p>
+                            <p>${messages.contact_admin}</p>
+                            <p><strong>${messages.reasons_title}</strong></p>
+                            <ul>
+                                <li>${messages.reasons.face_detection}</li>
+                                <li>${messages.reasons.monitoring}</li>
+                                <li>${messages.reasons.webcam_rules}</li>
+                                <li>${messages.reasons.proctoring}</li>
+                            </ul>
+                        </div>
+                    `;
+          } else {
+            content += `
+                        <p><strong>${messages.notice}</strong></p>
+                        <p>${messages.unknown_message}</p>
+                        <p>${messages.error_reason}</p>
+                        <p>${messages.contact_admin}</p>
+                    `;
+          }
+          content += `<button onclick="navigateAppLanding()" class="language-btn active" style="float: right;">Go to App Landing</button>`;
+        }
+
+        messageContent.innerHTML = content;
+        messageContent.classList.add("fade-enter");
+        setTimeout(() => messageContent.classList.remove("fade-enter"), 300);
+        setTimeout(() => {
+          navigateAppLanding();
+        }, 15000);
+      }
+
+      function navigateAppLanding() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const cid = urlParams.get("cid");
+        window.location.href = `${window.location.origin}/fullscreenexam/app-landing/index.html?cid=${cid}`;
+      }
+
+      document.addEventListener("DOMContentLoaded", loadTranslations);
+    </script>
+  </body>
+</html>

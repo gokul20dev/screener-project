@@ -1,0 +1,28 @@
+#settingsMenu {
+  border-right: 1px solid #ddd;
+  padding-right: 15px;
+}
+
+#settingsMenu .nav-link {
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+#settingsMenu .nav-link.active {
+  background-color: #007bff; /* Set the background color for the active tab */
+  color: white; /* Change the text color for the active tab */
+}
+
+#settingsContent .settings-section {
+  display: none;
+}
+
+#settingsContent .settings-section.active {
+  display: block;
+}
+
+#labelContainer .label-item {
+  margin-bottom: 15px;
+}
+

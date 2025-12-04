@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Device Test - Scanner Responsiveness</title>
+    <style>
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f9fafb;
+        }
+        
+        .test-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .device-info {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        
+        .device-info h2 {
+            margin: 0 0 16px 0;
+            color: #1f2937;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+        
+        .info-item {
+            background: #f3f4f6;
+            padding: 12px;
+            border-radius: 8px;
+        }
+        
+        .info-label {
+            font-weight: 600;
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+        
+        .info-value {
+            font-size: 1.1rem;
+            color: #1f2937;
+            margin-top: 4px;
+        }
+        
+        .test-frames {
+            display: grid;
+            gap: 20px;
+        }
+        
+        .test-frame {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .frame-header {
+            padding: 16px 20px;
+            background: #3b82f6;
+            color: white;
+            font-weight: 600;
+        }
+        
+        .frame-wrapper {
+            position: relative;
+            width: 100%;
+            padding: 20px;
+            background: #f3f4f6;
+        }
+        
+        .device-frame {
+            margin: 0 auto;
+            border: 3px solid #333;
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            background: white;
+        }
+        
+        .device-frame iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        /* iPhone 12/13 */
+        .iphone-frame {
+            width: 390px;
+            height: 844px;
+        }
+        
+        /* iPad */
+        .ipad-frame {
+            width: 820px;
+            height: 1180px;
+        }
+        
+        /* Small Mobile */
+        .small-mobile-frame {
+            width: 360px;
+            height: 640px;
+        }
+        
+        .orientation-toggle {
+            margin-top: 12px;
+            text-align: center;
+        }
+        
+        .orientation-btn {
+            padding: 8px 16px;
+            border: 1px solid #d1d5db;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+        
+        .orientation-btn:hover {
+            background: #f3f4f6;
+        }
+        
+        .orientation-btn.active {
+            background: #3b82f6;
+            color: white;
+            border-color: #3b82f6;
+        }
+        
+        @media (max-width: 1400px) {
+            .test-frames {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 900px) {
+            .device-frame {
+                transform: scale(0.7);
+                transform-origin: top center;
+            }
+            
+            .frame-wrapper {
+                height: auto;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .device-frame {
+                transform: scale(0.5);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <div class="device-info">
+            <h2>Current Device Information</h2>
+            <div class="info-grid">
+                <div class="info-item">
+                    <div class="info-label">Screen Width</div>
+                    <div class="info-value" id="screenWidth"></div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Screen Height</div>
+                    <div class="info-value" id="screenHeight"></div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Viewport Width</div>
+                    <div class="info-value" id="viewportWidth"></div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Viewport Height</div>
+                    <div class="info-value" id="viewportHeight"></div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Device Pixel Ratio</div>
+                    <div class="info-value" id="pixelRatio"></div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">Touch Support</div>
+                    <div class="info-value" id="touchSupport"></div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">User Agent</div>
+                    <div class="info-value" id="userAgent" style="font-size: 0.8rem; word-break: break-all;"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="test-frames">
+            <div class="test-frame">
+                <div class="frame-header">iPhone 12/13 (390x844)</div>
+                <div class="frame-wrapper">
+                    <div class="device-frame iphone-frame" id="iphoneFrame">
+                        <iframe src="index.html"></iframe>
+                    </div>
+                    <div class="orientation-toggle">
+                        <button class="orientation-btn active" onclick="toggleOrientation('iphone', 'portrait')">Portrait</button>
+                        <button class="orientation-btn" onclick="toggleOrientation('iphone', 'landscape')">Landscape</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="test-frame">
+                <div class="frame-header">iPad (820x1180)</div>
+                <div class="frame-wrapper">
+                    <div class="device-frame ipad-frame" id="ipadFrame">
+                        <iframe src="index.html"></iframe>
+                    </div>
+                    <div class="orientation-toggle">
+                        <button class="orientation-btn active" onclick="toggleOrientation('ipad', 'portrait')">Portrait</button>
+                        <button class="orientation-btn" onclick="toggleOrientation('ipad', 'landscape')">Landscape</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="test-frame">
+                <div class="frame-header">Small Mobile (360x640)</div>
+                <div class="frame-wrapper">
+                    <div class="device-frame small-mobile-frame" id="smallMobileFrame">
+                        <iframe src="index.html"></iframe>
+                    </div>
+                    <div class="orientation-toggle">
+                        <button class="orientation-btn active" onclick="toggleOrientation('small-mobile', 'portrait')">Portrait</button>
+                        <button class="orientation-btn" onclick="toggleOrientation('small-mobile', 'landscape')">Landscape</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Display current device information
+        function updateDeviceInfo() {
+            document.getElementById('screenWidth').textContent = screen.width + 'px';
+            document.getElementById('screenHeight').textContent = screen.height + 'px';
+            document.getElementById('viewportWidth').textContent = window.innerWidth + 'px';
+            document.getElementById('viewportHeight').textContent = window.innerHeight + 'px';
+            document.getElementById('pixelRatio').textContent = window.devicePixelRatio;
+            document.getElementById('touchSupport').textContent = 'ontouchstart' in window ? 'Yes' : 'No';
+            
+            const ua = navigator.userAgent;
+            let deviceType = 'Desktop';
+            if (/Android/i.test(ua)) deviceType = 'Android';
+            else if (/iPhone|iPad|iPod/i.test(ua)) deviceType = 'iOS';
+            else if (/Windows Phone/i.test(ua)) deviceType = 'Windows Phone';
+            
+            document.getElementById('userAgent').textContent = deviceType + ' - ' + ua;
+        }
+        
+        // Toggle device orientation
+        function toggleOrientation(device, orientation) {
+            const deviceMap = {
+                'iphone': {
+                    frame: document.getElementById('iphoneFrame'),
+                    portrait: { width: 390, height: 844 },
+                    landscape: { width: 844, height: 390 }
+                },
+                'ipad': {
+                    frame: document.getElementById('ipadFrame'),
+                    portrait: { width: 820, height: 1180 },
+                    landscape: { width: 1180, height: 820 }
+                },
+                'small-mobile': {
+                    frame: document.getElementById('smallMobileFrame'),
+                    portrait: { width: 360, height: 640 },
+                    landscape: { width: 640, height: 360 }
+                }
+            };
+            
+            const deviceConfig = deviceMap[device];
+            const dimensions = deviceConfig[orientation];
+            
+            deviceConfig.frame.style.width = dimensions.width + 'px';
+            deviceConfig.frame.style.height = dimensions.height + 'px';
+            
+            // Update button states
+            const buttons = deviceConfig.frame.parentElement.parentElement.querySelectorAll('.orientation-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.textContent.toLowerCase() === orientation) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+        
+        // Initialize
+        updateDeviceInfo();
+        window.addEventListener('resize', updateDeviceInfo);
+        
+        // Add message to iframes about test mode
+        window.addEventListener('load', () => {
+            const iframes = document.querySelectorAll('iframe');
+            iframes.forEach(iframe => {
+                iframe.onload = function() {
+                    try {
+                        // This will only work if same-origin
+                        iframe.contentWindow.postMessage({ testMode: true }, '*');
+                    } catch (e) {
+                        console.log('Could not access iframe:', e);
+                    }
+                };
+            });
+        });
+    </script>
+</body>
+</html>

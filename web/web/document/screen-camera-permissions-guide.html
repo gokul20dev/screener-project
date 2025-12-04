@@ -1,0 +1,1349 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" class="english-version">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Camera & Screen Sharing Permissions Guide - Screener</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <style>
+      :root {
+        --primary: #1d4ed8;
+        --primary-dark: #1e3a8a;
+        --secondary: #ea580c;
+        --accent: #7c3aed;
+        --light: #f9fafb;
+        --dark: #111827;
+        --gray: #4b5563;
+        --gray-light: #e5e7eb;
+        --success: #059669;
+        --warning: #d97706;
+        --danger: #dc2626;
+        --body-bg: #f8fafc;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: var(--dark);
+        background: var(--body-bg);
+        max-width: 100%;
+        margin: 0;
+        padding: 0;
+      }
+
+      .arabic {
+        font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+        direction: rtl;
+        text-align: right;
+      }
+
+      .page-container {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+      
+      .back-button{
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        z-index: 10;
+      }
+     
+      .back-button button{
+        all: unset;
+        background: var(--primary);
+        color:white;
+        padding: 5px 15px;
+        border-radius: 30px;
+        box-shadow: 0 4px 10px rgba(29, 78, 216, 0.2);
+      }
+      
+      .back-button.rt{
+        position: absolute;
+        right: 20px !important;
+        top: 20px;
+      }
+
+      h1,
+      h2,
+      h3,
+      h4 {
+        color: var(--primary-dark);
+        font-weight: 700;
+        line-height: 1.3;
+      }
+
+      h1 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        background: linear-gradient(90deg, var(--primary), var(--primary-dark));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-fill-color: transparent;
+      }
+
+      h2 {
+        font-size: 1.8rem;
+        margin: 1.5rem 0 1rem;
+      }
+
+      h3 {
+        font-size: 1.3rem;
+        margin: 1.2rem 0 0.8rem;
+      }
+
+      p {
+        margin-bottom: 1rem;
+      }
+
+      .header {
+        text-align: center;
+        margin-bottom: 2.5rem;
+        padding: 3.5rem 1rem 2.5rem;
+        background: white;
+        border-radius: 0 0 20px 20px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .header::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 5px;
+        background: linear-gradient(90deg, #2a4494, #4a74c9);
+      }
+
+      .header h1 {
+        font-size: 2.8rem;
+        margin-bottom: 1rem;
+        background: linear-gradient(90deg, #2a4494, #4a74c9);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-fill-color: transparent;
+      }
+
+      .header p {
+        color: var(--gray);
+        font-size: 1.3rem;
+      }
+
+      .container {
+        display: flex;
+        flex-direction: column;
+        /* gap: 30px; */
+        padding: 20px 0 50px;
+      }
+
+      .section {
+        background: white;
+        border-radius: 15px;
+        padding: 35px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+        margin-bottom: 30px;
+        transition: transform 0.3s, box-shadow 0.3s;
+        border: none;
+      }
+
+      .section:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.07);
+      }
+
+      .section h2 {
+        font-size: 2rem;
+        margin: 1.5rem 0 1.2rem;
+        color: #2a4494;
+      }
+
+      .platforms {
+        display: flex;
+        gap: 20px;
+        margin-top: 20px;
+      }
+
+      .platform {
+        flex: 1;
+        border-left: 4px solid var(--primary);
+        padding-left: 15px;
+        background: rgba(29, 78, 216, 0.05);
+        padding: 15px 15px 15px 20px;
+        border-radius: 0 10px 10px 0;
+      }
+
+      .arabic .platform {
+        border-left: none;
+        border-right: 4px solid var(--primary);
+        padding-left: 15px;
+        padding-right: 20px;
+        border-radius: 10px 0 0 10px;
+      }
+
+      .steps {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+        margin: 35px 0;
+        position: relative;
+      }
+
+      .step {
+        display: flex;
+        gap: 25px;
+        align-items: flex-start;
+        position: relative;
+      }
+
+      .step:not(:last-child)::after {
+        content: "";
+        position: absolute;
+        top: 45px;
+        left: 17px;
+        bottom: -30px;
+        width: 2px;
+        background: #2a4494;
+      }
+
+      .arabic .step:not(:last-child)::after {
+        left: auto;
+        right: 17px;
+      }
+
+      .step-number {
+        background: #2a4494;
+        color: white;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        font-weight: bold;
+        box-shadow: 0 3px 8px rgba(42, 68, 148, 0.25);
+        position: relative;
+        z-index: 2;
+        font-size: 18px;
+      }
+
+      .step-content {
+        flex: 1;
+        background: white;
+        padding: 0;
+        border-radius: 12px;
+        box-shadow: none;
+        border: none;
+      }
+
+      .step-content h3 {
+        margin-top: 0;
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: #2a4494;
+        font-size: 1.4rem;
+      }
+
+      .step-content h3::before {
+        display: none;
+      }
+
+      .image-container {
+        margin: 20px 0;
+        text-align: center;
+      }
+
+      .image-container img {
+        max-width: 100%;
+        border-radius: 12px;
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.12);
+        border: 5px solid white;
+        transition: transform 0.3s ease;
+      }
+
+      .image-container img:hover {
+        transform: scale(1.02);
+      }
+
+      .note {
+        background: rgba(234, 88, 12, 0.05);
+        border-left: 4px solid var(--secondary);
+        padding: 15px 20px;
+        margin: 15px 0;
+        border-radius: 0 12px 12px 0;
+        position: relative;
+      }
+
+      .arabic .note {
+        border-left: none;
+        border-right: 4px solid var(--secondary);
+        border-radius: 12px 0 0 12px;
+      }
+
+      .note::before {
+        content: "\f05a";
+        font-family: "Font Awesome 6 Free";
+        font-weight: 900;
+        position: absolute;
+        left: -12px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: white;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--secondary);
+        border: 2px solid var(--secondary);
+      }
+
+      .arabic .note::before {
+        left: auto;
+        right: -12px;
+      }
+
+      .browser-icons {
+        display: flex;
+        gap: 15px;
+        justify-content: flex-end;
+        flex-wrap: nowrap;
+        position: absolute;
+        top: 30px;
+        right: 35px;
+      }
+      .arabic .browser-icons{
+        left: 35px;
+       }
+      .browser-icons::before {
+        content: "Supported Browsers";
+        position: absolute;
+        right: 0;
+        top: -20px;
+        font-size: 12px;
+        color: #666;
+        font-weight: 500;
+      }
+     .arabic .browser-icons::before {
+        content: "المتصفحات المدعومة";
+        right: auto;
+        left: 0;
+      
+      }
+      .browser-icon {
+        text-align: center;
+        transition: transform 0.3s;
+        cursor: pointer;
+      }
+
+      .browser-icon:hover {
+        transform: translateY(-3px);
+      }
+
+      .browser-icon img {
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+        padding: 6px;
+        background: white;
+        border: 1px solid rgba(0, 0, 0, 0.05);
+      }
+
+      .browser-icon p {
+        margin-top: 4px;
+        font-weight: 500;
+        font-size: 11px;
+      }
+
+      .language-toggle {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        z-index: 100;
+        background: white;
+        border-radius: 30px;
+        padding: 5px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        display: flex;
+        gap: 5px;
+      }
+
+      .language-btn {
+        padding: 8px 16px;
+        border: none;
+        background: none;
+        border-radius: 25px;
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 14px;
+        color: var(--gray);
+        transition: all 0.3s ease;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .language-btn.active {
+        background: var(--primary);
+        color: white;
+        box-shadow: 0 4px 10px rgba(29, 78, 216, 0.2);
+      }
+
+      .language-btn:hover:not(.active) {
+        background: rgba(29, 78, 216, 0.1);
+      }
+
+      .arabic .language-toggle {
+        right: auto;
+        left: 20px;
+      }
+
+      .os-tabs {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 40px;
+        justify-content: center;
+        max-width: 500px;
+        margin: 0 auto 40px;
+        padding: 8px;
+        border-radius: 40px;
+        position: relative;
+        z-index: 5;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        background: #f8f9fc;
+      }
+
+      .os-tab {
+        padding: 15px 30px;
+        background: white;
+        border-radius: 50px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 600;
+        box-shadow: none;
+        transition: all 0.3s;
+        border: none;
+        font-size: 17px;
+        color: #333;
+        flex: 1;
+        justify-content: center;
+        opacity: 0.7;
+        border: 2px solid transparent;
+      }
+
+      .os-tab:hover {
+        opacity: 0.9;
+      }
+
+      .os-tab.active {
+        background: white;
+        color: #2a4494;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+        opacity: 1;
+        border: 2px solid rgba(42, 68, 148, 0.2);
+        transform: translateY(-3px);
+      }
+
+      .os-tab[data-os="mac"].active {
+        background: white;
+        color: #333;
+      }
+
+      .os-tab[data-os="windows"].active {
+        background: white;
+        color: #333;
+      }
+
+      .os-tab[data-os="mac"] img {
+        background: black;
+        border-radius: 50%;
+        padding: 0;
+        width: 24px;
+        height: 24px;
+      }
+
+      .os-tab[data-os="windows"] img {
+        width: 24px;
+        height: 24px;
+      }
+
+      .tab-content {
+        display: none;
+        animation: fadeIn 0.5s ease;
+        /* margin-top: 50px;\
+        padding-top: 20px; */
+      }
+
+      .tab-content.active {
+        display: block;
+      }
+
+      .os-icon {
+        width: 100px;
+        height: 100px;
+        margin: 0 auto;
+        display: block;
+      }
+
+      .os-icon-container {
+        text-align: center;
+        margin: 0 auto 20px;
+      }
+
+      .os-section {
+        border-top: 2px solid var(--primary);
+        padding-top: 20px;
+        margin-top: 30px;
+      }
+
+      ol,
+      ul {
+        padding-left: 25px;
+        margin: 15px 0;
+      }
+
+      .arabic ol,
+      .arabic ul {
+        padding-left: 0;
+        padding-right: 25px;
+      }
+
+      ol li,
+      ul li {
+        margin-bottom: 10px;
+        position: relative;
+      }
+
+      ol li::marker {
+        color: var(--primary);
+        font-weight: bold;
+      }
+
+      .fas {
+        color: var(--primary);
+        margin-right: 5px;
+      }
+
+      .arabic .fas {
+        margin-right: 0;
+        margin-left: 5px;
+      }
+
+      h2 .fas {
+        margin-right: 10px;
+      }
+
+      .arabic h2 .fas {
+        margin-right: 0;
+        margin-left: 10px;
+      }
+
+      .content-wrapper {
+        position: relative;
+      }
+
+      .content-section {
+        display: block;
+        animation: fadeIn 0.5s ease;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .fade-enter {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      .fade-enter-active {
+        opacity: 1;
+        transform: translateY(0);
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      @media (max-width: 768px) {
+        .platforms {
+          flex-direction: column;
+        }
+
+        .step {
+          flex-direction: column;
+          gap: 10px;
+        }
+
+        .arabic .step {
+          flex-direction: column;
+        }
+
+        .step-number {
+          margin-bottom: -20px;
+          margin-left: 10px;
+          z-index: 2;
+        }
+
+        .arabic .step-number {
+          margin-left: auto;
+          margin-right: 10px;
+        }
+
+        .step:not(:last-child)::after {
+          display: none;
+        }
+
+        .browser-icons {
+          gap: 15px;
+        }
+
+        .browser-icon img {
+          width: 50px;
+          height: 50px;
+        }
+
+        .os-tabs {
+          flex-wrap: wrap;
+        }
+
+        .language-toggle {
+          position: relative;
+          top: 0;
+          right: 0;
+          margin: 10px auto;
+          width: fit-content;
+        }
+
+        .arabic .language-toggle {
+          right: auto;
+          left: 0;
+        }
+      }
+
+      .overview-permissions {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        margin: 30px 0;
+      }
+
+      .permission-item {
+        display: flex;
+        position: relative;
+      }
+
+      .permission-number {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #2a4494;
+        margin-right: 20px;
+        min-width: 20px;
+      }
+
+      .permission-content {
+        flex: 1;
+      }
+
+      .permission-item h3 {
+        color: #2a4494;
+        margin: 0 0 5px 0;
+        font-size: 1.5rem;
+        font-weight: 600;
+      }
+
+      .permission-item p {
+        margin: 0;
+        color: #555;
+        font-size: 1.05rem;
+      }
+
+      .arabic .permission-item {
+        border-left: none;
+        border-right: 5px solid #2a4494;
+        border-radius: 8px 0 0 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page-container">
+      <div class="back-button" id="back-btn">
+        <button onclick="history.back()"><i class="fa-solid fa-arrow-left"></i> Back</button>
+      </div>
+      <div class="language-toggle">
+        <button
+          id="en-btn"
+          onclick="setLanguage('en')"
+          class="language-btn active"
+        >
+          <i class="fas fa-globe"></i> English
+        </button>
+        <button id="ar-btn" onclick="setLanguage('ar')" class="language-btn">
+          <i class="fas fa-globe"></i> العربية
+        </button>
+      </div>
+
+      <div class="content-wrapper">
+        <div id="content-container" class="content-section"></div>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+    <script>
+      const translations = {
+        en: null,
+        ar: null,
+      };
+      let currentLang = "en";
+      let currentOS = "mac";
+
+      async function loadTranslations() {
+        try {
+          const [enResponse, arResponse] = await Promise.all([
+            fetch("translations/en.json"),
+            fetch("translations/ar.json"),
+          ]);
+
+          translations.en = await enResponse.json();
+          translations.ar = await arResponse.json();
+
+          // Make sure content-container exists
+          if (!document.getElementById("content-container")) {
+            console.error("Content container not found in DOM");
+            return;
+          }
+
+          // Load saved language preference or default to English
+          const savedLang = localStorage.getItem("permissionsGuideLang");
+          setLanguage(savedLang || "en");
+        } catch (error) {
+          console.error("Error loading translations:", error);
+        }
+      }
+
+      function setLanguage(lang) {
+        currentLang = lang;
+        localStorage.setItem("permissionsGuideLang", lang);
+
+        // Update HTML attributes
+        document.documentElement.setAttribute("lang", lang);
+        document.documentElement.setAttribute(
+          "dir",
+          lang === "ar" ? "rtl" : "ltr"
+        );
+
+        // Toggle Arabic class on body
+        document.body.classList.toggle("arabic", lang === "ar");
+
+        // Update active button
+        document
+          .getElementById("en-btn")
+          .classList.toggle("active", lang === "en");
+        document
+          .getElementById("ar-btn")
+          .classList.toggle("active", lang === "ar");
+        
+        const backBtn = document.getElementById("back-btn");
+        const backButton = backBtn.querySelector("button");
+
+        if (lang === "ar") {
+          backBtn.classList.add("rt");
+          backButton.innerHTML = '<i class="fa-solid fa-arrow-right"></i> رجوع ';;
+        } else {
+          backBtn.classList.remove("rt");
+          backButton.innerHTML = '<i class="fa-solid fa-arrow-left"></i> Back';
+        }
+
+        // Render the content
+        renderContent();
+      }
+
+      function switchOS(os) {
+        currentOS = os;
+
+        // Hide all content
+        document.querySelectorAll(".tab-content").forEach((content) => {
+          content.classList.remove("active");
+        });
+
+        // Remove active class from all tabs
+        document.querySelectorAll(".os-tab").forEach((tab) => {
+          tab.classList.remove("active");
+        });
+
+        // Show selected content
+        const contentElement = document.getElementById(os + "-content");
+        if (contentElement) {
+          contentElement.classList.add("active");
+        }
+
+        // Add active class to selected tab
+        const tabElement = document.querySelector(`.os-tab[data-os="${os}"]`);
+        if (tabElement) {
+          tabElement.classList.add("active");
+        }
+      }
+
+      function boldKeywords(text) {
+        // Define important keywords to be bolded
+        const keywords = [
+          "Camera Access",
+          "Screen Recording",
+          "Privacy & Security",
+          "Entire Screen",
+          "Allow",
+          "Share",
+          "MacOS",
+          "Windows",
+          "Chrome",
+          "Edge",
+          "browser",
+          "permissions",
+          "Camera",
+          "Screen",
+          "Privacy",
+          "Security",
+          "Settings",
+          "System Settings",
+          "permission",
+          "access",
+          "recording",
+          "camera",
+          "screen sharing",
+          "exam",
+        ];
+
+        // Create regex pattern with word boundaries
+        const pattern = new RegExp(`\\b(${keywords.join("|")})\\b`, "gi");
+
+        // Replace keywords with bold versions
+        return text.replace(pattern, "<strong>$1</strong>");
+      }
+
+      function createStepsSection(steps, startNumber = 1) {
+        const stepsContainer = document.createElement("div");
+        stepsContainer.className = "steps";
+
+        steps.forEach((step, index) => {
+          const stepElem = document.createElement("div");
+          stepElem.className = "step";
+
+          const stepNumber = document.createElement("div");
+          stepNumber.className = "step-number";
+          stepNumber.textContent =
+            currentLang === "ar"
+              ? String(startNumber + index).replace(
+                  /\d/g,
+                  (d) => "٠١٢٣٤٥٦٧٨٩"[d]
+                )
+              : String(startNumber + index);
+
+          const stepContent = document.createElement("div");
+          stepContent.className = "step-content";
+
+          const title = document.createElement("h3");
+          title.textContent = step.title;
+
+          const desc = document.createElement("p");
+          // Apply bold formatting to description
+          desc.innerHTML = boldKeywords(step.description);
+
+          stepContent.appendChild(title);
+          stepContent.appendChild(desc);
+
+          // Add additional content if present
+          if (step.additional) {
+            if (Array.isArray(step.additional)) {
+              step.additional.forEach((text) => {
+                const additionalP = document.createElement("p");
+                additionalP.innerHTML = boldKeywords(text);
+                stepContent.appendChild(additionalP);
+              });
+            } else {
+              const additionalP = document.createElement("p");
+              additionalP.innerHTML = boldKeywords(step.additional);
+              stepContent.appendChild(additionalP);
+            }
+          }
+
+          // Add image if specified
+          if (step.image) {
+            const imgContainer = document.createElement("div");
+            imgContainer.className = "image-container";
+            const img = document.createElement("img");
+            img.src = step.image;
+            img.alt = step.title;
+            imgContainer.appendChild(img);
+            stepContent.appendChild(imgContainer);
+          }
+
+          // Add note if specified
+          if (step.note) {
+            const noteDiv = document.createElement("div");
+            noteDiv.className = "note";
+            const noteContent = document.createElement("p");
+            noteContent.innerHTML = boldKeywords(step.note);
+            noteDiv.appendChild(noteContent);
+            stepContent.appendChild(noteDiv);
+          }
+
+          stepElem.appendChild(stepNumber);
+          stepElem.appendChild(stepContent);
+          stepsContainer.appendChild(stepElem);
+        });
+
+        return stepsContainer;
+      }
+
+      function createList(items) {
+        const list = document.createElement("ol");
+
+        items.forEach((item) => {
+          const listItem = document.createElement("li");
+          listItem.innerHTML = boldKeywords(item);
+          list.appendChild(listItem);
+        });
+
+        return list;
+      }
+
+      function renderContent() {
+        const trans = translations[currentLang];
+        if (!trans) return;
+
+        const container = document.getElementById("content-container");
+        container.innerHTML = "";
+        container.classList.add("fade-enter");
+
+        // Header
+        const header = document.createElement("div");
+        header.className = "header";
+
+        const title = document.createElement("h1");
+        title.innerHTML = boldKeywords(trans.title);
+        const subtitle = document.createElement("p");
+        subtitle.innerHTML = boldKeywords(trans.subtitle);
+
+        header.appendChild(title);
+        header.appendChild(subtitle);
+        container.appendChild(header);
+
+        // Main container
+        const mainContainer = document.createElement("div");
+        mainContainer.className = "container";
+
+        // Overview section
+        const overviewSection = document.createElement("div");
+        overviewSection.className = "section";
+        overviewSection.style.position = "relative";
+
+        const overviewTitle = document.createElement("h2");
+        overviewTitle.innerHTML = `<i class="fas fa-info-circle"></i> ${boldKeywords(
+          trans.overview.title
+        )}`;
+
+        const overviewDesc = document.createElement("p");
+        overviewDesc.innerHTML = boldKeywords(
+          "For online exams using Screener, you'll need to grant two important <strong>permissions</strong>:"
+        );
+
+        // Create permission cards instead of a simple list
+        const permissionsContainer = document.createElement("div");
+        permissionsContainer.className = "overview-permissions";
+
+        // Create Camera Access permission (Point 1)
+        const cameraItem = document.createElement("div");
+        cameraItem.className = "permission-item";
+
+        const cameraNumber = document.createElement("div");
+        cameraNumber.className = "permission-number";
+        cameraNumber.textContent = "1";
+
+        const cameraContent = document.createElement("div");
+        cameraContent.className = "permission-content";
+
+        const cameraTitle = document.createElement("h3");
+        cameraTitle.innerHTML = boldKeywords("Camera Access");
+
+        const cameraDesc = document.createElement("p");
+        cameraDesc.innerHTML = boldKeywords(
+          "Allows the system to verify your identity during the <strong>exam</strong>"
+        );
+
+        cameraItem.appendChild(cameraNumber);
+        cameraItem.appendChild(cameraContent);
+        cameraContent.appendChild(cameraTitle);
+        cameraContent.appendChild(cameraDesc);
+        permissionsContainer.appendChild(cameraItem);
+
+        // Create Screen Recording permission (Point 2)
+        const screenItem = document.createElement("div");
+        screenItem.className = "permission-item";
+
+        const screenNumber = document.createElement("div");
+        screenNumber.className = "permission-number";
+        screenNumber.textContent = "2";
+
+        const screenContent = document.createElement("div");
+        screenContent.className = "permission-content";
+
+        const screenTitle = document.createElement("h3");
+        screenTitle.innerHTML = boldKeywords("Screen Recording Access");
+
+        const screenDesc = document.createElement("p");
+        screenDesc.innerHTML = boldKeywords(
+          "Allows proctoring of your <strong>exam</strong> session"
+        );
+
+        screenItem.appendChild(screenNumber);
+        screenItem.appendChild(screenContent);
+        screenContent.appendChild(screenTitle);
+        screenContent.appendChild(screenDesc);
+        permissionsContainer.appendChild(screenItem);
+
+        const infoText = document.createElement("p");
+        infoText.innerHTML = boldKeywords(
+          "Different operating systems handle <strong>permissions</strong> differently. This guide covers both Mac and <strong>Windows</strong> setups."
+        );
+
+        // Browser icons - moved here right after the title
+        const browserIcons = document.createElement("div");
+        browserIcons.className = "browser-icons";
+
+        const browsers = ["chrome", "edge", "brave"];
+        browsers.forEach((browser) => {
+          const browserIcon = document.createElement("div");
+          browserIcon.className = "browser-icon";
+
+          let imgSrc = "";
+          let downloadUrl = "";
+
+          if (browser === "chrome") {
+            imgSrc =
+              "https://upload.wikimedia.org/wikipedia/commons/e/e1/Google_Chrome_icon_%28February_2022%29.svg";
+            downloadUrl = "https://www.google.com/chrome/";
+          } else if (browser === "edge") {
+            imgSrc =
+              "https://upload.wikimedia.org/wikipedia/commons/9/98/Microsoft_Edge_logo_%282019%29.svg";
+            downloadUrl = "https://www.google.com/chrome/";
+          } else if (browser === "brave") {
+            imgSrc =
+              "https://upload.wikimedia.org/wikipedia/commons/9/9d/Brave_lion_icon.svg";
+            downloadUrl = "https://www.google.com/chrome/";
+          }
+
+          const img = document.createElement("img");
+          img.src = imgSrc;
+          img.alt = trans.browsers[browser];
+
+          const name = document.createElement("p");
+          name.innerHTML = boldKeywords(trans.browsers[browser]);
+
+          browserIcon.appendChild(img);
+          browserIcon.appendChild(name);
+          browserIcons.appendChild(browserIcon);
+
+          // Add click event listener to open browser download page
+          browserIcon.addEventListener("click", () => {
+            window.open(downloadUrl, "_blank");
+          });
+        });
+
+        overviewSection.appendChild(overviewTitle);
+
+        overviewSection.appendChild(browserIcons);
+
+        overviewSection.appendChild(overviewDesc);
+        overviewSection.appendChild(permissionsContainer);
+        overviewSection.appendChild(infoText);
+        // Remove browser icons from here as they're now added after the title
+        mainContainer.appendChild(overviewSection);
+
+        // OS Tabs
+        const osTabs = document.createElement("div");
+        osTabs.className = "os-tabs";
+
+        const macTab = document.createElement("div");
+        macTab.className = "os-tab";
+        macTab.setAttribute("data-os", "mac");
+        macTab.innerHTML = `
+          <div style="width:24px; height:24px; background:black; border-radius:50%; display:flex; align-items:center; justify-content:center;">
+            <i class="fab fa-apple" style="color:white; font-size:16px;"></i>
+                </div>
+          ${trans.os.mac}
+        `;
+        macTab.addEventListener("click", () => switchOS("mac"));
+
+        const windowsTab = document.createElement("div");
+        windowsTab.className = "os-tab";
+        windowsTab.setAttribute("data-os", "windows");
+        windowsTab.innerHTML = `
+          <i class="fab fa-windows" style="color:#0078D7; font-size:20px;"></i>
+          ${trans.os.windows}
+        `;
+        windowsTab.addEventListener("click", () => switchOS("windows"));
+
+        osTabs.appendChild(macTab);
+        osTabs.appendChild(windowsTab);
+        mainContainer.appendChild(osTabs);
+
+        // Mac OS Content
+        const macContent = document.createElement("div");
+        macContent.className = "tab-content active";
+        macContent.id = "mac-content";
+
+        // Mac Screen Recording Section
+        const macScreenSection = document.createElement("div");
+        macScreenSection.className = "section";
+
+        // Create Mac logo container with styled logo
+        const macIconContainer = document.createElement("div");
+        macIconContainer.className = "os-icon-container";
+        macIconContainer.innerHTML = `
+          <div style="width:120px; height:120px; background:black; border-radius:50%; display:flex; align-items:center; justify-content:center;">
+            <i class="fab fa-apple" style="color:white; font-size:80px;"></i>
+        </div>
+        `;
+
+        const macScreenTitle = document.createElement("h2");
+        macScreenTitle.innerHTML = `<i class="fas fa-desktop"></i> ${boldKeywords(
+          trans.mac.screen_recording.title
+        )}`;
+
+        const macScreenDesc = document.createElement("p");
+        macScreenDesc.innerHTML = boldKeywords(
+          trans.mac.screen_recording.description
+        );
+
+        // Adjust image paths in the steps
+        const macScreenSteps = trans.mac.screen_recording.steps.map(
+          (step, index) => {
+            let newStep = { ...step };
+            if (index === 0) {
+              newStep.image = "imgs/step 1.jpg";
+            } else if (index === 1) {
+              newStep.image = "imgs/screen.jpg";
+            }
+            return newStep;
+          }
+        );
+
+        const macScreenStepsElem = createStepsSection(macScreenSteps);
+
+        macScreenSection.appendChild(macIconContainer);
+        macScreenSection.appendChild(macScreenTitle);
+        macScreenSection.appendChild(macScreenDesc);
+        macScreenSection.appendChild(macScreenStepsElem);
+        macContent.appendChild(macScreenSection);
+
+        // Mac Camera Section
+        const macCameraSection = document.createElement("div");
+        macCameraSection.className = "section";
+
+        const macCameraTitle = document.createElement("h2");
+        macCameraTitle.innerHTML = `<i class="fas fa-camera"></i> ${trans.mac.camera.title}`;
+
+        // Add image to camera setup step
+        const macCameraSteps = trans.mac.camera.steps.map((step, index) => {
+          let newStep = { ...step };
+          if (index === 0) {
+            newStep.image = "imgs/img 2.png";
+          } else if (index === 1) {
+            newStep.image = "imgs/camera.jpg";
+          }
+          return newStep;
+        });
+
+        const macCameraStepsElem = createStepsSection(macCameraSteps);
+
+        macCameraSection.appendChild(macCameraTitle);
+        macCameraSection.appendChild(macCameraStepsElem);
+        macContent.appendChild(macCameraSection);
+
+        // Mac Troubleshooting Section
+        const macTroubleSection = document.createElement("div");
+        macTroubleSection.className = "section";
+
+        const macTroubleTitle = document.createElement("h2");
+        macTroubleTitle.innerHTML = `<i class="fas fa-wrench"></i> ${trans.mac.troubleshooting.title}`;
+
+        const macCameraTroubleTitle = document.createElement("h3");
+        macCameraTroubleTitle.innerHTML = `<i class="fas fa-camera"></i> ${trans.mac.troubleshooting.camera.title}`;
+
+        const macCameraTroubleList = createList(
+          trans.mac.troubleshooting.camera.steps
+        );
+
+        const macScreenTroubleTitle = document.createElement("h3");
+        macScreenTroubleTitle.innerHTML = `<i class="fas fa-desktop"></i> ${trans.mac.troubleshooting.screen.title}`;
+
+        const macScreenTroubleList = createList(
+          trans.mac.troubleshooting.screen.steps
+        );
+
+        macTroubleSection.appendChild(macTroubleTitle);
+        macTroubleSection.appendChild(macCameraTroubleTitle);
+        macTroubleSection.appendChild(macCameraTroubleList);
+        macTroubleSection.appendChild(macScreenTroubleTitle);
+        macTroubleSection.appendChild(macScreenTroubleList);
+        macContent.appendChild(macTroubleSection);
+
+        // Windows OS Content
+        const windowsContent = document.createElement("div");
+        windowsContent.className = "tab-content";
+        windowsContent.id = "windows-content";
+
+        // Windows Browser Permissions Section
+        const winPermSection = document.createElement("div");
+        winPermSection.className = "section";
+
+        // Create Windows logo container with styled logo
+        const winIconContainer = document.createElement("div");
+        winIconContainer.className = "os-icon-container";
+        winIconContainer.innerHTML = `
+          <div style="width:120px; height:120px; background:white; border-radius:12px; display:flex; align-items:center; justify-content:center; border:1px solid #eee;">
+            <i class="fab fa-windows" style="color:#0078D7; font-size:80px;"></i>
+          </div>
+        `;
+
+        const winPermTitle = document.createElement("h2");
+        winPermTitle.innerHTML = `<i class="fas fa-desktop"></i> ${boldKeywords(
+          trans.windows.browser_permissions.title
+        )}`;
+
+        const winPermDesc = document.createElement("p");
+        winPermDesc.innerHTML = boldKeywords(
+          trans.windows.browser_permissions.description
+        );
+
+        // Add images to Windows steps
+        const winPermSteps = trans.windows.browser_permissions.steps.map(
+          (step, index) => {
+            let newStep = { ...step };
+            if (index === 0) {
+              newStep.image = "imgs/camera.jpg";
+            } else if (index === 1) {
+              newStep.image = "imgs/screen.jpg";
+            }
+            return newStep;
+          }
+        );
+
+        const winPermStepsElem = createStepsSection(winPermSteps);
+
+        winPermSection.appendChild(winIconContainer);
+        winPermSection.appendChild(winPermTitle);
+        winPermSection.appendChild(winPermDesc);
+        winPermSection.appendChild(winPermStepsElem);
+        windowsContent.appendChild(winPermSection);
+
+        // Windows Troubleshooting Section
+        const winTroubleSection = document.createElement("div");
+        winTroubleSection.className = "section";
+
+        const winTroubleTitle = document.createElement("h2");
+        winTroubleTitle.innerHTML = `<i class="fas fa-wrench"></i> ${boldKeywords(
+          trans.windows.troubleshooting.title
+        )}`;
+
+        const winTroublePlatforms = document.createElement("div");
+        winTroublePlatforms.className = "platforms";
+
+        // Camera Issues Platform
+        const cameraPlatform = document.createElement("div");
+        cameraPlatform.className = "platform";
+
+        const cameraTroubleTitle = document.createElement("h3");
+        cameraTroubleTitle.innerHTML = `<i class="fas fa-camera"></i> ${boldKeywords(
+          trans.windows.troubleshooting.camera.title
+        )}`;
+
+        const cameraTroubleList = createList(
+          trans.windows.troubleshooting.camera.steps
+        );
+
+        cameraPlatform.appendChild(cameraTroubleTitle);
+        cameraPlatform.appendChild(cameraTroubleList);
+
+        // Screen Issues Platform
+        const screenPlatform = document.createElement("div");
+        screenPlatform.className = "platform";
+
+        const screenTroubleTitle = document.createElement("h3");
+        screenTroubleTitle.innerHTML = `<i class="fas fa-desktop"></i> ${boldKeywords(
+          trans.windows.troubleshooting.screen.title
+        )}`;
+
+        const screenTroubleList = createList(
+          trans.windows.troubleshooting.screen.steps
+        );
+
+        screenPlatform.appendChild(screenTroubleTitle);
+        screenPlatform.appendChild(screenTroubleList);
+
+        winTroublePlatforms.appendChild(cameraPlatform);
+        winTroublePlatforms.appendChild(screenPlatform);
+
+        winTroubleSection.appendChild(winTroubleTitle);
+        winTroubleSection.appendChild(winTroublePlatforms);
+        windowsContent.appendChild(winTroubleSection);
+
+        // During Exam Section (applies to both OS)
+        const duringExamSection = document.createElement("div");
+        duringExamSection.className = "section";
+
+        const duringExamTitle = document.createElement("h2");
+        duringExamTitle.innerHTML = `<i class="fas fa-check-circle"></i> ${boldKeywords(
+          trans.during_exam.title
+        )}`;
+
+        const duringExamSteps = createStepsSection(trans.during_exam.steps);
+
+        duringExamSection.appendChild(duringExamTitle);
+        duringExamSection.appendChild(duringExamSteps);
+
+        // Add all OS sections
+        mainContainer.appendChild(macContent);
+        mainContainer.appendChild(windowsContent);
+        mainContainer.appendChild(duringExamSection);
+
+        container.appendChild(mainContainer);
+
+        // Apply initial OS state AFTER content is added to DOM
+        setTimeout(() => {
+          // Set initial active tab and content - use switchOS instead of direct manipulation
+          switchOS(currentOS);
+
+          // Remove fade animation after transition
+          container.classList.remove("fade-enter");
+        }, 50);
+      }
+
+      document.addEventListener("DOMContentLoaded", loadTranslations);
+    </script>
+  </body>
+</html>

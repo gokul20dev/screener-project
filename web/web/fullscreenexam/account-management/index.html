@@ -1,0 +1,1602 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Account Management</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/cropperjs@1.5.12/dist/cropper.min.css" rel="stylesheet" type="text/css" />
+  <link href="../../common/commonLibaries/htmleditor/dist/ui/trumbowyg.min.css" rel="stylesheet" />
+
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&family=Roboto&family=Inter&display=swap"
+    rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Amatic+SC&family=Anton&family=Bangers&family=Bebas+Neue&family=Caveat&family=Cinzel&family=Courgette&family=Dancing+Script&family=Fira+Sans&family=Gloria+Hallelujah&family=Great+Vibes&family=Indie+Flower&family=Josefin+Sans&family=Kalam&family=Lato&family=Lobster&family=Merriweather&family=Montserrat&family=Nunito&family=Open+Sans&family=Oswald&family=Pacifico&family=Playfair+Display&family=Poppins&family=PT+Sans&family=Quicksand&family=Raleway&family=Righteous&family=Rubik&family=Satisfy&family=Shadows+Into+Light&family=Signika&family=Tangerine&family=Ubuntu&family=Verdana&family=Yanone+Kaffeesatz&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" type="text/css" href="../../common/css/common-base.css" />
+  <link rel="stylesheet" href="../../common/css/loader.css">
+  <link rel="stylesheet" type="text/css" href="./account.css" />
+  <link rel="stylesheet" type="text/css" href="./credits.css" />
+  <link rel="stylesheet" type="text/css" href="./course-grade-certificate.css" />
+  <link rel="stylesheet" href="../../common/commonLibaries/toastr.min.css">
+  <!-- AG Grid CSS (Alpine Theme) -->
+  <link rel="stylesheet" type="text/css" href="../../common/commonLibaries/ag-grid.min.css" />
+  <link rel="stylesheet" type="text/css" href="../../common/commonLibaries/ag-theme-alpine.min.css" />
+</head>
+
+<body class="d-flex flex-column">
+
+  <div class="bread-crumb-container-cls" id="bread-crumb-container"></div>
+
+  <div class="main-content ">
+    <div id="api-success">
+      <div class="error-message">Saved SuccessFully</div>
+    </div>
+
+    <div id="nav-section-menu" class="nav-bar"></div>
+    <section class="main-container">
+      <!---------------------Main Section Start--------------->
+      <main class="main-layout page" id="main-layout" style="display: none;height: 88vh;margin: 20px 0 0 0;">
+        <div class="table-header pe-3 d-flex justify-content-between py-2">
+          <div class="search-input my-1">
+            <i class="bx bx-search-alt bx-burst"></i>
+            <form id="search-form" autocomplete="off" name="search-form">
+              <input type="text" class="search ms-3" id="table-search" placeholder="Search..." autocomplete="off"
+                name="search-input" />
+            </form>
+            <i class="bx bx-x cancel" id="removeSearch"></i>
+          </div>
+          <div class="d-flex gap-3 align-items-center">
+            <!-- <div>
+              <button class="add-client-btn">
+                <i class="fa fa-filter lite-grey me-2"></i>Filter
+              </button>
+            </div> -->
+            <div id="client-btn">
+              <button class="add-client-btn" onclick="openAddClient('#add-client-popup')">
+                <i class="fa fa-plus me-1"></i> Add Client
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-4 main-table g-scroll">
+          <table class="list-table">
+            <thead>
+              <tr>
+                <th>Institute Code</th>
+                <th>Institute Name</th>
+                <th>No Of Staff</th>
+                <th>No Of Exams</th>
+                <th>No Of Admins</th>
+                <th class="text-center">Action</th>
+              </tr>
+            </thead>
+            <tbody id="client-list"></tbody>
+          </table>
+        </div>
+      </main>
+      <!---------------------Main Section End----------------->
+
+      <!---------------------Manage Section Start------------->
+      <section class="manage-layout" id="manage-layout">
+        <div class="tabs mt-3">
+          <div class="active"></div>
+          <button id="basic-tab" data-bs-toggle="tab" data-bs-target="#basic" type="button">
+            Basic Details
+          </button>
+          <button id="features-tab" data- bs-toggle="tab" data-bs-target="#features" type="button" aria-selected="true">
+            Features
+          </button>
+          <button id="default-settings-tab" data-bs-toggle="tab" data-bs-target="#default-settings" type="button">
+            Default Settings
+          </button>
+          <button id="label-management-tab" data-bs-toggle="tab" data-bs-target="#label-management" type="button">
+            Label Management
+          </button>
+
+          <button id="email-content-management-tab" data-bs-toggle="tab" data-bs-target="#email-content-management"
+            type="button">
+            Email Content
+          </button>
+          <button id="email-configuration-tab" data-bs-toggle="tab" data-bs-target="#email-configuration" type="button">
+            Email Configuration
+          </button>
+        </div>
+
+        <div id="tab-content-report" class="tab-content g-scroll">
+          <div id="basic" class="tab-pane tab-basic" role="tabpanel" aria-labelledby="basic-tab">
+
+            <div class="d-flex card basic-details g-scroll px-5 pt-1 pb-4  ">
+              <footer class="text-end mt-1">
+                <button class="client-create-btn" onclick="handleBasic()">
+                  Apply
+                </button>
+              </footer>
+              <span for="exampleFormControlInput1" class="form-label text-black">Client Logo</span>
+              <div class="input-group mb-3">
+                <input type="file" class="form-control" accept="image/*" id="client-logo"
+                  aria-label="Amount (to the nearest dollar)" />
+                <div class="input-group-append" onclick="openAddClient('#view-profile-photo')">
+                  <span class="input-group-text bg-white"><img id="logo" alt="image"
+                      onerror="this.src='../../common/imgs/school.png'" /></span>
+                </div>
+              </div>
+              <div class="mb-3">
+                <span for="exampleFormControlInput1" class="form-label text-black">Client Name <span
+                    class="text-danger"> *</span> </span>
+                <input type="text" class="form-control mt-1" id="client-name" placeholder="Client Name" required />
+              </div>
+              <div class="mb-3">
+                <span for="exampleFormControlInput1" class="form-label text-black">Client Code <span
+                    class="text-danger"> *</span></span>
+                <input type="text" class="form-control mt-1" id="client-code" disabled readonly
+                  placeholder="Client Code" />
+              </div>
+              <div class="mb-3">
+                <div for="exampleFormControlInput1" class="form-label text-black">
+                  Client Themes
+                </div>
+
+                <div class="d-flex align-items-center gap-3">
+                  <div class="text-black">Primary</div>
+                  <input type="color" class="mt-1" id="client-theme-primary" value="#1877F2"
+                    placeholder="Client Code" />
+                  <div class="text-black">Secondary</div>
+                  <input type="color" class="mt-1" id="client-theme-secondary" value="#8BCEF7"
+                    placeholder="Client Code" />
+                </div>
+              </div>
+              <div class="mb-2">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                  <span for="exampleFormControlInput1" class="form-label text-black">Admins</span>
+                  <button class="client-create-btn client-add-user" onclick="addEmails()">
+                    Add User <i class="fa fa-plus text-white ps-1"></i>
+                  </button>
+                </div>
+                <div id="admin-emails">
+                  <div class="d-flex align-items-center gap-3 mt-2">
+                    <input type="email" class="form-control mt-1" id="admin-mail" placeholder="Admin Mail" />
+                    <input type="email" class="form-control mt-2" id="admin-code" placeholder="Admin Code" />
+                    <i class="bx bx-x cancel-admin mt-2 cursor-pointer" onclick="deleteEmail(this)"></i>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <div id="features" class="tab-pane tab-basic" role="tabpanel" aria-labelledby="features-tab">
+            <div class="d-flex card basic-details g-scroll px-5 pb-4 mt-3">
+              <footer class="text-end mt-2">
+                <button class="client-create-btn" onclick="handleFeatures()">
+                  Apply
+                </button>
+              </footer>
+              <div class="section-header features-header">
+                <div class="section-icon">
+                  <i class="bx bx-cog"></i>
+                </div>
+                <h3 class="section-title">Features</h3>
+              </div>
+              <div class="d-flex gap-4 flex-column flex-wrap mt-4">
+                <div class="position-relative d-flex gap-2">
+                  <input class="basic-input-check mx-3" type="checkbox" id="anomaly-detection" placeholder="Logo" />
+                  <label class="lite-grey mx-3" for="anomaly-detection">Turn On AI Video Monitoring by Default for all
+                    exams</label>
+                  <i class="bx bx-info-circle text-primary" data-bs-toggle="tooltip" data-bs-placement="top"
+                    title="When enabled, all new exams will automatically have AI-powered video monitoring activated. This includes face detection, suspicious behavior analysis, and activity tracking to maintain exam integrity."></i>
+                </div>
+                <div class="position-relative d-flex gap-2 mt-1">
+                  <input class="basic-input-check mx-3" type="checkbox" id="ai-question-generator" />
+                  <label class="lite-grey mx-3" for="ai-question-generator">Enable Heba Item Creation</label>
+                  <i class="bx bx-info-circle text-primary" data-bs-toggle="tooltip" data-bs-placement="top"
+                    title="When enabled, administrators can use AI-powered tools to automatically generate exam questions, create question banks, and develop assessment content using the Heba AI system."></i>
+                </div>
+                <div class="position-relative d-flex gap-2 mt-1">
+                  <input class="basic-input-check mx-3" type="checkbox" id="grouping-creation" />
+                  <label class="lite-grey mx-3" for="grouping-creation">Enable Grouping Creation</label>
+                  <i class="bx bx-info-circle text-primary" data-bs-toggle="tooltip" data-bs-placement="top"
+                    title="When enabled, administrators can create student groups, organize candidates by departments, courses, or other criteria, and manage bulk operations for multiple students simultaneously."></i>
+                </div>
+                <div class="position-relative d-flex gap-2 mt-1">
+                  <input class="basic-input-check mx-3" type="checkbox" id="insight-creation" />
+                  <label class="lite-grey mx-3" for="insight-creation">Enable Insight Creation</label>
+                  <i class="bx bx-info-circle text-primary" data-bs-toggle="tooltip" data-bs-placement="top"
+                    title="When enabled, administrators can generate detailed analytics and insights from exam results, including performance trends, question analysis, and candidate behavior patterns."></i>
+                </div>
+
+                <!-- <div class="position-relative d-flex gap-2">
+                    <input
+                      class="basic-input-check"
+                      type="checkbox"
+                      id="heba-creation"
+                      placeholder="Logo"
+                    />
+                    <label class="lite-grey" for="heba-creation"
+                      >enable Heba Item Creation</label
+                    >
+                  </div> -->
+
+                <div class="section-header email-header">
+                  <div class="section-icon">
+                    <i class="bx bx-envelope"></i>
+                  </div>
+                  <h3 class="section-title">Email Configuration</h3>
+                </div>
+                <div class="position-relative d-flex gap-2 mt-2">
+                  <input class="basic-input-check mx-3" type="checkbox" id="send-email-all" />
+                  <label class="lite-grey mx-3" for="send-email-all">Enable Email Notifications</label>
+                  <i class="bx bx-info-circle text-primary" data-bs-toggle="tooltip" data-bs-placement="top"
+                    title="When enabled, the system will send all configured email notifications to users. This is the master switch for email functionality."></i>
+                </div>
+
+                <div id="email-reminder">
+                  <div class="position-relative d-flex gap-2 mt-2 mb-3 mx-4">
+                    <input class="basic-input-check mx-3" type="checkbox" id="send-email-reminder" />
+                    <label class="lite-grey mx-3" for="send-email-reminder">
+                      Automatically Send Email Reminder Before the Exam
+                    </label>
+                    <i class="bx bx-info-circle text-primary" data-bs-toggle="tooltip" data-bs-placement="top"
+                      title="When enabled, the system will automatically send reminder emails to candidates before their scheduled exam. This helps reduce no-shows and ensures candidates are prepared."></i>
+                  </div>
+                  <div id="email-reminder-hours-container">
+                    <div class="d-flex gap-2 align-items-center mb-3">
+                      <div class="lite-grey">Send Reminder X Hours Before Exam</div>
+                      <input class="number-input mx-2" type="number" id="email-hours" min="1" max="24" />
+                    </div>
+                  </div>
+
+                  <div class="position-relative d-flex gap-2 mt-2 mb-3 mx-4">
+                    <input class="basic-input-check mx-3" type="checkbox" id="send-email-exam-reminder" />
+                    <label class="lite-grey mx-3" for="send-email-exam-reminder">Exam Email</label>
+                    <i class="bx bx-info-circle text-primary" data-bs-toggle="tooltip" data-bs-placement="top"
+                      title="When enabled, candidates will receive email reminders about their upcoming exam, including exam details, start time, and preparation instructions."></i>
+                  </div>
+
+                  <div class="position-relative d-flex gap-2 mt-2 mb-3 mx-4">
+                    <input class="basic-input-check mx-3" type="checkbox" id="send-email-registration-reminder" />
+                    <label class="lite-grey mx-3" for="send-email-registration-reminder">Registration Email</label>
+                    <i class="bx bx-info-circle text-primary" data-bs-toggle="tooltip" data-bs-placement="top"
+                      title="When enabled, candidates will receive email reminders to complete their registration process, including any pending document uploads or profile completion steps."></i>
+                  </div>
+                </div>
+
+
+                <div id="counting">
+                  <div class="section-header counting-header">
+                    <div class="section-icon">
+                      <i class="bx bx-bar-chart-alt-2"></i>
+                    </div>
+                    <h3 class="section-title">Set Max Count</h3>
+                  </div>
+                  <div class="position-relative d-flex align-items-center mt-2 gap-2 mx-2">
+                    <div class="lite-grey" for="checkbox2">
+                      1. <span class="mx-2">Max Users</span>
+                    </div>
+                    <input class="number-input mx-2" type="text" id="max-users" autocomplete="off" placeholder="" />
+                  </div>
+                  <div class="position-relative d-flex align-items-center gap-2 mt-4 mx-2">
+                    <div class="lite-grey" for="checkbox2">
+                      2. <span class="mx-2">Max Exams</span>
+                    </div>
+                    <input class="number-input" type="text" id="max-exams" autocomplete="off" placeholder="" />
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+          <div id="default-settings" class="tab-pane tab-basic" role="tabpanel" aria-labelledby="default-settings-tab">
+
+            <div class="card basic-details g-scroll mt-3 pt-1 pb-4 px-5">
+              <footer class="text-end mt-2">
+                <button class="client-create-btn" onclick="handleSettings()">
+                  Apply
+                </button>
+              </footer>
+              <div class="text-black">Exam Settings</div>
+              <div class="d-flex gap-4 flex-column flex-wrap mt-3">
+                <div class="position-relative d-flex flex-column gap-2">
+                  <div class="text-black mb-1 mx-5">Exam Start</div>
+                  <div class="d-flex gap-3 align-items-center mx-5">
+                    <div class="d-flex gap-3 mx-5">
+                      <input type="radio" id="checkbox" name="start" value="autoStart" placeholder="Logo" />
+                      <div class="lite-grey" for="checkbox">Auto Start</div>
+                    </div>
+                    <div class="d-flex gap-3">
+                      <input type="radio" id="checkbox" name="start" value="manualStart" placeholder="Logo" />
+                      <div class="lite-grey" for="checkbox">Manual Start</div>
+                    </div>
+
+                  </div>
+                  <div id="time-zone">
+                    <div class="text-black mt-1 mb-1 mx-5">Time Zone</div>
+                    <div class="mx-5">
+                      <input type="text" class="mx-5" id="user-filter-input" placeholder="Please Select a time zone"
+                        autocomplete="off" />
+                      <ul class="g-scroll mx-5">
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="text-black mx-5">Exam Tools</div>
+                  <div class="position-relative d-flex gap-2 mt-1 mx-5">
+                    <input class="basic-input-check mx-5" type="checkbox" id="scandnq" placeholder="Logo" />
+                    <label class="lite-grey mx-5" for="scandnq">Enable built-in scientific calculator for numerical
+                      questions</label>
+                  </div>
+                  <!-- <div class="text-black mx-5">Exam Time</div>
+                    <div class="position-relative d-flex gap-2 mt-1 mx-5">
+                      <div class="mx-5">
+                      <input
+                        class="basic-input-check"
+                        type="checkbox"
+                        id="late-start"
+                        placeholder="Client Name"
+                      />
+                      <label class="lite-grey" for="late-start "
+                        >On Late Start Provides Full Time To Canditate.</label
+                      >
+                    </div>
+                    </div> -->
+
+                  <div class="text-black mx-5">Item Types</div>
+                  <div class="position-relative d-flex flex-column gap-2 mx-5 mt-1">
+                    <div class="mx-5">
+                      <input type="checkbox" checked class="basic-input-check" id="MCQ-checkbox" placeholder="MCQ">
+                      <label class="lite-grey" for="MCQ-checkbox">MCQ-Multiple Choice</label>
+                    </div>
+                    <div class="mx-5">
+                      <input type="checkbox" class="basic-input-check" id="SAQ-checkbox" placeholder="SAQ">
+                      <label class="lite-grey" for="SAQ-checkbox">SAQ-Short Answer Question</label>
+                    </div>
+                    <div class="mx-5">
+                      <input type="checkbox" class="basic-input-check" id="FTB-checkbox" placeholder="FTB">
+                      <label class="lite-grey" for="FTB-checkbox">FTB-Fill In The Blanks</label>
+                    </div>
+                    <div class="mx-5">
+                      <input type="checkbox" class="basic-input-check" id="PRQ-checkbox" placeholder="PRQ">
+                      <label class="lite-grey" for="PRQ-checkbox">PRQ-Programming Response Question</label>
+                    </div>
+                    <div class="mx-5">
+                      <input type="checkbox" class="basic-input-check" id="OR-checkbox" placeholder="OR">
+                      <label class="lite-grey" for="OR-checkbox">OR-Ordering Question</label>
+                    </div>
+                    <div class="mx-5">
+                      <input type="checkbox" class="basic-input-check" id="IR-checkbox" placeholder="IR">
+                      <label class="lite-grey" for="IR-checkbox">IR-Image Response</label>
+                    </div>
+                    <div class="mx-5">
+                      <input type="checkbox" class="basic-input-check" id="UD-checkbox" placeholder="UD">
+                      <label class="lite-grey" for="UD-checkbox">UD-Upload Document</label>
+                    </div>
+                    <div class="mx-5">
+                      <input type="checkbox" class="basic-input-check" id="TF-checkbox" placeholder="TF">
+                      <label class="lite-grey" for="TF-checkbox">TF-True False</label>
+                    </div>
+                    <div class="mx-5">
+                      <input type="checkbox" class="basic-input-check" id="MTF-checkbox" placeholder="MTF">
+                      <label class="lite-grey" for="MTF-checkbox">MTF-Matching Following</label>
+                    </div>
+                    <div class="mx-5">
+                      <input type="checkbox" class="basic-input-check" id="TAB-checkbox" placeholder="TAB">
+                      <label class="lite-grey" for="TAB-checkbox">TAB-Table Question</label>
+                    </div>
+                  </div>
+                  <div class="text-black mt-3">Registration settings</div>
+                  <div class="position-relative d-flex gap-2 mx-5 mt-1">
+                    <input class="basic-input-check" type="checkbox" id="exam-taker" placeholder="Client Name" />
+                    <label class="lite-grey" for="exam-taker">Allow Exam Taker Without Registration (only with Email
+                      Id)</label>
+                  </div>
+                  <div class="position-relative d-flex gap-2 mx-5 mt-1">
+                    <input class="basic-input-check" type="checkbox" id="upload-documents-registration"
+                      placeholder="Client Name" />
+                    <label class="lite-grey" for="upload-documents-registration">Allow candidates to upload documents
+                      during the registration process</label>
+                  </div>
+                  <div class="position-relative d-flex gap-2 mt-1 mx-5">
+                    <input class="basic-input-check" type="checkbox" id="capture-image" placeholder="Logo" />
+                    <label class="lite-grey" for="capture-image">Allow candidates to capture images</label>
+                  </div>
+                  <!-- <div class="position-relative d-flex gap-2 mt-1 mx-5">
+                      <input
+                        class="basic-input-check"
+                        type="checkbox"
+                        id="upload-image"
+                        placeholder="Logo"
+                        disabled
+                      />
+                      <label class="lite-grey" for="upload-image"
+                        >Allow candidates to upload images</label
+                      >
+                     </div> -->
+                  <div class="text-black mt-3">Report settings</div>
+                  <div class="position-relative d-flex mt-1 mx-5 gap-2">
+                    <input class="basic-input-check" type="checkbox" id="detailed-report" placeholder="Logo" />
+                    <label class="lite-grey" for="detailed-report">Allow candidates to view full detailed report</label>
+                  </div>
+                  <div class="position-relative mx-5 mt-1 d-flex gap-2">
+                    <input class="basic-input-check" type="checkbox" id="report-publish" placeholder="Logo" />
+                    <label class="lite-grey" for="report-publish">Enable Report Publishing</label>
+                  </div>
+                </div>
+              </div>
+              <div class="text-black mt-3">Attach Files</div>
+              <div class="position-relative d-flex gap-2 mx-5 mt-1">
+                <div class="lite-grey d-flex align-items-center" for="checkbox2">
+                  1. <span class="mx-3">Seb Configuration File</span>
+                </div>
+                <div for="checkbox3" class="custom-file-label lite-grey" id="file-label" onclick="updateLabel()">
+                  Upload
+                </div>
+                <input class="basic-input-check" type="file" id="sebFile" placeholder="Client Name" />
+              </div>
+              <div class="position-relative d-flex gap-2 mx-5 mt-1">
+                <div class="lite-grey d-flex align-items-center" for="checkbox2">
+                  2. <span class="mx-3">Seb File</span>
+                </div>
+                <div for="checkbox3" class="custom-file-label lite-grey" id="file-label" onclick="updateLabel()">
+                  Upload Equal
+                </div>
+                <input class="basic-input-check" type="file" id="sebFile" placeholder="Client Name" />
+              </div>
+
+            </div>
+          </div>
+          <div class="label-management-container">
+            <div id="label-management" class="tab-pane tab-basic px-5 py-4 label-management-wraper" role="tabpanel"
+              aria-labelledby="label-management-tab">
+              <div class="d-flex justify-content-end align-items-center gap-2 mb-4">
+                <!-- <button   class="client-create-btn d-flex align-items-center" id="open-label-info-sp">
+                  Label Information
+                </button> -->
+                <button class="client-create-btn d-flex align-items-center gap-2"
+                  onclick="openAddClient('#create-language')">
+                  <i class="bx bx-plus"></i>
+                  Add Language
+                </button>
+              </div>
+              <div id="labelsArray">
+                <!-- <div class="card rounded border-none" style="width: 23rem;">
+               <div class="card-body ">
+                 <div class=" card-title text-black justify-content-between align-items-center text-center bg-white d-flex">
+                   <div class="">Default (En)</div> 
+                   <div class="d-flex align-items-center justify-content-between gap-5">
+                   <button class="client-create-btn" onclick="addLabel('label-1')">Add Label</button>
+                   <div><i class="bx bx-x cancel-admin mt-2" onclick="removeLabel(this)"></i></div>
+                 </div>
+                  </div>
+                 <div class="text-black my-3 pt-2" id="label-1">
+                   <div class="mb-2 d-flex gap-2">
+                     <input type="email" class="form-control mt-1" id="exampleFormControlInput1" placeholder="Label">
+                     <input type="email" class="form-control mt-1" id="exampleFormControlInput1" placeholder="Value">
+                   </div>
+                   <div class="mb-2 d-flex gap-2">
+                     <input type="email" class="form-control mt-1" id="exampleFormControlInput1" placeholder="Label">
+                     <input type="email" class="form-control mt-1" id="exampleFormControlInput1" placeholder="Value">
+                   </div>
+                 </div>
+                 <div class="bg-white text-end"> <button class="client-create-btn">Activate</button></div>
+               </div>
+             </div>
+             <div class="card rounded border-none" style="width: 23rem;">
+               <div class="card-body">
+                 <div class=" card-title text-black justify-content-between align-items-center text-center bg-white d-flex">
+                  <div class="">Default (Ab)</div> 
+                  <div class="d-flex align-items-center justify-content-between gap-5">
+                  <button class="client-create-btn" onclick="addLabel('label-2')">Add Label</button>
+                  <div><i class="bx bx-x cancel-admin mt-2" onclick="removeLabel(this)"></i> </div>
+                 </div>
+                 </div>
+                 <div class="text-black my-3 pt-2" id="label-2">
+                   <div class="mb-2 d-flex gap-2">
+                   <input type="email" class="form-control mt-1" id="exampleFormControlInput1" placeholder="Label">
+                   <input type="email" class="form-control mt-1" id="exampleFormControlInput1" placeholder="Value">
+                 </div>
+                 <div class="mb-2 d-flex gap-2">
+                   <input type="email" class="form-control mt-1" id="exampleFormControlInput1" placeholder="Label">
+                   <input type="email" class="form-control mt-1" id="exampleFormControlInput1" placeholder="Value">
+                 </div>
+               </div>
+                 <div class="bg-white text-end"> <button class="client-create-btn">Activate</button></div>
+               </div>
+              
+             </div> -->
+              </div>
+            </div>
+            <div class="label-info-side-panel hidden">
+              <button class="close-label-info-side-panel" id="close-label-info-sp">
+                <i class="fas fa-chevron-right"></i>
+              </button>
+            </div>
+          </div>
+          <div class="tab-pane tab-basic" id="email-content-management" role="tabpanel"
+            aria-labelledby="email-content-management-tab">
+
+            <div class="card basic-details g-scroll mt-3 pt-4 pb-4 px-4">
+              <!-- Simple tab navigation -->
+              <div class="email-content-container">
+                <div class="email-tabs border-bottom mb-4">
+                  <a href="#" class="email-tab active" data-target="#registration-content">Registration Email
+                    Template</a>
+                  <a href="#" class="email-tab" data-target="#invitation-content">Exam Invite Email Template</a>
+                  <a href="#" class="email-tab common-label-exam" data-target="#report-content">Report Email
+                    Template</a>
+                </div>
+                <div class="d-flex justify-content-end gap-2" id="email-content-btns">
+                  <button class="btn btn-secondary" id="reset-format">
+                    Reset format
+                  </button>
+                  <button class="btn btn-primary" id="save-email">Save</button>
+                </div>
+              </div>
+
+              <!-- Registration Content -->
+              <div id="registration-content" class="email-content">
+                <div class="mb-3">
+                  <ldivbel>Subject
+                </div>
+                <input type="text" class="form-control mb-3" id="registration-subject"
+                  placeholder="Enter registration email subject" />
+                <div class="mb-2">Content</div>
+                <div id="registration-content-editor" class="form-control"></div>
+              </div>
+
+
+              <!-- Invitation Content -->
+              <div id="invitation-content" class="email-content" style="display: none">
+                <div class="mb-3">
+                  <div>Subject</div>
+                  <input type="text" class="form-control mb-3" id="invitation-subject"
+                    placeholder="Enter invitation email subject" />
+                  <div>Content</div>
+                  <div id="invitation-content-editor" class="form-control"></div>
+                </div>
+              </div>
+
+              <!-- Report Content -->
+              <div id="report-content" class="email-content" style="display: none;">
+                <div class="mb-3">
+                  <div>Subject</div>
+                  <input type="text" class="form-control mb-3" id="report-subject"
+                    placeholder="Enter report email subject">
+                  <div>Content</div>
+                  <div id="report-content-editor" class="form-control"></div>
+                </div>
+              </div>
+
+
+            </div>
+          </div>
+          <div class="tab-pane tab-basic" id="email-configuration" role="tabpanel"
+            aria-labelledby="email-configuration-tab">
+            <div class="d-flex card basic-details g-scroll px-5 pt-1 pb-4 mt-3">
+              <footer class="text-end mt-1">
+                <button class="outline-btn" onclick="openAddClient('#test-email-popup')">
+                  SEND TEST EMAIL
+                </button>
+                <button class="client-test-btn" onclick="handleEmailConfiguration()">
+                  APPLY
+                </button>
+              </footer>
+              <div class="mb-3 d-flex gap-4 isEmail">
+                <span for="exampleFormControlInput1" class="form-label text-black">Digival Email</span>
+
+                <label class="toggle-switch-account">
+                  <input id="digival-email-toggle" type="checkbox" />
+                  <span class="slider"></span>
+                </label>
+              </div>
+              <div class="mb-3">
+                <span for="exampleFormControlInput1" class="form-label text-black">Host <span
+                    class="text-danger">*</span></span>
+                <input type="email" class="form-control mt-1" id="host-name" placeholder="Host" />
+                <span class=" host-name-error"></span>
+              </div>
+              <div class="mb-3">
+                <span for="exampleFormControlInput1" class="form-label text-black">Port <span
+                    class="text-danger">*</span></span>
+                <input type="email" class="form-control mt-1" id="port-number" placeholder="Port" />
+                <span class=" port-number-error"></span>
+              </div>
+              <div class="mb-3">
+                <span for="exampleFormControlInput1" class="form-label text-black">Username <span
+                    class="text-danger">*</span></span>
+                <input type="email" class="form-control mt-1" id="username" placeholder="Username" />
+                <span class="  username-error"></span>
+              </div>
+              <div class="mb-3">
+                <span for="exampleFormControlInput1" class="form-label text-black">Password <span
+                    class="text-danger">*</span></span>
+                <input type="email" class="form-control mt-1" id="password-email-configuration"
+                  placeholder="Password" />
+                <span class="password-error"></span>
+              </div>
+              <div class="mb-3">
+                <span for="exampleFormControlInput1" class="form-label text-black">From <span
+                    class="text-danger">*</span></span>
+                <input type="email" class="form-control mt-1" id="from-email-configuration" placeholder="From" />
+                <span class=" form-email-error"></span>
+              </div>
+
+
+
+
+            </div>
+          </div>
+        </div>
+      </section>
+      <!---------------------Manage Section End--------------->
+      <main id="2" class="page">
+        <div class="container-fluid p-0">
+
+
+          <!-- Container for client list and exam list -->
+          <div id="video-management-container">
+            <!-- Client list section -->
+            <div class="w-100 p-3" id="video-client-section">
+              <div class="d-flex justify-content-between align-items-center">
+                <h4 class="mb-3 show-client-text">Clients</h4>
+                <div></div>
+                <div id="clientSearch" class="search-input my-3 align-self-end">
+                  <i class="bx bx-search-alt"></i>
+                  <input type="text" class="search ms-3" id="clients-grid-search" placeholder="Search clients..." />
+                  <i class="bx bx-x cancel" id="clear-clients-search"></i>
+                </div>
+              </div>
+
+              <div class="position-relative">
+                <div id="clientsGrid" class="ag-theme-alpine"></div>
+              </div>
+            </div>
+
+            <!-- Exam list section (initially hidden) -->
+            <div class="w-100 d-none px-3" id="video-exam-section">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <div class="d-flex align-items-center gap-2 justify-content-between">
+                  <button class="back-arrow-btn" id="back-to-clients">
+                    <i class="bx bx-arrow-back me-1"></i>
+                  </button>
+                  <h4 id="selected-client-name">Exams</h4>
+                </div>
+
+
+
+                <div class="search-input my-3">
+                  <i class="bx bx-search-alt"></i>
+                  <input type="text" class="search ms-3" id="exams-grid-search" placeholder="Search exams..." />
+                  <i class="bx bx-x cancel" id="clear-exams-search"></i>
+                </div>
+
+              </div>
+
+              <div class="position-relative">
+                <div id="examsGrid" class="ag-theme-alpine pagination-video-management"></div>
+              </div>
+            </div>
+
+            <!-- Recordings section (initially hidden) -->
+            <div class="w-100 d-none" id="video-recordings-section">
+              <div class="d-flex justify-content-between align-items-center mb-3 px-2">
+                <div class="d-flex align-items-center gap-2 justify-content-between">
+                  <button class="back-arrow-btn" id="back-to-exams">
+                    <i class="bx bx-arrow-back me-1"></i>
+                  </button>
+                  <h4 id="selected-exam-name">Exam Attenders</h4>
+                </div>
+
+                <div class="search-input my-3">
+                  <i class="bx bx-search-alt"></i>
+                  <input type="text" class="search ms-3" id="attenders-grid-search" placeholder="Search attenders..." />
+                  <i class="bx bx-x cancel" id="clear-attenders-search"></i>
+                  <button class="manage-btn mr-2" id="force-process-all-btn" title="Force Process All">
+                    <i class="bx bx-analyse me-1"></i>Process All
+                  </button>
+                </div>
+              </div>
+
+              <div class="position-relative">
+                <div id="attendersGrid" class="ag-theme-alpine" style="height: 500px; width: 100%;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <!-- Credits Dashboard Section -->
+      <main id="3" class="page">
+        <div class="container-fluid p-0">
+          <div id="credits-dashboard-container"
+            style="background-color: white; border-radius: 8px; display: none; height: 88vh; margin: 20px 0 0 0; padding: 20px; overflow-y: auto;">
+            <!-- Dahboard header -->
+            <ul class="nav nav-tabs credits-tabs" id="creditsTabs" role="tablist">
+              <li class="nav-item" role="presentation">
+                <button class="nav-link  active" id="exam-calculation-tab" data-bs-target="#exam-calculation-content"
+                  type="button" role="tab" aria-controls="exam-calculation-content" aria-selected="true">
+                  <i class="bx bx-calculator me-1"></i>Exam Usage
+                </button>
+              </li>
+              <li class="nav-item" role="presentation">
+                <button class="nav-link" id="history-tab" data-bs-target="#history-content" type="button" role="tab"
+                  aria-controls="history-content" aria-selected="false">
+                  <i class="bx bx-history me-1"></i>Credit Usage
+                </button>
+              </li>
+
+            </ul>
+
+            <!-- Tabs Section -->
+            <div class="credits-tabs-container">
+
+              <div class="credits-tab-content" id="creditsTabContent">
+                <!-- Transaction History Tab -->
+                <div class="tab-pane fade show active" id="history-content" role="tabpanel"
+                  aria-labelledby="history-tab">
+
+
+                  <!-- Dashboard Header -->
+                  <div class="credits-header mb-4">
+                    <div class="d-flex justify-content-between align-items-center w-100">
+                      <div>
+                        <h3 class="credits-title mb-0">
+                          <i class="bx bx-credit-card me-2"></i>
+                          Credits Dashboard
+                        </h3>
+                        <p class="current-time"></p>
+                        <!-- Validity Info Section -->
+                        <div class="validity-info" id="validity-info" style="display: none;">
+                          <i class="bx bx-calendar-check"></i>
+                          <span class="validity-text" id="validity-text">Credit Validity</span>
+                          <span class="validity-dates" id="validity-dates"></span>
+                        </div>
+                      </div>
+                      <div class="d-flex align-items-center gap-3">
+                        <button class="btn btn-outline-primary" id="refresh-credits-btn">
+                          <i class="bx bx-refresh me-1"></i>Refresh
+                        </button>
+                        <button class="btn btn-primary" id="add-credits-btn">
+                          <i class="bx bx-plus me-1"></i>Add Credits
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Statistics Cards -->
+                  <div class="row mb-4" id="credits-stats-cards">
+                    <div class="col-md-3">
+                      <div class="stats-card">
+                        <div class="stats-icon">
+                          <i class="bx bx-wallet"></i>
+                        </div>
+                        <div class="stats-content">
+                          <h4 id="total-credits">0</h4>
+                          <p>Total Credits</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="stats-card">
+                        <div class="stats-icon">
+                          <i class="bx bx-receipt"></i>
+                        </div>
+                        <div class="stats-content">
+                          <h4 id="total-transactions">0</h4>
+                          <p>Total Transactions</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="stats-card">
+                        <div class="stats-icon">
+                          <i class="bx bx-trending-up"></i>
+                        </div>
+                        <div class="stats-content">
+                          <h4 id="credits-used">0</h4>
+                          <p>Credits Used</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-3">
+                      <div class="stats-card">
+                        <div class="stats-icon">
+                          <i class="bx bx-time"></i>
+                        </div>
+                        <div class="stats-content">
+                          <h4 id="last-updated">-</h4>
+                          <p>Last Updated</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Charts Section -->
+                  <div class="row mb-4">
+                    <div class="col-md-6">
+                      <div class="chart-card">
+                        <div class="chart-header">
+                          <h5>Credit Usage Overview</h5>
+                        </div>
+                        <div class="chart-body">
+                          <canvas id="creditUsageChart" width="400" height="200"></canvas>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="chart-card">
+                        <div class="chart-header">
+                          <h5>Transaction</h5>
+                        </div>
+                        <div class="chart-body">
+                          <canvas id="transactionTypesChart" width="400" height="200"></canvas>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+                  <div class="exam-calculation-header">
+                    <h5>Transaction History</h5>
+                    <div class="exam-calculation-controls">
+                      <div class="dropdown-container">
+                        <select class="form-select" id="transaction-type-filter">
+                          <option value="">All Types</option>
+                          <option value="purchase">Purchase</option>
+                          <option value="renewal">Renewal</option>
+                        </select>
+                        <i class="bx bx-chevron-down dropdown-icon"></i>
+                      </div>
+                      <div class="search-input">
+                        <i class="bx bx-search-alt"></i>
+                        <input type="text" class="search ms-3 enhanced-input" id="history-search"
+                          placeholder="Search transactions...">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="table-responsive">
+                    <table class="table credits-table" id="credits-history-table">
+                      <thead>
+                        <tr>
+                          <th>Date</th>
+                          <th>Type</th>
+                          <th>Credits</th>
+                          <th>Description</th>
+                          <th>Invoice</th>
+                          <th>Issued By</th>
+                          <th>Attachments</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody id="credits-history-tbody">
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                <!-- Exam Calculations Tab -->
+                <div class="tab-pane fade" id="exam-calculation-content" role="tabpanel"
+                  aria-labelledby="exam-calculation-tab">
+
+                  <div class="report-header">
+                    <div class="report-container">
+                      <div class="report-header-inner">
+                        <div>
+                          <h1 class="report-title">Assessment Usage Report</h1>
+                          <p class="report-subtitle">Comprehensive analysis of assessment usage and participation</p>
+                        </div>
+                        <div class="report-controls">
+                          <div>
+                            <div id="period-selector" class="period-selector">
+                              <button class="period-button" data-period="today">Today</button>
+                              <button class="period-button" data-period="week">Week</button>
+                              <button class="period-button is-active" data-period="month">Month</button>
+                              <button class="period-button" data-period="year">Year</button>
+                              <button id="custom-range-button" class="period-button custom-button">
+                                <i class="fas fa-filter filter-icon"></i>
+                                Custom Range
+                              </button>
+                            </div>
+                            <div id="custom-range-container" class="custom-range-container is-hidden">
+                              <div class="custom-range-inner">
+                                <div class="range-field">
+                                  <label>Start Date</label>
+                                  <input type="date" id="start-date" />
+                                </div>
+                                <div class="range-field">
+                                  <label>End Date</label>
+                                  <input type="date" id="end-date" />
+                                </div>
+                                <button id="apply-range" class="apply-button">Apply</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <button class="export-button">
+                          <i class="fas fa-download"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+
+
+
+
+
+                  <div class="report-section">
+
+                    <!-- Key Metrics Section -->
+                    <div id="metrics-container" class="metrics-container">
+                      <!-- Metrics will be populated by JavaScript -->
+                    </div>
+
+                    <!-- Main Content Grid -->
+                    <div class="charts-section">
+
+                      <!-- Calendar View -->
+                      <div class="calendar-wrapper">
+                        <div id="calendar-view" class="calendar-card">
+                          <div class="calendar-header">
+                            <div>
+                              <h3 class="calendar-title">Monthly Activity Calendar</h3>
+                              <p class="calendar-subtitle" id="current-month-year">January 2024</p>
+                            </div>
+                            <div class="calendar-nav">
+                              <button id="prev-month" class="calendar-nav-btn" title="Previous month">←</button>
+                              <button id="today-button" class="calendar-today-btn">Today</button>
+                              <button id="next-month" class="calendar-nav-btn" title="Next month">→</button>
+                            </div>
+                          </div>
+
+                          <div class="calendar-body">
+                            <div class="calendar-days-labels">
+                              <div>Sun</div>
+                              <div>Mon</div>
+                              <div>Tue</div>
+                              <div>Wed</div>
+                              <div>Thu</div>
+                              <div>Fri</div>
+                              <div>Sat</div>
+                            </div>
+                            <div id="calendar-days" class="calendar-days">
+                              <!-- Calendar days populated by JavaScript -->
+                            </div>
+                          </div>
+
+                          <div class="calendar-footer">
+                            <div class="calendar-legend">
+                              <div>
+                                <i class="fas fa-file-alt assessment-icon"></i>
+                                <span>Assessments: <span id="total-assessments">0</span></span>
+                              </div>
+                              <div>
+                                <i class="fas fa-users participant-icon"></i>
+                                <span>Participants: <span id="total-participants">0</span></span>
+                              </div>
+                            </div>
+                            <div class="calendar-activity-level">
+                              <span>Assessment Activity Level:</span>
+                              <div class="activity-legend">
+                                <div class="level-box level-0"></div><span>0</span>
+                                <div class="level-box level-1"></div><span>1-5</span>
+                                <div class="level-box level-2"></div><span>5+</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Usage Chart -->
+                      <div class="assassment-chart-card">
+                        <div class="assassment-chart-header">
+                          <div>
+                            <h3 class="chart-title" id="chart-title">Monthly Usage Trend</h3>
+                            <p class="chart-subtitle">Assessments and participants over time</p>
+                          </div>
+                          <div class="chart-legend">
+                            <span>
+                              <div class="legend-dot legend-assessment"></div>Assessments
+                            </span>
+                            <span>
+                              <div class="legend-dot legend-participants"></div>Participants
+                            </span>
+                          </div>
+                        </div>
+                        <div class="chart-container">
+                          <canvas id="usage-chart"></canvas>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+
+
+                  <!-- Side Panel -->
+                  <!-- Side Panel -->
+                  <div id="side-panel-backdrop" class="sidepanel-backdrop">
+                    <div id="panel-overlay" class="sidepanel-overlay"></div>
+                    <div id="side-panel" class="sidepanel-container">
+                      <div class="sidepanel-inner">
+                        <div class="sidepanel-content">
+                          <div class="sidepanel-scroll">
+                            <div class="sidepanel-header">
+                              <div class="sidepanel-header-row">
+                                <h2 class="sidepanel-title">Day Details</h2>
+                                <button type="button" id="close-side-panel" class="sidepanel-close-btn">
+                                  <i class="fas fa-times"></i>
+                                </button>
+                              </div>
+                              <div class="sidepanel-date-block">
+                                <h3 id="side-panel-date" class="sidepanel-date">January 15, 2024</h3>
+                                <div class="sidepanel-stats">
+                                  <div class="stat-box stat-assessments">
+                                    <div class="stat-label">
+                                      <i class="fas fa-file-alt"></i>
+                                      <span>Assessments</span>
+                                    </div>
+                                    <p id="side-panel-exams">24</p>
+                                  </div>
+                                  <div class="stat-box stat-participants">
+                                    <div class="stat-label">
+                                      <i class="fas fa-users"></i>
+                                      <span>Participants</span>
+                                    </div>
+                                    <p id="side-panel-participants">187</p>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="sidepanel-body">
+                              <h3 class="sidepanel-subtitle">Assessments Conducted</h3>
+                              <div id="assessments-list" class="sidepanel-assessments">
+                                <!-- Assessments will be populated by JavaScript -->
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                  <div class="exam-calculation-header">
+                    <h5>Exam Credit Calculations</h5>
+                    <div class="exam-calculation-controls">
+
+                      <button class="btn btn-outline-secondary" id="toggle-exam-details">
+                        <i class="bx bx-list-ul me-1"></i>Show Exam Details
+                      </button>
+                      <!-- Date Filter Controls and Search - Only visible when exam details are enabled -->
+                      <div class="exam-filters-container" id="exam-filters-container" style="display: none;">
+                        <button class="btn btn-outline-secondary" id="today-exam-details"><i
+                            class="bx bx-calendar me-1"></i>Today</button>
+                        <div class="date-filter-container">
+                          <input type="date" class="form-control date-filter enhanced-input" id="exam-start-date-filter"
+                            title="Filter from date">
+                        </div>
+                        <div class="date-filter-container">
+                          <input type="date" class="form-control date-filter enhanced-input" id="exam-end-date-filter"
+                            title="Filter to date">
+                        </div>
+                        <div class="filter-button-group">
+                          <button class="btn btn-outline-primary btn-sm enhanced-btn" id="apply-date-filter">
+                            <i class="bx bx-filter me-1"></i>Filter
+                          </button>
+                          <button class="btn btn-outline-secondary btn-sm enhanced-btn" id="clear-date-filter">
+                            Clear
+                          </button>
+                        </div>
+                        <div class="search-input enhanced-search">
+                          <i class="bx bx-search-alt"></i>
+                          <input type="text" class="search ms-3 " id="exam-search" placeholder="Search exams...">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Summary Cards -->
+                  <div class="row mb-4" id="exam-summary-cards">
+                    <div class="col-md-2">
+                      <div class="summary-card">
+                        <h6 id="total-exams-count">0</h6>
+                        <p>Total Exams</p>
+                      </div>
+                    </div>
+                    <div class="col-md-2">
+                      <div class="summary-card">
+                        <h6 id="total-attenders-count">0</h6>
+                        <p>Total Attenders</p>
+                      </div>
+                    </div>
+                    <div class="col-md-2">
+                      <div class="summary-card">
+                        <h6 id="total-credits-required">0</h6>
+                        <p>Credits Used</p>
+                      </div>
+                    </div>
+                    <div class="col-md-2">
+                      <div class="summary-card">
+                        <h6 id="avg-credits-per-exam">0</h6>
+                        <p>Avg/Exam</p>
+                      </div>
+                    </div>
+                    <div class="col-md-2">
+                      <div class="summary-card">
+                        <h6 id="short-exams-count">0</h6>
+                        <p>Short Exams</p>
+                      </div>
+                    </div>
+                    <div class="col-md-2">
+                      <div class="summary-card">
+                        <h6 id="long-exams-count">0</h6>
+                        <p>Long Exams</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="table-responsive">
+                    <table class="table credits-table" id="exam-calculations-table">
+                      <thead id="exam-calculations-thead">
+                        <tr>
+                          <th>Exam Name</th>
+                          <th>Status</th>
+                          <th>Duration</th>
+                          <th>Attenders</th>
+                          <th>Credits/Exam</th>
+                          <th>Total Credits</th>
+                          <th>Created Date</th>
+                        </tr>
+                      </thead>
+                      <tbody id="exam-calculations-tbody">
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+      <!-- Course & Grade Management Page -->
+      <main id="4" class="page">
+        <div class="container-fluid p-0">
+          <div class="course-grade-management-container" id="course-grade-management-container">
+            <!-- Course & Grade Management Content -->
+            <div class="w-100">
+
+              <!-- Course & Grade Tabs Navigation Handlebars template -->
+              <script id="course-tabs-template" type="text/x-handlebars-template">
+                <div class="course-grade-tabs">
+                  <div id="course-tab-direct" class="course-grade-tab active" data-target="#course-content-direct">
+                    <i class="bx bx-book-alt"></i> Courses
+                  </div>
+                  <div id="program-tab-direct" class="course-grade-tab" data-target="#program-content-direct">
+                    <i class="bx bx-book-alt"></i> Programs
+                  </div>
+                  <div id="grade-tab-direct" class="course-grade-tab" data-target="#grade-content-direct">
+                    <i class="bx bx-cog"></i> Grade Systems
+                  </div>
+
+                  {{#if enableCertificateCreation}}
+                  <div id="certificate-tab-direct" class="course-grade-tab" data-target="#certificate-content-direct">
+                    <i class="bx bx-certification"></i> Certificates
+                  </div>
+                  {{/if}}
+                </div>
+              </script>
+              <div id="tabs-container"></div>
+
+              <!-- Direct Tab Contents -->
+              <div class="tab-content-wrapper">
+                <!-- Course Management Content -->
+                <div id="course-content-direct" class="course-grade-content">
+                  <!-- Content will be populated by JavaScript -->
+                </div>
+
+                <div id="program-content-direct" class="course-grade-content">
+                  <!-- Content will be populated by JavaScript -->
+                </div>
+
+                <!-- Grade System Management Content -->
+                <div id="grade-content-direct" class="course-grade-content">
+                  <!-- Content will be populated by JavaScript -->
+                </div>
+
+                <!-- Certificate Management Content -->
+                <div id="certificate-content-direct" class="course-grade-content">
+                  <!-- Content will be populated by JavaScript -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+
+    </section>
+    <!---------------------Popup Start---------------------->
+    <section id="add-client-popup">
+      <div class="d-flex flex-column justify-content-around px-4 pop-inside">
+        <div class="text-black mt-4">Create Client</div>
+        <div class="d-flex gap-3 flex-wrap mt-3">
+          <!-- <div class="position-relative">
+          <input class="basic-input" placeholder="Logo" id="create-client-logo"/>
+          <i class='bx bx-check bx-check-rounded '></i>
+         </div> -->
+          <div class="position-relative">
+            <input class="basic-input" placeholder="Client name" id="create-client-name" />
+            <!-- <i class='bx bx-check bx-check-rounded '></i> -->
+          </div>
+          <div class="position-relative">
+            <input class="basic-input" placeholder="Client Code" id="create-client-code" />
+            <!-- <i class='bx bx-check bx-check-rounded'></i> -->
+          </div>
+        </div>
+        <footer class="text-end">
+          <button class="mb-4 mt-4 me-2 outline-btn" onclick="openAddClient('#add-client-popup')">
+            Cancel
+          </button>
+          <button class="client-create-btn mb-4 mt-4" onclick="createClient()">
+            Apply
+          </button>
+        </footer>
+      </div>
+    </section>
+
+    <section id="create-language">
+      <div class="create-language-inside">
+        <div class="create-language-form">
+          <div class="d-flex align-items-center gap-2 mb-4">
+            <i class="bx bx-plus-circle" style="font-size: 24px; color: #1877f2;"></i>
+            <h4 class="mb-0">Create New Language</h4>
+          </div>
+
+          <div class="form-group">
+            <div class="div-label">Language Name <span class="text-danger">*</span></div>
+            <input type="text" class="form-control" placeholder="e.g., English, Spanish, French"
+              id="create-language-name" required />
+          </div>
+
+          <div class="form-group">
+            <div class="div-label">Language Code <span class="text-danger">*</span></div>
+            <input type="text" class="form-control" placeholder="e.g., en, es, fr" id="create-language-code" required />
+            <span id="create-language-code-info" class="input-error-message"></span>
+          </div>
+
+          <div class="form-group">
+            <div class="div-label">Layout Code</div>
+            <input type="text" class="form-control" placeholder="Layout. eg,(LTR | RTL| TTB | BTT)"
+              id="create-layout-code" />
+            <span id="create-layout-code-info" class="input-error-message"></span>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="btn btn-secondary" onclick="openAddClient('#create-language')">
+              Cancel
+            </button>
+            <button type="button" class="btn btn-primary d-flex align-items-center gap-2" id="add-new-language">
+              <i class="bx bx-plus"></i>
+              Create Language
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="crop-image-popup">
+      <div class="d-flex flex-column justify-content-around px-4 pop-crop-inside">
+        <div class="text-black my-4">Crop Image</div>
+        <img src="" alt="cropImage" id="cropImage" />
+        <footer class="text-end">
+          <button class="mb-4 mt-4 me-2 outline-btn" onclick="openAddClient('#crop-image-popup')">
+            Cancel
+          </button>
+          <button class="client-create-btn mb-4 mt-4" id="getCroppedImage">
+            Crop
+          </button>
+        </footer>
+      </div>
+    </section>
+    <section id="view-profile-photo" class="d-flex justify-content-center align-items-center">
+      <div class="inside-profile">
+        <img src="" alt="profile-logo" onerror="this.src='../../common/imgs/school.png'" id="profile-logo" />
+      </div>
+    </section>
+
+    <section id="test-email-popup">
+      <div class="d-flex flex-column justify-content-around px-4 pop-inside">
+        <div class="text-black mt-4">Test Your Email <span class="text-danger">*</span></div>
+        <div class="d-flex gap-3 flex-wrap mt-3">
+          <div class="position-relative">
+            <input class="basic-input" placeholder="Email" id="test-email" />
+            <span class="test-email-error mt-1 text-danger"></span>
+          </div>
+        </div>
+        <footer class="text-end">
+          <button class="mb-4 mt-4 me-2 outline-btn" onclick="openAddClient('#test-email-popup')">
+            Cancel
+          </button>
+          <button class="client-create-btn mb-4 mt-4" onclick="sendTestEmail()">
+            Send
+          </button>
+        </footer>
+      </div>
+    </section>
+    <!---------------------Popup End------------------------>
+  </div>
+
+  <!-- AI Question Generator Password Popup -->
+  <section id="ai-password-popup" class="password-modal">
+    <div class="d-flex flex-column justify-content-around px-4 pop-inside">
+      <div class="text-black mt-4" id="ai-modal-title">AI Question Generator</div>
+      <div class="mt-2" id="ai-modal-message">Please enter your password to confirm this action:</div>
+      <form id="ai-password-form" class="mt-3">
+        <div class="position-relative">
+          <input type="password" class="basic-input" placeholder="Enter password for confirmation" id="ai-password"
+            autocomplete="current-password" />
+        </div>
+        <div id="ai-password-error" class="text-danger mt-2 d-none">
+          Invalid password. Please try again.
+        </div>
+        <footer class="text-end mt-3">
+          <button type="button" class="mb-4 mt-4 me-2 outline-btn" id="ai-cancel-button">
+            Cancel
+          </button>
+          <button type="submit" class="client-create-btn mb-4 mt-4" id="ai-confirm-button">
+            Confirm
+          </button>
+        </footer>
+      </form>
+    </div>
+  </section>
+
+  <!-- Password Confirmation Popup -->
+  <section id="password-confirmation-popup">
+    <div class="d-flex flex-column justify-content-around px-4 pop-inside">
+      <div class="text-black mt-4">Password Confirmation</div>
+      <div class="mt-3">
+        <div class="position-relative">
+          <input type="password" class="basic-input" placeholder="Enter password for confirmation"
+            id="confirmation-password" />
+        </div>
+        <div id="password-error" class="text-danger mt-2 d-none">
+          Invalid password. Please try again.
+        </div>
+      </div>
+      <footer class="text-end">
+        <button class="mb-4 mt-4 me-2 outline-btn" id="cancel-password-confirmation">
+          Cancel
+        </button>
+        <button class="client-create-btn mb-4 mt-4" id="confirm-password-button">
+          Confirm
+        </button>
+      </footer>
+    </div>
+  </section>
+
+  <!-- Add Credits Popup -->
+  <section id="add-credits-popup">
+    <div class="credits-pop-inside">
+      <!-- Popup Header -->
+      <div class="credits-popup-header">
+        <h4>
+          <i class="bx bx-plus-circle"></i>
+          Add Credits
+        </h4>
+      </div>
+
+      <!-- Popup Content -->
+      <div class="credits-popup-content">
+        <form id="add-credits-form">
+          <!-- Group 1: Credit Details, Validity Period & Transaction Type -->
+          <div class="credits-form-section">
+            <h6 class="credits-section-title">
+              <i class="bx bx-coin me-2"></i>Credit Details & Transaction Information
+            </h6>
+
+            <!-- Info Message -->
+            <div class="credits-form-info">
+              <i class="bx bx-info-circle me-2"></i>
+              <span>Set the time period when these credits will be valid. For existing users, start date defaults to
+                previous end date. For new users, start date defaults to today.</span>
+            </div>
+
+            <div class="credits-form-grid">
+              <!-- Credit Amount -->
+              <div class="credits-form-group third-width">
+                <span class="credits-form-label">
+                  Credits <span class="required">*</span>
+                </span>
+                <input type="number" class="credits-input" id="credit-amount" placeholder="Enter amount" min="1"
+                  required />
+              </div>
+
+              <!-- Invoice Number -->
+              <div class="credits-form-group third-width">
+                <span class="credits-form-label">Invoice Number</span>
+                <input type="text" class="credits-input" id="credit-invoice" placeholder="Enter invoice number"
+                  maxlength="100" />
+              </div>
+
+              <!-- Issued By -->
+              <div class="credits-form-group third-width">
+                <span class="credits-form-label">Issued By <span class="required">*</span></span>
+                <input type="text" class="credits-input" id="credit-issued-by" placeholder="Enter issuer name"
+                  maxlength="100" required />
+                <small class="credits-field-help">Person/Department who issued credits</small>
+              </div>
+
+              <!-- Start Date -->
+              <div class="credits-form-group third-width">
+                <span class="credits-form-label">Start Date</span>
+                <input type="date" class="credits-input" id="credit-start-date" title="Credit validity start date" />
+                <small class="credits-field-help">When credits become active</small>
+              </div>
+
+              <!-- End Date -->
+              <div class="credits-form-group third-width">
+                <span class="credits-form-label">End Date</span>
+                <input type="date" class="credits-input" id="credit-end-date" title="Credit validity end date" />
+                <small class="credits-field-help">When credits expire</small>
+              </div>
+
+              <!-- Empty space for alignment -->
+              <div class="credits-form-group third-width">
+              </div>
+
+              <!-- Transaction Type -->
+              <div class="credits-form-group full-width">
+                <span class="credits-form-label">
+                  Transaction Type <span class="required">*</span>
+                </span>
+                <select class="credits-select" id="credit-type" required>
+                  <option value="">Select Type</option>
+                  <option value="purchase">Purchase</option>
+                  <option value="renewal">Renewal</option>
+                  <option value="custom">+ Add Custom Type</option>
+                </select>
+              </div>
+
+              <!-- Custom Type Input (Hidden by default) -->
+              <div id="custom-type-container" class="credits-form-group full-width">
+                <span class="credits-form-label">Custom Type Name</span>
+                <input type="text" class="credits-input" id="custom-type-input"
+                  placeholder="Enter custom type name (e.g., Bonus, Promotion)" maxlength="50" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Group 2: Description & Attachment -->
+          <div class="credits-form-section">
+            <h6 class="credits-section-title">
+              <i class="bx bx-edit me-2"></i>Additional Information
+            </h6>
+            <div class="credits-form-grid">
+              <!-- Description -->
+              <div class="credits-form-group full-width">
+                <span class="credits-form-label">Description</span>
+                <textarea class="credits-input credits-textarea" id="credit-description"
+                  placeholder="Enter description (optional)" maxlength="500"></textarea>
+              </div>
+
+              <!-- File Attachment -->
+              <div class="credits-form-group full-width">
+                <span class="credits-form-label">Upload File</span>
+                <div class="credits-file-input" onclick="document.getElementById('credit-attachment').click()">
+                  <div class="file-upload-text">
+                    <i class="bx bx-cloud-upload"></i>
+                    <div>Click to upload file</div>
+                    <small>PDF, Images, Word, Excel</small>
+                  </div>
+                  <input type="file" id="credit-attachment" accept=".pdf,.jpg,.jpeg,.png,.doc,.docx,.xlsx,.xls" />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Error Message -->
+          <div id="credit-error" class="credits-error">
+            <i class="bx bx-error-circle"></i>
+            <span class="error-text"></span>
+          </div>
+        </form>
+      </div>
+
+      <!-- Popup Footer -->
+      <div class="credits-popup-footer">
+        <button type="button" class="credits-btn credits-btn-cancel" onclick="closeAddCreditsModal()">
+          <i class="bx bx-x"></i>
+          Cancel
+        </button>
+        <button type="submit" form="add-credits-form" class="credits-btn credits-btn-primary" id="submit-credits-btn">
+          <i class="bx bx-plus"></i>
+          Add Credits
+        </button>
+      </div>
+    </div>
+  </section>
+  <!---------------------Popup End------------------------>
+  </div>
+
+  <!-- Delete Transaction Confirmation Popup -->
+  <section id="delete-transaction-popup">
+    <div class="d-flex flex-column justify-content-around px-4 delete-transaction-pop-inside">
+      <div class="text-black mt-4">Delete Transaction</div>
+      <div class="mt-2 text-danger">
+        <i class="bx bx-warning me-2"></i>
+        This action cannot be undone. Please provide a reason for deletion.
+      </div>
+      <div class="mt-3">
+        <div class="position-relative">
+          <span class="form-label text-black">Deletion Reason <span class="text-danger">*</span></span>
+          <textarea class="basic-input" placeholder="Enter reason for deleting this transaction..." id="delete-reason"
+            rows="3" maxlength="500" required></textarea>
+          <small class="text-muted"><span id="char-count">0</span>/500 characters</small>
+        </div>
+        <div id="delete-error" class="text-danger mt-2 d-none">
+          Please enter a valid deletion reason.
+        </div>
+      </div>
+      <footer class="text-end">
+        <button class="mb-4 mt-4 me-2 outline-btn" id="cancel-delete-transaction">
+          Cancel
+        </button>
+        <button class="client-create-btn mb-4 mt-4" id="confirm-delete-transaction">
+          <i class="bx bx-trash me-1"></i>
+          Delete Transaction
+        </button>
+      </footer>
+    </div>
+  </section>
+
+  <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.min.js"></script>
+  <script src="../../common/commonLibaries/jquery-3.6.0.min.js"></script>
+  <script src="../../common/commonLibaries/cdnjs.cloudflare.com.ajax.libs.fabric.js.5.3.1.fabric.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lz-string@1.4.4/libs/lz-string.min.js"></script>
+  <script src="../../common/commonLibaries/toastr.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/sass.js/0.10.12/sass.min.js"></script>
+  <script src="../../common/commonLibaries/htmleditor//dist/trumbowyg.min.js"></script>
+  <script src="../../common/js/variable.js"></script>
+  <script src="../../common/js/label-management.js"></script>
+  <script src="../../common/js/common.js"></script>
+  <script src="../../common/js/loader.js"></script>
+  <script src="../../common/js/commonApi.js"></script>
+  <script src="../../common/js/auth.js"></script>
+  <script src="../../common//js/nav-section-menu.js"></script>
+  <!-- AG Grid Library -->
+  <script src="../../common/commonLibaries/ag-grid-community.min.noStyle.js"></script>
+  <script src="./account.js"></script>
+  <!-- Chart.js Library -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="./credits.js"></script>
+  <script src="./course.js"></script>
+  <script src="./grade.js"></script>
+  <script src="./program.js"></script>
+  <script src="./certificate.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Browser Compatibility Check</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
+
+      :root {
+        --recommendation-text: "Recommended";
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+      }
+
+      body {
+        min-height: 100vh;
+        background: linear-gradient(145deg, #f0f4f9 0%, #edf1f7 100%);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        color: #303030;
+        font-size: 16px;
+      }
+
+      .main-wrapper {
+        min-height: 100vh;
+        width: 100vw;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+      }
+
+      .landscape-card {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: stretch;
+        width: 100%;
+        max-width: 880px;
+        background: #fff;
+        border-radius: 14px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08),
+          0 30px 60px rgba(0, 0, 0, 0.05);
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        transform: translateY(0);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .landscape-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1),
+          0 40px 70px rgba(0, 0, 0, 0.07);
+      }
+
+      .left-section {
+        flex: 1.1;
+        position: relative;
+        background: linear-gradient(145deg, #fef8f8 0%, #fff5f5 100%);
+        border-right: 1px solid rgba(220, 53, 69, 0.1);
+        padding: 35px 28px 28px 28px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .left-section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(
+          90deg,
+          rgba(220, 53, 69, 0.9),
+          rgba(220, 53, 69, 0.7)
+        );
+      }
+
+      .right-section {
+        flex: 1.2;
+        padding: 35px 28px 28px 28px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+        background: linear-gradient(145deg, #ffffff 0%, #fafcff 100%);
+        position: relative;
+      }
+
+      .right-section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(
+          90deg,
+          rgba(13, 110, 253, 0.7),
+          rgba(13, 110, 253, 0.9)
+        );
+      }
+
+      .warning-header {
+        text-align: left;
+        margin-bottom: 18px;
+        width: 100%;
+      }
+
+      .warning-icon {
+        font-size: 48px;
+        color: #dc3545;
+        margin-bottom: 16px;
+        display: block;
+        filter: drop-shadow(0 3px 6px rgba(220, 53, 69, 0.15));
+        transform-origin: center;
+        animation: warningPulse 4s ease-in-out infinite;
+      }
+
+      @keyframes warningPulse {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.03);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      .warning-title {
+        font-size: 1.8rem;
+        background: linear-gradient(90deg, #dc3545, #e35d6a);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        font-weight: 800;
+        margin-bottom: 12px;
+        letter-spacing: -0.01em;
+        line-height: 1.1;
+      }
+
+      .warning-subtitle {
+        font-size: 1.05rem;
+        color: #dc3545;
+        margin-bottom: 0;
+        font-weight: 500;
+        line-height: 1.4;
+      }
+
+      .browser-info {
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(8px);
+        padding: 18px 20px;
+        border-radius: 10px;
+        margin: 22px 0 0 0;
+        width: 100%;
+        font-size: 1rem;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        border: 1px solid rgba(220, 53, 69, 0.12);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .browser-info:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+      }
+
+      .browser-info p {
+        margin: 6px 0;
+        font-size: 1rem;
+      }
+
+      .browser-info strong {
+        font-weight: 600;
+        color: #333;
+      }
+
+      .section-title {
+        font-size: 1.3rem;
+        background: linear-gradient(90deg, #2a2a2a, #444444);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        font-weight: 700;
+        margin-bottom: 20px;
+        margin-top: 0;
+        letter-spacing: -0.01em;
+      }
+
+      .browser-grid {
+        display: flex;
+        gap: 16px;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        margin-bottom: 0;
+        width: 100%;
+        align-items: stretch;
+      }
+
+      .browser-card {
+        flex: 1 1 85px;
+        min-width: 85px;
+        max-width: 115px;
+        background: #fff;
+        border-radius: 12px;
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+        text-align: center;
+        padding: 20px 10px 65px 10px;
+        margin-bottom: 8px;
+        transition: all 0.3s ease;
+        border: 1px solid #f0f0f0;
+        position: relative;
+        overflow: hidden;
+        min-height: 200px;
+        cursor: pointer;
+      }
+
+      .browser-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background: linear-gradient(90deg, #0d6efd, #3d8bfd);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .browser-card:hover {
+        box-shadow: 0 10px 20px rgba(13, 110, 253, 0.12);
+        transform: translateY(-4px) scale(1.02);
+        border-color: #e6f0ff;
+      }
+
+      .browser-card:hover::before {
+        opacity: 1;
+      }
+
+      .browser-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+      }
+
+      .browser-icon {
+        font-size: 36px;
+        margin-bottom: 12px;
+        color: #0d6efd;
+        filter: drop-shadow(0 2px 6px rgba(13, 110, 253, 0.15));
+        transition: transform 0.3s ease;
+      }
+
+      .browser-card:hover .browser-icon {
+        transform: scale(1.1);
+      }
+
+      .browser-name {
+        font-size: 1rem;
+        color: #333;
+        margin-bottom: 0;
+        font-weight: 600;
+      }
+
+      .browser-actions {
+        position: absolute;
+        bottom: 16px;
+        left: 0;
+        width: 100%;
+        text-align: center;
+      }
+
+      .download-btn {
+        display: inline-block;
+        padding: 8px 16px;
+        background: linear-gradient(90deg, #0d6efd, #3d8bfd);
+        color: white;
+        text-decoration: none;
+        border-radius: 6px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        border: none;
+        cursor: pointer;
+        box-shadow: 0 4px 8px rgba(13, 110, 253, 0.2);
+        position: relative;
+        overflow: hidden;
+        width: 85%;
+      }
+
+      .download-btn:hover {
+        background: linear-gradient(90deg, #0b5ed7, #0d6efd);
+        box-shadow: 0 6px 12px rgba(13, 110, 253, 0.25);
+        transform: translateY(-2px);
+      }
+
+      .browser-warning {
+        background: rgba(255, 240, 240, 0.85);
+        color: #dc3545;
+        font-weight: 600;
+        margin-top: 20px;
+        margin-bottom: 0;
+        text-align: left;
+        font-size: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        border-radius: 10px;
+        padding: 14px 18px;
+        border: 1px solid rgba(220, 53, 69, 0.2);
+        box-shadow: 0 4px 12px rgba(220, 53, 69, 0.06);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        width: 100%;
+      }
+
+      .browser-warning:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(220, 53, 69, 0.08);
+      }
+
+      .browser-warning i {
+        font-size: 1.3em;
+        color: #dc3545;
+      }
+
+      .divider {
+        width: 100%;
+        height: 1px;
+        background: radial-gradient(
+          ellipse at center,
+          rgba(0, 0, 0, 0.1) 0%,
+          rgba(0, 0, 0, 0.05) 50%,
+          rgba(0, 0, 0, 0) 100%
+        );
+        margin: 24px 0 20px 0;
+        border: none;
+      }
+
+      .try-other {
+        width: 100%;
+        text-align: left;
+        margin-bottom: 10px;
+      }
+
+      .try-other-label {
+        font-size: 1rem;
+        color: #444;
+        margin-bottom: 10px;
+        font-weight: 600;
+      }
+
+      .url-copy-row {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 10px;
+        margin-top: 8px;
+        width: 100%;
+      }
+
+      .url-input {
+        flex: 1;
+        padding: 10px 14px;
+        border: 1px solid #b3d8ff;
+        border-radius: 8px;
+        font-size: 0.95rem;
+        background: #f8fbff;
+        color: #222;
+        min-width: 0;
+        font-weight: 500;
+        box-shadow: 0 4px 8px rgba(13, 110, 253, 0.06);
+        transition: all 0.2s ease;
+      }
+
+      .url-input:focus {
+        border: 1px solid #0d6efd;
+        outline: none;
+        box-shadow: 0 4px 12px rgba(13, 110, 253, 0.1);
+      }
+
+      .copy-btn {
+        padding: 10px 16px;
+        background: linear-gradient(90deg, #198754, #20c997);
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        font-size: 0.95rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 8px rgba(25, 135, 84, 0.15);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .copy-btn:hover {
+        background: linear-gradient(90deg, #157347, #198754);
+        box-shadow: 0 6px 12px rgba(25, 135, 84, 0.2);
+        transform: translateY(-2px);
+      }
+
+      .copy-msg {
+        margin-left: 8px;
+        color: #28a745;
+        font-size: 0.95rem;
+        font-weight: 600;
+        display: none;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .back-btn {
+        display: block;
+        width: 100%;
+        padding: 12px 0;
+        background: linear-gradient(90deg, #495057, #6c757d);
+        color: white;
+        text-decoration: none;
+        border-radius: 8px;
+        margin: 20px 0 0 0;
+        font-size: 1rem;
+        font-weight: 600;
+        text-align: center;
+        transition: all 0.3s ease;
+        letter-spacing: 0.01em;
+        box-shadow: 0 4px 12px rgba(73, 80, 87, 0.15);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .back-btn:hover {
+        background: linear-gradient(90deg, #343a40, #495057);
+        box-shadow: 0 6px 16px rgba(73, 80, 87, 0.2);
+        transform: translateY(-2px);
+      }
+
+      .footer {
+        width: 100vw;
+        text-align: center;
+        color: #777;
+        font-size: 0.9rem;
+        margin-top: 12px;
+        margin-bottom: 4px;
+        letter-spacing: 0.01em;
+      }
+
+      .language-toggle {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        z-index: 10;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
+        padding: 5px 12px 5px 10px;
+        display: flex;
+        align-items: center;
+        transition: all 0.3s ease;
+      }
+
+      .language-toggle:hover {
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+        transform: translateY(-2px);
+      }
+
+      .language-toggle span {
+        font-size: 0.95rem !important;
+      }
+
+      .toggle-wrapper {
+        display: flex;
+        align-items: center;
+      }
+
+      .toggle-switch {
+        position: relative;
+        display: inline-block;
+        width: 32px;
+        height: 18px;
+        margin: 0 6px;
+      }
+
+      .toggle-switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
+
+      .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        transition: 0.4s;
+        border-radius: 18px;
+      }
+
+      .slider:before {
+        position: absolute;
+        content: "";
+        height: 14px;
+        width: 14px;
+        left: 2px;
+        bottom: 2px;
+        background-color: white;
+        transition: 0.4s;
+        border-radius: 50%;
+      }
+
+      input:checked + .slider {
+        background-color: #007bff;
+      }
+
+      input:checked + .slider:before {
+        transform: translateX(14px);
+      }
+
+      @media (max-width: 900px) {
+        .landscape-card {
+          flex-direction: column;
+          max-width: 90vw;
+          max-width: 500px;
+        }
+        .left-section,
+        .right-section {
+          padding: 30px 24px 22px 24px;
+        }
+        .left-section {
+          border-right: none;
+          border-bottom: 1px solid rgba(220, 53, 69, 0.1);
+        }
+        .left-section::before,
+        .right-section::before {
+          width: 100%;
+        }
+        .browser-grid {
+          justify-content: center;
+        }
+        .browser-card {
+          flex: 1 1 90px;
+          min-width: 90px;
+          max-width: 120px;
+        }
+      }
+
+      @media (max-width: 600px) {
+        .landscape-card {
+          border-radius: 12px;
+        }
+        .left-section,
+        .right-section {
+          padding: 24px 20px 20px 20px;
+        }
+        .warning-title {
+          font-size: 1.5rem;
+        }
+        .warning-subtitle {
+          font-size: 0.95rem;
+        }
+        .browser-card {
+          min-width: 85px;
+          padding: 18px 8px 60px 8px;
+        }
+        .browser-actions {
+          bottom: 14px;
+        }
+        .language-toggle {
+          right: 12px;
+          top: 12px;
+          padding: 4px 10px 4px 8px;
+        }
+        .copy-btn {
+          padding: 10px 14px;
+        }
+      }
+
+      /* Enhanced blinking highlight effect for Chrome card */
+      @keyframes chromeBlink {
+        0% {
+          box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+          transform: translateY(0) scale(1);
+          border-color: #f0f0f0;
+        }
+        25% {
+          border-color: rgba(13, 110, 253, 0.4);
+        }
+        50% {
+          box-shadow: 0 20px 40px rgba(13, 110, 253, 0.3);
+          transform: translateY(-8px) scale(1.05);
+          border-color: #0d6efd;
+        }
+        75% {
+          border-color: rgba(13, 110, 253, 0.4);
+        }
+        100% {
+          box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+          transform: translateY(0) scale(1);
+          border-color: #f0f0f0;
+        }
+      }
+
+      @keyframes pulseGlow {
+        0% {
+          filter: drop-shadow(0 0 5px rgba(13, 110, 253, 0.2));
+          transform: scale(1);
+          color: #0d6efd;
+        }
+        50% {
+          filter: drop-shadow(0 0 15px rgba(13, 110, 253, 0.6));
+          transform: scale(1.15);
+          color: #3d8bfd;
+        }
+        100% {
+          filter: drop-shadow(0 0 5px rgba(13, 110, 253, 0.2));
+          transform: scale(1);
+          color: #0d6efd;
+        }
+      }
+
+      .chrome-card {
+        animation: chromeBlink 2.5s ease-in-out infinite;
+        position: relative;
+        z-index: 10;
+        overflow: visible !important;
+      }
+
+      .chrome-card .browser-icon {
+        animation: pulseGlow 2s ease-in-out infinite;
+      }
+
+      .chrome-card::before {
+        content: "";
+        position: absolute;
+        top: -3px;
+        left: -3px;
+        right: -3px;
+        bottom: -3px;
+        border-radius: 15px;
+        background: linear-gradient(
+          45deg,
+          #0d6efd,
+          #3d8bfd,
+          #6ea8ff,
+          #3d8bfd,
+          #0d6efd
+        );
+        background-size: 400% 400%;
+        z-index: -1;
+        filter: blur(3px);
+        opacity: 0;
+        transition: all 0.3s ease;
+        animation: borderGradient 5s ease infinite,
+          glowPulse 2s ease-in-out infinite;
+      }
+
+      @keyframes borderGradient {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      @keyframes glowPulse {
+        0% {
+          opacity: 0;
+        }
+        50% {
+          opacity: 0.7;
+        }
+        100% {
+          opacity: 0;
+        }
+      }
+
+      /* Add subtle background pulse to the Chrome card */
+      .chrome-card::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border-radius: 12px;
+        background: radial-gradient(
+          circle at center,
+          rgba(13, 110, 253, 0.05) 0%,
+          transparent 70%
+        );
+        opacity: 0;
+        z-index: -1;
+        animation: backgroundPulse 2s ease-in-out infinite;
+      }
+
+      /* Add a "Recommended" label to the Chrome card */
+      .chrome-card .browser-content::before {
+        content: var(--recommendation-text);
+        position: absolute;
+        top: -12px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: linear-gradient(90deg, #0d6efd, #3d8bfd);
+        color: white;
+        font-size: 0.7rem;
+        font-weight: bold;
+        padding: 3px 10px;
+        border-radius: 12px;
+        box-shadow: 0 3px 6px rgba(13, 110, 253, 0.2);
+        animation: recommendedPulse 2s ease-in-out infinite;
+      }
+
+      @keyframes recommendedPulse {
+        0% {
+          transform: translateX(-50%) scale(1);
+          box-shadow: 0 3px 6px rgba(13, 110, 253, 0.2);
+        }
+        50% {
+          transform: translateX(-50%) scale(1.1);
+          box-shadow: 0 6px 12px rgba(13, 110, 253, 0.3);
+        }
+        100% {
+          transform: translateX(-50%) scale(1);
+          box-shadow: 0 3px 6px rgba(13, 110, 253, 0.2);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="main-wrapper">
+      <div class="language-toggle">
+        <div class="toggle-wrapper">
+          <span>EN</span>
+          <label class="toggle-switch">
+            <input type="checkbox" id="lang-toggle" />
+            <span class="slider"></span>
+          </label>
+          <span>عربي</span>
+        </div>
+      </div>
+      <div class="landscape-card">
+        <div class="left-section">
+          <div class="warning-header">
+            <span class="warning-icon"
+              ><i class="fas fa-exclamation-triangle"></i
+            ></span>
+            <div
+              class="warning-title"
+              data-en="Unsupported Browser Detected"
+              data-ar="تم اكتشاف متصفح غير مدعوم"
+            >
+              Unsupported Browser Detected
+            </div>
+            <div class="warning-title" data-ar="تم اكتشاف متصفح غير مدعوم">
+              تم اكتشاف متصفح غير مدعوم
+            </div>
+            <div
+              class="warning-subtitle"
+              data-en="Your current browser is not supported for this exam. Please use one of the recommended browsers below."
+              data-ar="المتصفح الحالي غير مدعوم لهذا الاختبار. يرجى استخدام أحد المتصفحات الموصى بها أدناه."
+            >
+              Your current browser is not supported for this exam. Please use
+              one of the recommended browsers below.
+            </div>
+            <div
+            class="warning-subtitle"
+            data-ar="المتصفح الحالي غير مدعوم لهذا الاختبار. يرجى استخدام أحد المتصفحات الموصى بها أدناه."
+          >
+          المتصفح الحالي غير مدعوم لهذا الاختبار. يرجى استخدام أحد المتصفحات الموصى بها أدناه.
+          </div>
+          </div>
+          <div class="browser-info">
+            <p>
+              <strong data-en="Current Browser:" data-ar="المتصفح الحالي:"
+                >Current Browser:</strong
+              >
+              <span id="current-browser"></span>
+            </p>
+            <p>
+              <strong data-en="Operating System:" data-ar="نظام التشغيل:"
+                >Operating System:</strong
+              >
+              <span id="current-os"></span>
+            </p>
+          </div>
+        </div>
+        <div class="right-section">
+          <div
+            class="section-title"
+            data-en="Recommended Browsers"
+            data-ar="المتصفحات الموصى بها"
+          >
+            Recommended Browsers
+          </div>
+          <div class="browser-grid">
+            <div
+              class="browser-card chrome-card"
+              onclick="window.open('https://www.google.com/chrome/', '_blank')"
+            >
+              <div
+                class="browser-content"
+                data-recommendation="Recommended"
+                data-recommendation-ar="موصى به"
+              >
+                <div class="browser-icon"><i class="fab fa-chrome"></i></div>
+                <div class="browser-name">Google Chrome</div>
+              </div>
+              <div class="browser-actions">
+                <a
+                  href="https://www.google.com/chrome/"
+                  target="_blank"
+                  class="download-btn"
+                  data-en="Download"
+                  data-ar="تحميل"
+                  >Download</a
+                >
+              </div>
+            </div>
+            <div
+              class="browser-card"
+              onclick="window.open('https://www.microsoft.com/edge', '_blank')"
+            >
+              <div class="browser-content">
+                <div class="browser-icon"><i class="fab fa-edge"></i></div>
+                <div class="browser-name">Microsoft Edge</div>
+              </div>
+              <div class="browser-actions">
+                <a
+                  href="https://www.microsoft.com/edge"
+                  target="_blank"
+                  class="download-btn"
+                  data-en="Download"
+                  data-ar="تحميل"
+                  >Download</a
+                >
+              </div>
+            </div>
+            <div
+              class="browser-card"
+              onclick="window.open('https://brave.com/download/', '_blank')"
+            >
+              <div class="browser-content">
+                <div class="browser-icon"><i class="fab fa-chrome"></i></div>
+                <div class="browser-name">Brave</div>
+              </div>
+              <div class="browser-actions">
+                <a
+                  href="https://brave.com/download/"
+                  target="_blank"
+                  class="download-btn"
+                  data-en="Download"
+                  data-ar="تحميل"
+                  >Download</a
+                >
+              </div>
+            </div>
+          </div>
+          <div class="browser-warning">
+            <i id="detected-browser-icon" class="fab fa-firefox"></i>
+            <span
+              data-en="<span id='detected-browser-name'></span> is not supported for this exam."
+              data-ar="متصفح <span id='detected-browser-name-ar'></span> غير مدعوم لهذا الاختبار."
+              ><span id="detected-browser-name"></span> is not supported for
+              this exam.</span
+            >
+          </div>
+          <hr class="divider" />
+          <div class="try-other">
+            <div
+              class="try-other-label"
+              data-en="Try this link in another browser:"
+              data-ar="جرب هذا الرابط في متصفح آخر:"
+            >
+              Try this link in another browser:
+            </div>
+            <div class="url-copy-row">
+              <input type="text" class="url-input" id="exam-url" readonly />
+              <button
+                class="copy-btn"
+                id="copy-btn"
+                data-en="Copy Link"
+                data-ar="نسخ الرابط"
+              >
+                Copy Link
+              </button>
+              <span
+                class="copy-msg"
+                id="copy-msg"
+                data-en="Copied!"
+                data-ar="تم النسخ!"
+                >Copied!</span
+              >
+            </div>
+          </div>
+          <a
+            href="index.html"
+            class="back-btn"
+            data-en="Back to Exam List"
+            data-ar="العودة إلى قائمة الاختبارات"
+            >Back to Exam List</a
+          >
+        </div>
+      </div>
+      <div class="footer">&copy; 2025 DigiAssess | DigiVal IT Solutions</div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="../../common/js/common.js"></script>
+    <script>
+      $(document).ready(function () {
+        // Set initial language based on localStorage
+        const currentLang = localStorage.getItem("lang") || "en";
+        updateLanguage(currentLang === "ar");
+
+        // Update browser and OS info
+        const browser = getBrowserInfo();
+        const os = getOSInfo();
+        $("#current-browser").text(browser);
+        $("#current-os").text(os);
+
+        // Update browser name in warning message
+        $("#detected-browser-name").text(browser);
+        $("#detected-browser-name-ar").text(browser);
+
+        // Update browser icon based on detected browser
+        updateBrowserIcon(browser);
+
+        // Set exam-landing URL in input
+        const examLandingUrl =
+          window.location.origin +
+          window.location.pathname.replace(
+            "browser-compatibility.html",
+            "index.html"
+          ) +
+          window.location.search;
+        $("#exam-url").val(examLandingUrl);
+
+        // Copy button handler
+        $("#copy-btn").click(function () {
+          const urlInput = document.getElementById("exam-url");
+          urlInput.select();
+          urlInput.setSelectionRange(0, 99999); // For mobile
+          document.execCommand("copy");
+          $("#copy-msg").css("opacity", "1").fadeIn(200);
+          setTimeout(() => {
+            $("#copy-msg").animate({ opacity: 0 }, 400, function () {
+              $(this).hide();
+            });
+          }, 1200);
+        });
+
+        // Prevent click conflicts between card and button
+        $(".download-btn").on("click", function (e) {
+          e.stopPropagation(); // Stop the click event from bubbling up to card
+        });
+
+        // Language toggle handler
+        $("#lang-toggle").prop("checked", currentLang === "ar");
+        $("#lang-toggle").change(function () {
+          const isArabic = $(this).prop("checked");
+          localStorage.setItem("lang", isArabic ? "ar" : "en");
+          updateLanguage(isArabic);
+        });
+
+        function updateLanguage(isArabic) {
+          $("html").attr("lang", isArabic ? "ar" : "en");
+          $("[data-en]").each(function () {
+            $(this).html(isArabic ? $(this).data("ar") : $(this).data("en"));
+          });
+
+          // Update recommendation badge language
+          const recommendationText = isArabic
+            ? $(".chrome-card .browser-content").data("recommendation-ar")
+            : $(".chrome-card .browser-content").data("recommendation");
+
+          // Update CSS variable for the recommendation text
+          document.documentElement.style.setProperty(
+            "--recommendation-text",
+            `"${recommendationText}"`
+          );
+
+          // For RTL
+          if (isArabic) {
+            $("body").attr("dir", "rtl");
+          } else {
+            $("body").attr("dir", "ltr");
+          }
+        }
+
+        function updateBrowserIcon(browserName) {
+          const iconElement = $("#detected-browser-icon");
+          browserName = browserName.toLowerCase();
+
+          if (browserName.includes("chrome")) {
+            iconElement.attr("class", "fab fa-chrome");
+          } else if (browserName.includes("firefox")) {
+            iconElement.attr("class", "fab fa-firefox");
+          } else if (browserName.includes("edge")) {
+            iconElement.attr("class", "fab fa-edge");
+          } else if (browserName.includes("safari")) {
+            iconElement.attr("class", "fab fa-safari");
+          } else if (browserName.includes("opera")) {
+            iconElement.attr("class", "fab fa-opera");
+          } else if (
+            browserName.includes("internet explorer") ||
+            browserName.includes("ie")
+          ) {
+            iconElement.attr("class", "fab fa-internet-explorer");
+          } else {
+            iconElement.attr("class", "fas fa-globe");
+          }
+        }
+      });
+    </script>
+  </body>
+</html>

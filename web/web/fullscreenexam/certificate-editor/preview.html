@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Certificate Preview</title>
+
+    <link rel="stylesheet" href="./preview.css" />
+    <!-- font awasome icon -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+  </head>
+
+  <body>
+    <div class="preview-body">
+      <img id="certificate-preview" src="" alt="Certificate Preview" />
+    </div>
+
+    <div class="toolbar-vertical">
+      <button id="btn-back-preview">
+        <i class="fas fa-arrow-left"></i>
+        Back
+      </button>
+      <button id="btn-preview-download-jpg">
+        <i class="fas fa-image"></i>
+        JPG
+      </button>
+      <button id="btn-preview-download-pdf">
+        <i class="fas fa-file-pdf"></i>
+        PDF
+      </button>
+    </div>
+
+    <!-- jQuery and jsPDF -->
+    <script src="../../common/commonLibaries/jquery-3.6.0.min.js"></script>
+    <script src="../../common/commonLibaries/cdnjs.cloudflare.com.ajax.libs.jspdf.2.5.1.jspdf.umd.min.js"></script>
+    <script src="./preview.js"></script>
+  </body>
+</html>

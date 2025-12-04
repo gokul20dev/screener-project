@@ -1,0 +1,1590 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Item Type Instructions Guide</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      /* Modern UI Styles */
+      :root {
+        --primary-color: #4285f4;
+        --secondary-color: #34a853;
+        --accent-color: #ea4335;
+        --light-color: #f8f9fa;
+        --dark-color: #212529;
+        --border-color: #dee2e6;
+        --hover-color: #e9ecef;
+        --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+        --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+        --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+        --radius-sm: 8px;
+        --radius-md: 12px;
+        --radius-lg: 16px;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: var(--dark-color);
+        background-color: #f5f7f9;
+        overflow-x: hidden;
+        position: relative;
+      }
+
+      /* Header Styles */
+      .header {
+        background: linear-gradient(135deg, #4285f4, #0d47a1);
+        color: white;
+        padding: 2.5rem 0;
+        margin-bottom: 2rem;
+        box-shadow: var(--shadow-md);
+        position: relative;
+      }
+
+      .header h1 {
+        font-size: 2.5rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .header p {
+        font-size: 1.1rem;
+        opacity: 0.9;
+      }
+
+      /* Language Toggle */
+      .language-toggle {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        z-index: 1000;
+      }
+
+    [dir="rtl"] .language-toggle{
+        left: 20px;
+        right: unset;
+    }
+
+      .language-toggle .btn {
+        background: #4285f4;
+        border: none;
+        color: white;
+        padding: 0.75rem 1.25rem;
+        border-radius: var(--radius-sm);
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .language-toggle .btn:hover {
+        background: #1a73e8;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      }
+
+      .language-toggle .btn i {
+        font-size: 1.25rem;
+      }
+
+      /* Layout */
+      .body-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 2rem;
+        display: grid;
+        grid-template-columns: 300px 1fr;
+        gap: 2rem;
+      }
+
+      /* Sidebar Styles */
+      .sidebar {
+        background: white;
+        border-radius: var(--radius-md);
+        padding: 1.5rem;
+        box-shadow: var(--shadow-sm);
+        height: fit-content;
+        position: sticky;
+        top: 2rem;
+      }
+
+      .sidebar-menu {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      .sidebar-menu li {
+        margin-bottom: 0.5rem;
+      }
+
+      .sidebar-menu a {
+        display: flex;
+        align-items: center;
+        padding: 1rem;
+        color: #4a5568;
+        text-decoration: none;
+        border-radius: var(--radius-sm);
+        transition: all 0.3s ease;
+      }
+
+      .sidebar-menu a:hover {
+        background-color: #f7fafc;
+        color: var(--primary-color);
+        transform: translateX(4px);
+      }
+
+      .sidebar-menu a.active {
+        background-color: #e8f0fe;
+        color: var(--primary-color);
+        font-weight: 500;
+      }
+
+      .sidebar-menu i {
+        font-size: 1.25rem;
+        margin-right: 1rem;
+        width: 24px;
+        text-align: center;
+      }
+
+      /* Content Area */
+      .content-area {
+        background: white;
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-sm);
+        overflow: hidden;
+      }
+
+      .content-section {
+        display: none;
+      }
+
+      .content-section.active {
+        display: block;
+        animation: fadeIn 0.3s ease-out;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Card Styles */
+      .card {
+        border: none;
+        margin-bottom: 0;
+      }
+
+      .card-header {
+        background-color: #e8f0fe;
+        color: var(--primary-color);
+        padding: 1.5rem 2rem;
+        border-bottom: 1px solid #e1e8f0;
+        font-size: 1.25rem;
+        font-weight: 600;
+      }
+
+      .card-body {
+        padding: 2rem;
+      }
+
+      /* Step Styles */
+      .instruction-step {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: 2rem;
+        padding: 1.5rem;
+        background: #f8fafc;
+        border-radius: var(--radius-sm);
+        transition: all 0.3s ease;
+      }
+
+      .instruction-step:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-sm);
+      }
+
+      .step-number {
+        background-color: var(--primary-color);
+        color: white;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        margin-right: 1.5rem;
+        flex-shrink: 0;
+      }
+
+      .step-content h5 {
+        color: var(--dark-color);
+        font-size: 1.1rem;
+        margin-bottom: 0.75rem;
+      }
+
+      .step-content p {
+        color: #4a5568;
+        margin-bottom: 0;
+      }
+
+      /* Image Placeholder */
+      .image-placeholder {
+        background-color: #f8fafc;
+        border: 2px dashed #e1e8f0;
+        border-radius: var(--radius-sm);
+        padding: 2rem;
+        text-align: center;
+        margin: 1.5rem 0;
+        transition: all 0.3s ease;
+      }
+
+      .image-placeholder:hover {
+        background-color: #f1f5f9;
+        border-color: #cbd5e1;
+      }
+
+      .image-placeholder i {
+        font-size: 3rem;
+        color: var(--primary-color);
+        margin-bottom: 1rem;
+      }
+
+      .image-placeholder img{
+        width: 100%;
+        object-fit: contain;
+      }
+
+      /* Tip Box */
+      .tip-box {
+        background-color: #f0f9ff;
+        border-left: 4px solid var(--primary-color);
+        padding: 1.5rem;
+        margin: 2rem 0;
+        border-radius: var(--radius-sm);
+      }
+
+      .tip-box h5 {
+        color: var(--primary-color);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .tip-box ul {
+        margin: 0;
+        padding-left: 1.5rem;
+      }
+
+      .tip-box li {
+        margin-bottom: 0.5rem;
+        color: #4a5568;
+      }
+
+      /* RTL Support */
+      [dir="rtl"] .sidebar-menu i {
+        margin-right: 0;
+        margin-left: 1rem;
+      }
+
+      [dir="rtl"] .step-number {
+        margin-right: 0;
+        margin-left: 1.5rem;
+      }
+
+      [dir="rtl"] .tip-box {
+        border-left: none;
+        border-right: 4px solid var(--primary-color);
+      }
+
+      /* Responsive Design */
+      @media (max-width: 1024px) {
+        .body-container {
+          grid-template-columns: 1fr;
+        }
+
+        .sidebar {
+          position: static;
+          margin-bottom: 2rem;
+        }
+      }
+
+      @media (max-width: 768px) {
+        .header {
+          padding: 2rem 0;
+        }
+
+        .header h1 {
+          font-size: 2rem;
+        }
+
+        .body-container {
+          padding: 0 1rem;
+        }
+
+        .card-header {
+          padding: 1.25rem;
+        }
+
+        .card-body {
+          padding: 1.25rem;
+        }
+
+        .instruction-step {
+          padding: 1rem;
+        }
+
+        .language-toggle {
+          top: 15px;
+          right: 15px;
+        }
+
+        .language-toggle .btn {
+          padding: 0.5rem 1rem;
+          font-size: 0.9rem;
+        }
+      }
+
+      /* Animation */
+      @keyframes slideIn {
+        from {
+          transform: translateX(-10px);
+          opacity: 0;
+        }
+        to {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
+
+      .sidebar-menu a {
+        animation: slideIn 0.3s ease-out forwards;
+      }
+
+      .sidebar-menu a:nth-child(n) {
+        animation-delay: calc(0.1s * var(--i));
+      }
+    </style>
+    <!-- Add variable.js before other scripts -->
+    <script src="../common/js/variable.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        let currentLang = "en"; // Default language
+        let translations = {};
+
+        // Render sidebar menu dynamically
+        function renderSidebarMenu() {
+          const sidebarMenu = $(".sidebar-menu");
+          sidebarMenu.empty(); // Clear existing menu items
+
+          // Map of question types to icons
+          const iconMap = {
+            MCQ: "bx-radio-circle",
+            FTB: "bx-text",
+            SAQ: "bx-message-square-detail",
+            PRQ: "bx-code-alt",
+            IR: "bx-image",
+            UD: "bx-upload",
+            TF: "bx-check-square",
+            MTF: "bx-git-compare",
+            OR: "bx-sort",
+            TAB: "bx-table",
+          };
+
+          // Create menu items from QuestionTypes array
+          QuestionTypes.forEach((type, index) => {
+            const menuItem = $("<li>");
+            const link = $("<a>")
+              .attr("href", `#${type.value.toLowerCase()}`)
+              .addClass(index === 0 ? "active" : "");
+
+            const icon = $("<i>").addClass(
+              `bx ${iconMap[type.value] || "bx-help-circle"}`
+            );
+
+            const titleSpan = $("<span>").attr(
+              "data-translate",
+              `${type.value.toLowerCase()}_title`
+            );
+
+            // Add elements to the menu
+            link.append(icon);
+            link.append(titleSpan);
+            menuItem.append(link);
+            sidebarMenu.append(menuItem);
+          });
+        }
+
+        // Load translations
+        function loadTranslations(lang) {
+          $.getJSON(`translations/item-guide-${lang}.json`, function (data) {
+            translations = data;
+            applyTranslations();
+          }).fail(function () {
+            console.error(
+              `Failed to load item-guide-${lang}.json translations`
+            );
+          });
+        }
+
+        // Apply translations to the page
+        function applyTranslations() {
+          $("[data-translate]").each(function () {
+            const key = $(this).data("translate");
+            if (translations[key]) {
+              $(this).html(translations[key]);
+            }
+          });
+
+          // Handle special cases like lists
+          $("[data-translate-list]").each(function () {
+            const key = $(this).data("translate-list");
+            if (translations[key] && Array.isArray(translations[key])) {
+              let items = "";
+              translations[key].forEach((item) => {
+                items += `<li>${item}</li>`;
+              });
+              $(this).html(items);
+            }
+          });
+        }
+
+        // Initialize menu and translations
+        renderSidebarMenu();
+        loadTranslations("en");
+
+        // Handle language toggle
+        $("#toggle-language").click(function () {
+          if (document.documentElement.getAttribute("dir") === "rtl") {
+            document.documentElement.setAttribute("dir", "ltr");
+            document.documentElement.setAttribute("lang", "en");
+            currentLang = "en";
+          } else {
+            document.documentElement.setAttribute("dir", "rtl");
+            document.documentElement.setAttribute("lang", "ar");
+            currentLang = "ar";
+          }
+          loadTranslations(currentLang);
+        });
+
+        // Show first section by default
+        $(".content-section:first").addClass("active");
+
+        // Handle sidebar navigation
+        $(document).on("click", ".sidebar-menu a", function (e) {
+          e.preventDefault();
+          const targetId = $(this).attr("href");
+
+          // Update active states
+          $(".sidebar-menu a").removeClass("active");
+          $(this).addClass("active");
+
+          // Show selected section, hide others
+          $(".content-section").removeClass("active").hide();
+          $(targetId).addClass("active").fadeIn();
+
+          // Scroll to top of the section
+          $("html, body").scrollTop($(targetId).offset().top - 20);
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <header class="header">
+      <div class="container text-center">
+        <h1 data-translate="page_title">Question Type Instructions Guide</h1>
+        <p data-translate="page_subtitle">
+          Learn how to create different types of assessment items
+        </p>
+      </div>
+      <div class="language-toggle">
+        <button class="btn btn-outline-light" id="toggle-language">
+          <i class="bx bx-globe"></i> العربية / English
+        </button>
+      </div>
+    </header>
+
+    <div class="body-container">
+      <!-- Menu -->
+      <div class="sidebar">
+        <ul class="sidebar-menu">
+        </ul>
+      </div>
+
+      <!-- Content Area -->
+      <div class="content-area">
+        <!-- MCQ Section -->
+        <div id="mcq" class="content-section">
+          <div class="card">
+            <div class="card-header">
+              <span data-translate="mcq_title"
+                >Multiple Choice Questions (MCQ)</span
+              >
+            </div>
+            <div class="card-body">
+              <p data-translate="mcq_description">
+                Multiple Choice Questions (MCQs) present a question with several
+                answer options where only one is correct.
+              </p>
+
+              <div class="instruction-step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                  <h5 data-translate="mcq_step1_title">
+                    Select MCQ from the dropdown menu
+                  </h5>
+                  <p data-translate="mcq_step1_description">
+                    In the exam creation interface, find the "Add Question"
+                    button and select "MCQ (Multiple Choice Question)" from the
+                    dropdown menu.
+                  </p>
+                </div>
+              </div>
+
+              <div class="image-placeholder">
+                <img src="./imgs/add-question-Instruction.png" alt="">
+              </div>
+
+              <div class="instruction-step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                  <h5 data-translate="mcq_step2_title">Enter your question</h5>
+                  <p data-translate="mcq_step2_description">
+                    Type your question in the editor field. You can use
+                    formatting options to include bold text, italics, or even
+                    mathematical equations.
+                  </p>
+                </div>
+              </div>
+
+              <div class="instruction-step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                  <h5 data-translate="mcq_step3_title">Add answer options</h5>
+                  <p data-translate="mcq_step3_description">
+                    By default, four options (A, B, C, D) are provided. You can
+                    add more options by clicking the "+" button. To mark the
+                    correct answer, select the radio button next to the correct
+                    option.
+                  </p>
+                </div>
+              </div>
+
+              <div class="image-placeholder">
+                <img src="./imgs/MCQ-choice.png" alt="">
+              </div>
+
+              <div class="instruction-step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                  <h5 data-translate="mcq_step4_title">
+                    Set marks and settings
+                  </h5>
+                  <p data-translate="mcq_step4_description">
+                    Assign marks to the question and configure additional
+                    settings:
+                  </p>
+                  <ul>
+                    <li>
+                      <strong data-translate="shuffle_question"
+                        >Shuffle Question:</strong
+                      >
+                      <span data-translate="shuffle_question_content">Randomize the order of this question among others</span>
+                    </li>
+                    <li>
+                      <strong data-translate="shuffle_options"
+                        >Shuffle Options:</strong
+                      >
+                      <span data-translate="mcq_shuffle_options_content">Randomize the order of answer options</span>
+                    </li>
+                    <li>
+                      <strong data-translate="evaluate_answer"
+                        >Evaluate Answer:</strong
+                      >
+                      <span data-translate="evaluate_answer_content">Automatically score the response</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="tip-box">
+                <h5>
+                  <i class="bx bx-bulb"></i>
+                  <span data-translate="mcq_tips_title"
+                    >Tips for creating effective MCQs</span
+                  >
+                </h5>
+                <ul data-translate-list="mcq_tips">
+                  <li>Make sure there is only one clearly correct answer</li>
+                  <li>Keep all options approximately the same length</li>
+                  <li>
+                    Avoid using "All of the above" or "None of the above"
+                    options
+                  </li>
+                  <li>Write plausible incorrect options (distractors)</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- True/False Section -->
+        <div id="tf" class="content-section">
+          <div class="card">
+            <div class="card-header">
+              <span data-translate="tf_title">True/False Questions (TF)</span>
+            </div>
+            <div class="card-body">
+              <p data-translate="tf_description">
+                True/False questions present a statement that the student must
+                identify as either true or false.
+              </p>
+
+              <div class="instruction-step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                  <h5 data-translate="tf_step1_title">
+                    Select True/False from the dropdown menu
+                  </h5>
+                  <p data-translate="tf_step1_description">
+                    In the exam creation interface, find the "Add Question"
+                    button and select "TF (True/False Question)" from the
+                    dropdown menu.
+                  </p>
+                </div>
+              </div>
+
+              <div class="instruction-step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                  <h5 data-translate="tf_step2_title">Enter your statement</h5>
+                  <p data-translate="tf_step2_description">
+                    Type your statement in the editor field. The statement
+                    should be definitively true or false, without ambiguity.
+                  </p>
+                </div>
+              </div>
+
+              <div class="image-placeholder">
+                <img src="./imgs/TF-instruction.png" alt="FTB instruction image">
+              </div>
+
+              <div class="instruction-step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                  <h5 data-translate="tf_step3_title">
+                    Select the correct answer
+                  </h5>
+                  <p data-translate="tf_step3_description">
+                    Below the statement, select either "True" or "False" as the
+                    correct answer.
+                  </p>
+                </div>
+              </div>
+
+              <div class="instruction-step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                  <h5 data-translate="tf_step4_title">
+                    Set marks and settings
+                  </h5>
+                  <p data-translate="tf_step4_description">
+                    Assign marks to the question and configure additional
+                    settings as needed.
+                  </p>
+                </div>
+              </div>
+
+              <div class="tip-box">
+                <h5>
+                  <i class="bx bx-bulb"></i>
+                  <span data-translate="tf_tips_title"
+                    >Tips for creating effective True/False questions</span
+                  >
+                </h5>
+                <ul data-translate-list="tf_tips">
+                  <li>Avoid double negatives in your statements</li>
+                  <li>
+                    Avoid using absolute terms like "always," "never," "all," or
+                    "none"
+                  </li>
+                  <li>Keep statements clear, concise, and unambiguous</li>
+                  <li>Make sure the statement is definitively true or false</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Fill in the Blanks Section -->
+        <div id="ftb" class="content-section">
+          <div class="card">
+            <div class="card-header">
+              <span data-translate="ftb_title">Fill in the Blanks (FTB)</span>
+            </div>
+            <div class="card-body">
+              <p data-translate="ftb_description">
+                Fill in the Blanks questions require students to complete
+                sentences by filling in missing words or phrases.
+              </p>
+
+              <div class="instruction-step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                  <h5 data-translate="ftb_step1_title">
+                    Select Fill in the Blanks from the dropdown menu
+                  </h5>
+                  <p data-translate="ftb_step1_description">
+                    In the exam creation interface, find the "Add Question"
+                    button and select "FTB (Fill in the Blanks)" from the
+                    dropdown menu.
+                  </p>
+                </div>
+              </div>
+
+              <div class="instruction-step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                  <h5 data-translate="ftb_step2_title">
+                    Enter your question text with blanks
+                  </h5>
+                  <p data-translate="ftb_step2_description">
+                    Type your question text, using [blank] wherever you want a
+                    blank to appear. For example: "The capital of France is
+                    [blank]."
+                  </p>
+                </div>
+              </div>
+
+              <div class="image-placeholder">
+                <img src="./imgs/FTB-instruction.png" alt="FTB instruction image">
+              </div>
+
+              <div class="instruction-step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                  <h5 data-translate="ftb_step3_title">
+                    Set correct answers for each blank
+                  </h5>
+                  <p data-translate="ftb_step3_description">
+                    For each blank you created, you'll need to specify the
+                    correct answer(s). You can add multiple correct answers for
+                    each blank to account for variations. You can also choose
+                    between text input or dropdown options for each blank.
+                  </p>
+                </div>
+              </div>
+
+              <div class="instruction-step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                  <h5 data-translate="ftb_step4_title">
+                    Set marks and settings
+                  </h5>
+                  <p data-translate="ftb_step4_description">
+                    Assign marks to the question and configure additional
+                    settings as needed.
+                  </p>
+                </div>
+              </div>
+
+              <div class="tip-box">
+                <h5>
+                  <i class="bx bx-bulb"></i>
+                  <span data-translate="ftb_tips_title"
+                    >Tips for creating effective Fill in the Blanks
+                    questions</span
+                  >
+                </h5>
+                <ul data-translate-list="ftb_tips">
+                  <li>Keep blanks focused on key concepts or terms</li>
+                  <li>Avoid having too many blanks in a single sentence</li>
+                  <li>Provide enough context so that the answer is clear</li>
+                  <li>
+                    Consider alternative correct answers (e.g., "Paris" and
+                    "paris" for the capital of France)
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Match Following Section -->
+        <div id="mtf" class="content-section">
+          <div class="card">
+            <div class="card-header">
+              <span data-translate="mtf_title"
+                >Match Following Questions (MTF)</span
+              >
+            </div>
+            <div class="card-body">
+              <p data-translate="mtf_description">
+                Match Following questions require students to match items from
+                one column with corresponding items in another column.
+              </p>
+
+              <div class="instruction-step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                  <h5 data-translate="mtf_step1_title">
+                    Select Match Following from the dropdown menu
+                  </h5>
+                  <p data-translate="mtf_step1_description">
+                    In the exam creation interface, find the "Add Question"
+                    button and select "MTF (Match Following)" from the dropdown
+                    menu.
+                  </p>
+                </div>
+              </div>
+
+              <div class="image-placeholder">
+                <img src="./imgs/add-question-Instruction.png" alt="FTB instruction image">
+              </div>
+
+              <div class="instruction-step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                  <h5 data-translate="mtf_step2_title">
+                    Enter your question title and instructions
+                  </h5>
+                  <p data-translate="mtf_step2_description">
+                    Type a clear title and instructions for the matching
+                    exercise. Explain what students need to match and any
+                    special rules.
+                  </p>
+                </div>
+              </div>
+
+              <div class="instruction-step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                  <h5 data-translate="mtf_step3_title">Add match pairs</h5>
+                  <p data-translate="mtf_step3_description">
+                    Each match pair consists of a question item and its
+                    corresponding answer. Enter the question item in the left
+                    field and the matching answer in the right field for each
+                    pair. To add more match pairs, click the "+" icon in the
+                    attachment container.
+                  </p>
+                </div>
+              </div>
+
+              <div class="image-placeholder">
+                <img src="./imgs/MTF-instruction.png" alt="FTB instruction image">
+              </div>
+
+              <div class="instruction-step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                  <h5 data-translate="mtf_step4_title">Configure settings</h5>
+                  <p data-translate="mtf_step4_description">
+                    Assign marks to the question and configure additional
+                    settings:
+                  </p>
+                  <ul>
+                    <li>
+                      <strong data-translate="shuffle_question"
+                        >Shuffle Question:</strong
+                      >
+                      <span data-translate="shuffle_question_content">Randomize the order of this question among others</span>
+                    </li>
+                    <li>
+                      <strong data-translate="evaluate_answer"
+                        >Evaluate Answer:</strong
+                      >
+                   <span data-translate="evaluate_answer_content">Automatically score the response</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="tip-box">
+                <h5>
+                  <i class="bx bx-bulb"></i>
+                  <span data-translate="mtf_tips_title"
+                    >Tips for creating effective Match Following questions</span
+                  >
+                </h5>
+                <ul data-translate-list="mtf_tips">
+                  <li>
+                    Keep the number of items manageable (4-8 pairs is ideal)
+                  </li>
+                  <li>
+                    Use clear and concise language for both items and matches
+                  </li>
+                  <li>
+                    Ensure all matches have a single, clear correct answer
+                  </li>
+                  <li>
+                    Use similar length and grammatical structure within each
+                    column
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ordering Section -->
+        <div id="or" class="content-section">
+          <div class="card">
+            <div class="card-header">
+              <span data-translate="or_title">Ordering Questions (OR)</span>
+            </div>
+            <div class="card-body">
+              <p data-translate="or_description">
+                Ordering questions require students to arrange a set of items in
+                the correct sequence or order.
+              </p>
+
+              <div class="instruction-step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                  <h5 data-translate="or_step1_title">
+                    Select Ordering from the dropdown menu
+                  </h5>
+                  <p data-translate="or_step1_description">
+                    In the exam creation interface, find the "Add Question"
+                    button and select "OR (Ordering)" from the dropdown menu.
+                  </p>
+                </div>
+              </div>
+
+              <div class="image-placeholder">
+                <img src="./imgs/add-question-Instruction.png" alt="FTB instruction image">
+              </div>
+
+              <div class="instruction-step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                  <h5 data-translate="or_step2_title">
+                    Enter your question instructions
+                  </h5>
+                  <p data-translate="or_step2_description">
+                    Type clear instructions explaining what students need to
+                    arrange and the basis for the correct order (chronological,
+                    size, importance, etc.).
+                  </p>
+                </div>
+              </div>
+
+              <div class="image-placeholder">
+                <img src="./imgs/OR-instruction.png" alt="FTB instruction image">
+              </div>
+
+              <div class="instruction-step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                  <h5 data-translate="or_step3_title">
+                    Add items to be ordered
+                  </h5>
+                  <p data-translate="or_step3_description">
+                    Use the input field to add items one by one. Type an item
+                    and press Enter or click the plus icon. Each item will
+                    appear in the list below where you can arrange them in the
+                    correct order.
+                  </p>
+                </div>
+              </div>
+
+              <div class="image-placeholder">
+                <img src="./imgs/OR-drag-drop-instruction.png" alt="FTB instruction image">
+              </div>
+
+              <div class="instruction-step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                  <h5 data-translate="or_step4_title">
+                    Arrange items in the correct order
+                  </h5>
+                  <p data-translate="or_step4_description">
+                    Drag and drop the items using the grip lines on the left of
+                    each item. The sequence you create will be considered the
+                    correct answer. Students will see these items in a
+                    randomized order.
+                  </p>
+                </div>
+              </div>
+
+              <div class="instruction-step">
+                <div class="step-number">5</div>
+                <div class="step-content">
+                  <h5 data-translate="or_step5_title">Configure settings</h5>
+                  <p data-translate="or_step5_description">
+                    Assign marks to the question and configure additional
+                    settings:
+                  </p>
+                  <ul>
+                    <li>
+                      <strong data-translate="shuffle_question"
+                        >Shuffle Question:</strong
+                      >
+                      <span data-translate="shuffle_question_content">Randomize the order of this question among others</span>
+                    </li>
+                    <li>
+                      <strong data-translate="evaluate_answer"
+                        >Evaluate Answer:</strong
+                      >
+                      <span data-translate="evaluate_answer_content">Automatically score the response</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="tip-box">
+                <h5>
+                  <i class="bx bx-bulb"></i>
+                  <span data-translate="or_tips_title"
+                    >Tips for creating effective Ordering questions</span
+                  >
+                </h5>
+                <ul data-translate-list="or_tips">
+                  <li>
+                    Use 4-7 items for optimal difficulty (fewer is too easy,
+                    more becomes unwieldy)
+                  </li>
+                  <li>Ensure there is only one logical correct order</li>
+                  <li>
+                    Use clear, distinct items that aren't ambiguous in their
+                    sequence
+                  </li>
+                  <li>
+                    Consider using numbered steps, chronological events, or
+                    process sequences
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Short Answer Section -->
+        <div id="saq" class="content-section">
+          <div class="card">
+            <div class="card-header">
+              <span data-translate="saq_title"
+                >Short Answer Questions (SAQ)</span
+              >
+            </div>
+            <div class="card-body">
+              <p data-translate="saq_description">
+                Short Answer questions require students to provide brief written
+                responses, typically a few words or sentences.
+              </p>
+
+              <div class="instruction-step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                  <h5 data-translate="saq_step1_title">
+                    Select Short Answer from the dropdown menu
+                  </h5>
+                  <p data-translate="saq_step1_description">
+                    In the exam creation interface, find the "Add Question"
+                    button and select "SAQ (Short Answer Question)" from the
+                    dropdown menu.
+                  </p>
+                </div>
+              </div>
+
+              <div class="image-placeholder">
+                <img src="./imgs/add-question-Instruction.png" alt="">
+              </div>
+
+              <div class="instruction-step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                  <h5 data-translate="saq_step2_title">Enter your question</h5>
+                  <p data-translate="saq_step2_description">
+                    Type your question in the editor field. Be specific about
+                    what you're asking and indicate the expected length or
+                    format of the answer. For example: "Define photosynthesis in
+                    2-3 sentences." or "List three causes of World War I."
+                  </p>
+                </div>
+              </div>
+
+              <div class="image-placeholder">
+                    <img src="./imgs/SAQ-instruction.png" alt="">
+              </div>
+
+              <div class="instruction-step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                  <h5 data-translate="saq_step3_title">
+                    Add attachments (optional)
+                  </h5>
+                  <p data-translate="saq_step3_description">
+                    If your question requires reference materials, click the
+                    folder icon to add attachments.
+                  </p>
+                </div>
+              </div>
+
+              <div class="instruction-step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                  <h5 data-translate="saq_step4_title">Configure settings</h5>
+                  <p data-translate="saq_step4_description">
+                    Assign marks to the question and configure additional
+                    settings:
+                  </p>
+                  <ul>
+                    <li>
+                      <strong data-translate="shuffle_question"
+                        >Shuffle Question:</strong
+                      >
+                      <span data-translate="shuffle_question_content">Randomize the order of this question among others</span>
+                    </li>
+                    <li>
+                      <strong data-translate="evaluate_answer"
+                        >Evaluate Answer:</strong
+                      >
+                       <span data-translate="saq_evaluate_answer_content">Enable or disable automatic evaluation (note that short
+                      answers typically require manual grading)</span>
+                
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="tip-box">
+                <h5>
+                  <i class="bx bx-bulb"></i>
+                  <span data-translate="saq_tips_title"
+                    >Tips for creating effective Short Answer questions</span
+                  >
+                </h5>
+                <ul data-translate-list="saq_tips">
+                  <li>Be clear about the expected length of the answer</li>
+                  <li>
+                    Use precise language that targets the specific knowledge you
+                    want to assess
+                  </li>
+                  <li>
+                    Consider including a word limit in the question (e.g.,
+                    "Answer in 50 words or less")
+                  </li>
+                  <li>
+                    For easier evaluation, phrase questions that have specific
+                    factual answers
+                  </li>
+                  <li>
+                    Consider whether automatic grading is appropriate, or if
+                    manual review is needed
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Programming Section -->
+        <div id="prq" class="content-section">
+          <div class="card">
+            <div class="card-header">
+              <span data-translate="prq_title"
+                >Programming Questions (PRQ)</span
+              >
+            </div>
+            <div class="card-body">
+              <p data-translate="prq_description">
+                Programming questions require students to write code to solve a
+                specific programming problem or implement an algorithm.
+              </p>
+
+              <div class="instruction-step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                  <h5 data-translate="prq_step1_title">
+                    Select Programming from the dropdown menu
+                  </h5>
+                  <p data-translate="prq_step1_description">
+                    In the exam creation interface, find the "Add Question"
+                    button and select "PRQ (Programming Question)" from the
+                    dropdown menu.
+                  </p>
+                </div>
+              </div>
+
+              <div class="instruction-step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                  <h5 data-translate="prq_step2_title">
+                    Enter your programming problem
+                  </h5>
+                  <p data-translate="prq_step2_description">
+                    Type your programming problem in the editor field. Include:
+                  </p>
+                  <ul>
+                    <li data-translate="prq_instruction_content_1">Clear problem description</li>
+                    <li data-translate="prq_instruction_content_2">Input and output specifications</li>
+                    <li data-translate="prq_instruction_content_3">Any constraints or requirements</li>
+                    <li data-translate="prq_instruction_content_4">Example inputs and expected outputs</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="instruction-step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                  <h5 data-translate="prq_step3_title">
+                    Select programming language
+                  </h5>
+                  <p data-translate="prq_step3_description">
+                    Use the language selector dropdown to specify which
+                    programming language students should use (C, Python, Java,
+                    etc.).
+                  </p>
+                </div>
+              </div>
+
+              <div class="instruction-step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                  <h5 data-translate="prq_step4_title">
+                    Test your problem (optional)
+                  </h5>
+                  <p data-translate="prq_step4_description">
+                    Click the "Open Editor" button to test the code execution
+                    environment. This helps ensure your problem is correctly
+                    configured.
+                  </p>
+                </div>
+              </div>
+
+              <div class="tip-box">
+                <h5>
+                  <i class="bx bx-bulb"></i>
+                  <span data-translate="prq_tips_title"
+                    >Tips for creating effective Programming questions</span
+                  >
+                </h5>
+                <ul data-translate-list="prq_tips">
+                  <li>Provide clear and unambiguous problem statements</li>
+                  <li>Include sample inputs and expected outputs</li>
+                  <li>
+                    Specify any constraints (time limits, memory limits, etc.)
+                  </li>
+                  <li>Consider providing starter code for complex problems</li>
+                  <li>
+                    Test your question with various inputs to ensure it's
+                    solvable
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Table Based Section -->
+        <div id="tab" class="content-section">
+          <div class="card">
+            <div class="card-header">
+              <span data-translate="tab_title"
+                >Table Based Questions (TAB)</span
+              >
+            </div>
+            <div class="card-body">
+              <p data-translate="tab_description">
+                Table Based questions require students to fill in or interact
+                with a table structure, useful for financial calculations, data
+                analysis, or structured responses.
+              </p>
+
+              <div class="instruction-step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                  <h5 data-translate="tab_step1_title">
+                    Select Table Based from the dropdown menu
+                  </h5>
+                  <p data-translate="tab_step1_description">
+                    In the exam creation interface, find the "Add Question"
+                    button and select "TAB (Table Based)" from the dropdown
+                    menu.
+                  </p>
+                </div>
+              </div>
+
+              <div class="instruction-step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                  <h5 data-translate="tab_step2_title">
+                    Enter your question instructions
+                  </h5>
+                  <p data-translate="tab_step2_description">
+                    Type clear instructions explaining what students need to
+                    complete in the table and any specific requirements or
+                    context.
+                  </p>
+                </div>
+              </div>
+
+              <div class="instruction-step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                  <h5 data-translate="tab_step3_title">Insert a table</h5>
+                  <p data-translate="tab_step3_description">
+                    Click the "Insert Table" button to create a table structure.
+                    You can set the number of rows and columns as needed.
+                  </p>
+                </div>
+              </div>
+
+              <div class="instruction-step">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                  <h5 data-translate="tab_step4_title">
+                    Configure answer fields
+                  </h5>
+                  <p data-translate="tab_step4_description">
+                    Click "Add Answer Field" to create fields where students
+                    will enter answers. For each answer field, specify:
+                  </p>
+                  <ul>
+                    <li>
+                      <strong data-translate="tab_cell_reference_title">Cell Reference:</strong> 
+                      <span data-translate="tab_cell_reference_content">The cell location (e.g., A1, B2)</span>
+                    </li>
+                    <li>
+                      <strong data-translate="tab_answer_type_title">Answer Type:</strong> 
+                      <span data-translate="tab_answer_type_content">Text, Number, Formula, or Dropdown</span>
+                    </li>
+                    <li>
+                      <strong data-translate="tab_correct_answer_title">Correct Answer(s):</strong>
+                      <span data-translate="tab_correct_answer_content">The expected answer(s)</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="tip-box">
+                <h5>
+                  <i class="bx bx-bulb"></i>
+                  <span data-translate="tab_tips_title"
+                    >Tips for creating effective Table Based questions</span
+                  >
+                </h5>
+                <ul data-translate-list="tab_tips">
+                  <li>Keep table structures clear and well-organized</li>
+                  <li>Provide clear labels for rows and columns</li>
+                  <li>Indicate which cells students need to fill in</li>
+                  <li>
+                    For complex tables, consider providing starter values in
+                    some cells
+                  </li>
+                  <li>
+                    Test your table to ensure it displays correctly on different
+                    devices
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Image Response Section -->
+        <div id="ir" class="content-section">
+          <div class="card">
+            <div class="card-header">
+              <span data-translate="ir_title"
+                >Image Response Questions (IR)</span
+              >
+            </div>
+            <div class="card-body">
+              <p data-translate="ir_description">
+                Image Response questions allow students to take and upload a
+                photo as their answer, ideal for documenting experiments, field
+                work, or physical creations.
+              </p>
+
+              <div class="instruction-step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                  <h5 data-translate="ir_step1_title">
+                    Select Image Response from the dropdown menu
+                  </h5>
+                  <p data-translate="ir_step1_description">
+                    In the exam creation interface, find the "Add Question"
+                    button and select "IR (Image Response)" from the dropdown
+                    menu.
+                  </p>
+                </div>
+              </div>
+
+              <div class="instruction-step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                  <h5 data-translate="ir_step2_title">
+                    Enter your question instructions
+                  </h5>
+                  <p data-translate="ir_step2_description">
+                    Type clear instructions explaining what students need to
+                    photograph and upload. Be specific about what should be
+                    visible in the image.
+                  </p>
+                </div>
+              </div>
+
+              <div class="instruction-step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                  <h5 data-translate="ir_step3_title">
+                    Add attachments (optional)
+                  </h5>
+                  <p data-translate="ir_step3_description">
+                    If your question requires reference materials or examples,
+                    click the folder icon to add attachments.
+                  </p>
+                </div>
+              </div>
+
+              <div class="tip-box">
+                <h5>
+                  <i class="bx bx-bulb"></i>
+                  <span data-translate="ir_tips_title"
+                    >Tips for creating effective Image Response questions</span
+                  >
+                </h5>
+                <ul data-translate-list="ir_tips">
+                  <li>Be specific about what must be visible in the image</li>
+                  <li>
+                    Suggest optimal lighting conditions and angles if relevant
+                  </li>
+                  <li>Provide examples of acceptable images if possible</li>
+                  <li>
+                    Specify any image quality requirements (resolution, clarity,
+                    etc.)
+                  </li>
+                  <li>
+                    Consider whether students need access to a device with a
+                    camera
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Upload Document Section -->
+        <div id="ud" class="content-section">
+          <div class="card">
+            <div class="card-header">
+              <span data-translate="ud_title"
+                >Upload Document Questions (UD)</span
+              >
+            </div>
+            <div class="card-body">
+              <p data-translate="ud_description">
+                Upload Document questions allow students to upload files such as
+                ID proofs, certificates, or completed documents as their
+                response.
+              </p>
+
+              <div class="instruction-step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                  <h5 data-translate="ud_step1_title">
+                    Select Upload Document from the dropdown menu
+                  </h5>
+                  <p data-translate="ud_step1_description">
+                    In the exam creation interface, find the "Add Question"
+                    button and select "UD (Upload Document)" from the dropdown
+                    menu.
+                  </p>
+                </div>
+              </div>
+
+              <div class="instruction-step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                  <h5 data-translate="ud_step2_title">
+                    Enter your question instructions
+                  </h5>
+                  <p data-translate="ud_step2_description">
+                    Type clear instructions explaining what document students
+                    need to upload. Be specific about the type of document
+                    required and any format specifications.
+                  </p>
+                </div>
+              </div>
+
+              <div class="instruction-step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                  <h5 data-translate="ud_step3_title">
+                    Add attachments (optional)
+                  </h5>
+                  <p data-translate="ud_step3_description">
+                    If your question requires reference materials or templates
+                    for students to download, complete, and re-upload, click the
+                    folder icon to add attachments.
+                  </p>
+                </div>
+              </div>
+
+              <div class="tip-box">
+                <h5>
+                  <i class="bx bx-bulb"></i>
+                  <span data-translate="ud_tips_title"
+                    >Tips for creating effective Upload Document questions</span
+                  >
+                </h5>
+                <ul data-translate-list="ud_tips">
+                  <li>
+                    Clearly specify the acceptable file formats (PDF, DOCX, JPG,
+                    etc.)
+                  </li>
+                  <li>Mention any file size limitations</li>
+                  <li>
+                    Provide a template if students need to fill out a specific
+                    form
+                  </li>
+                  <li>
+                    Include examples of acceptable documents if appropriate
+                  </li>
+                  <li>
+                    Specify any document quality requirements (resolution,
+                    legibility, etc.)
+                  </li>
+                  <li>
+                    Consider privacy concerns when requesting personal documents
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <div class="container text-center">
+        <p data-translate="footer_text">
+          © 2025 Digi Screener. All rights reserved.
+        </p>
+      </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

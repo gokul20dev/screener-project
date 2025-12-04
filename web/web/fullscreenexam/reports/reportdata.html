@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam Report</title>
+    <link rel="stylesheet" href="../../common/css/loader.css">
+    <script src="../../common/js/loader.js"></script>
+    <link rel="stylesheet" href="report.css">
+    <link rel="stylesheet" href="../../common/commonLibaries/jquery-ui.min.css">
+    <link rel="stylesheet" href="../../common/commonLibaries/font-awesome.5.15.3.css.all.min.css">
+    <link rel="stylesheet" href="../../common/commonLibaries/ag-grid.min.css">
+    <link rel="stylesheet" href="../../common/commonLibaries/ag-theme-alpine.min.css">
+    <script src="../../common/commonLibaries/ag-grid-community.min.noStyle.js"></script>
+    <style>
+        #filter-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+        }
+
+        footer {
+            text-align: center;
+            padding-top: 40px;
+            font-size: 14px;
+            width: 100%;
+        }
+
+        .main-content {
+            min-height: 95vh;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container main-content">
+        <header>
+            <div class="header-left">
+                <div class="logo1">
+                    <img src="../../common/imgs/shajil.jpeg" alt="Logo" class="">
+                    <h1>Exam Reports</h1>
+                </div>
+                <div class="filter-container">
+                    <button class="toplink-button"><a class="toplink" href="../exam-list/">Go to main menu</a></button>
+                    <button id="export-data">Export to Excel</button>
+                </div>
+            </div>
+            <div class="header-right">
+                <p id="exam-details"></p>
+            </div>
+        </header>
+        <main>
+            <div class="details">
+                <div id="mygrid" class="ag-theme-alpine" style="height: 600px; width: 100%;"></div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Student Detail Modal -->
+    <div id="student-detail-modal" title="Student Detail" style="display:none;">
+        <div id="student-detail-content"></div>
+    </div>
+
+    <script src="../../common/commonLibaries/jquery-3.6.0.min.js"></script>
+    <script src="../../common/commonLibaries/jquery-ui.min.js"></script>
+    <script src="../../common/commonLibaries/font-awesome.5.15.3.js.all.min.js"></script>
+    <script src="../../common/commonLibaries/xlsx@0.17.0.dist.xlsx.full.min.js"></script>
+    <script src="../../common/js/variable.js"></script>
+    <script src="../../common/js/commonApi.js"></script>
+    <script src="report-data.js"></script>
+    <script src="../../common/js/auth.js"></script>
+
+    <footer>
+        &copy; 2025 DigiAssess <a href="https://digi-val.com/">Digival IT Solutions </a> - UAE (in technology
+        partnership with Digival Solutions Pvt Ltd, India v9.2.5)
+    </footer>
+</body>
+
+</html>

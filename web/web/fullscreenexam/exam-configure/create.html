@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Exam - Configuration</title>
+    <link
+      rel="stylesheet"
+      href="../../common/commonLibaries/jquery-ui.min.css"
+    />
+    <!-- <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css"> -->
+    <link
+      rel="stylesheet"
+      href="../../common/commonLibaries/font-awesome.5.15.3.css.all.min.css"
+    />
+    <link rel="stylesheet" href="../../common/commonLibaries/ag-grid.min.css" />
+    <link
+      rel="stylesheet"
+      href="../../common/commonLibaries/ag-theme-alpine.min.css"
+    />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+
+    <link rel="stylesheet" href="../../common/commonLibaries/ag-grid.min.css" />
+    <link
+      rel="stylesheet"
+      href="../../common/commonLibaries/ag-theme-alpine.min.css"
+    />
+    <link
+      href="../../common/commonLibaries/htmleditor/dist/ui/trumbowyg.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="../../common/commonLibaries/jquery.timepicker.min.css"
+    />
+    <script src="../../common/commonLibaries/ag-grid-community.min.noStyle.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../../common/commonLibaries/toastr.min.css" />
+    <link rel="stylesheet" href="../../common/css/loader.css" />
+    <link rel="stylesheet" href="../../common/css/common-base.css" />
+    <link rel="stylesheet" href="createquestion.css" />
+    <link rel="stylesheet" href="ai-question-generator.css" />
+    <script src="../../common/js/nav-section-menu.js"></script>
+  </head>
+
+  <body>
+    <div class="layout main-content">
+    
+          <div class="bread-crumb-container-cls" id="bread-crumb-container"></div>
+
+      <!-- <div class="current">
+        <div>
+          <button>
+            <a class="toplink" href="../exam-list/">Go To All Exams</a>
+          </button>
+          <h1>Exam - Configuration</h1>
+        </div>
+        <div id="exam-details"></div>
+      </div> -->
+      <div class="d-flex">
+        <div id="nav-section-menu" class="nav-bar"></div>
+        <div class="main-card d-flex flex-grow-1 flex-column gap-2">
+          <div
+            class="card-head d-flex justify-content-between align-items-center"
+          >
+            <div
+              class="d-flex justify-content-between flex-grow-1 align-items-center"
+              role="navigation"
+              aria-label="Stepper Navigation"
+            >
+              <div class="d-flex align-items-center gap-3">
+                <div class="d-flex align-items-center gap-2 stepper-btn" id="1-pratent">
+                  <div class="tab-circle-border" id="step-1-circle">
+                    <div class="tab-circle">1</div>
+                  </div>
+                  <div class="tab-circle-text">Schedule</div>
+                </div>
+                <div class="divide-line" id="line-first">
+                  <div class="line"></div>
+                  <div class="point"></div>
+                </div>
+                <div class="d-flex align-items-center gap-2 stepper-btn" id="2-pratent">
+                  <div class="tab-circle-border" id="step-2-circle">
+                    <div class="tab-circle">2</div>
+                  </div>
+                  <div class="tab-circle-text">Prepare Assessment</div>
+                </div>
+                <div class="divide-line" id="line-second">
+                  <div class="line"></div>
+                  <div class="point"></div>
+                </div>
+                <div class="d-flex align-items-center gap-2 stepper-btn" id="3-pratent">
+                  <div class="tab-circle-border" id="step-3-circle">
+                    <div class="tab-circle">3</div>
+                  </div>
+                  <div class="tab-circle-text">Invite Target Audience</div>
+                </div>
+              </div>
+              <div class="d-flex gap-3">
+                <button class="tab-back-btn d-none" id="prev-to-step-1">
+                  Back
+                </button>
+                <button class="tab-back-btn d-none" id="prev-to-step-2">
+                  Back
+                </button>
+                <button id="finalize-btn" class="tab-next-btn d-none">
+                  Finalize
+                </button>
+                <button class="tab-next-btn" id="next-to-step-2">Next</button>
+                <button class="tab-next-btn" id="preview-and-next">Next</button>
+                <button id="navigate-to-report-btn" class="report-btn">
+                  <i class="fas fa-chart-line"></i> Reports
+                </button>
+              </div>
+              <!-- <span class="step-link" id="link-to-step-0" role="link"
+                ><a class="homelink" href="../exam-list/">Home</a>
+              </span>
+              >
+              <span class="step-link" id="link-to-step-1" role="link"
+                >Step 1: Schedule</span
+              >
+              >
+              <span class="step-link" id="link-to-step-2" role="link"
+                >Step 2: Prepare Assessment</span
+              >
+              >
+              <span class="step-link" id="link-to-step-3" role="link"
+                >Step 3: Invite Target Audience</span
+              > -->
+            </div>
+          </div>
+             <div class="save-reminder-banner">
+                <div class="banner-content">
+                  <i class="fas fa-exclamation-triangle banner-icon"></i>
+                  <span class="banner-message">The exam is <b class="exam-ongoing-msg" ></b>. Don't forget to click 'Next' — your <b>changes</b> will not be saved otherwise.</span>
+                </div>
+                <button class="banner-close"><i class="fas fa-times"></i></button>
+              </div>
+          <div class="card-body g-scroll d-flex flex-column gap-4 flex-grow-1">
+            <div
+              id="step-1"
+              class="step active step1-width align-self-center"
+              role="tabpanel"
+              aria-labelledby="link-to-step-1"
+            >
+
+              <div class="d-flex align-items-center">
+                <div class="d-flex flex-column gap-4 mt-3 pt-2 flex-grow-1">
+                  <div class="exam-input">
+                    <label for="exam-name" class="exam-input-lable"
+                      ><span class="common-label-exam">Exam</span> Name <span class="text-danger">*</span></label
+                    >
+                    <input placeholder="Name" id="exam-name" autocomplete="off" />
+                  </div>
+                  <div class="course-input">
+                    <label for="course-name" class="course-input-lable"
+                      >Courses <span class="text-danger">*</span></label
+                    >
+                    <div id="selectedCoursesBox" class="selectedCoursesBox">
+                      <span id="selectedCourses"></span>
+                  </div>
+                  <!-- Display dropdown button with checkbox options -->
+                          <div class="dropdown">
+                            <div class="dropdown-content">
+                              <input type="text" id="searchInput" class="dropdown-search" placeholder="Search courses" >
+                                <div id="courseList">
+                                  <!-- Dynamically filled with checkboxes -->
+                              </div>
+                            </div>
+                          </div>
+                  </div>
+                  <div class="d-flex gap-4 start-date-time-wrapper" >
+                    <div class="start-Date-input">
+                      <label for="start-Date-input" class="start-Date-lable"
+                        >Start Date <span class="text-danger">*</span></label
+                      >
+                      <input
+                        placeholder="Enter Start Date"
+                        type="date"
+                        id="start-date"
+                      />
+                      <!-- <i class="bx bx-calendar-exclamation"></i> -->
+                    </div>
+                    <div class="start-time-input">
+                      <label for="start-time-input" class="start-time-lable"
+                        >Start Time <span class="text-danger">*</span></label
+                      >
+                      <input
+                        placeholder="Enter Start Time"
+                        id="start-time"
+                        class="timepicker" 
+                      />
+                      <i class="bx bx-time-five"></i>
+                    </div>
+                  </div>
+                  <div
+                    class="d-flex gap-4"
+                  >
+                    <div
+                      id="exam-duration-main-input"
+                      class="exam-duration-input"
+                    >
+                      <label class="exam-duration-lable"
+                        ><span class="common-label-exam">Exam</span> Duration (min)
+                        <span class="text-danger">*</span></label
+                      >
+                      <input
+                        placeholder="Duration"
+                        type="number"
+                        id="exam-duration"
+                        min="1"
+                        max="999"
+                      />
+                      <!-- <i class="bx bx-calendar-exclamation"></i> -->
+                    </div>
+                    <div class="flex-grow-1">
+                      <div id="time-zone">
+                        <label for="time-zone-input" class="time-zone-lable"
+                          >Time Zone<span class="text-danger">*</span></label
+                        >
+                        <input
+                          type="text"
+                          id="user-filter-input"
+                          placeholder="Please Select a time zone"
+                          autocomplete="off"
+                        />
+                        <div class="time-zone-dropdown-wrapper">
+                        <ul class="g-scroll"></ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="start-date">
+                    <!-- <input type="date" id="end-date" name="end-date" /> -->
+                    <!-- <input
+                    type="text"
+                    class="timepicker"
+                    id="end-time"
+                    name="end-time"
+                  /> -->
+                  </div>
+                  <div class="d-flex flex-column">
+                    <div class="aesthetic-accordion-container">
+                      <!-- Basic Settings Accordion -->
+                      <div class="aesthetic-accordion-item" data-aos="fade-up">
+                        <div class="aesthetic-accordion-header active" data-accordion="basic-settings">
+                          <div class="accordion-left">
+                            <div class="accordion-icon-wrapper basic-icon">
+                              <i class="fas fa-sliders-h"></i>
+                            </div>
+                            <div class="accordion-text">
+                              <span class="accordion-title">Basic Settings</span>
+                              <span class="accordion-subtitle">Essential exam configuration</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="aesthetic-accordion-content show" id="basic-settings">
+                          <!-- Exam Tools Group -->
+                          <div class="settings-group">
+                            <div class="group-header">
+                              <div class="group-icon">
+                                <i class="fas fa-tools"></i>
+                              </div>
+                              <h4 class="group-title">Exam Tools</h4>
+                            </div>
+                            <div class="settings-list">
+                              <div class="setting-card" id="SC">
+                                <div class="setting-content">
+                                  <div class="setting-info">
+                                    <label class="setting-label">Scientific Calculator</label>
+                                    <span class="setting-description">When enabled, students will have access to an on-screen scientific calculator during the exam. This is especially useful for solving complex numerical or mathematical questions.</span>
+                                  </div>
+                                </div>
+                                <label class="toggle-switch">
+                                  <input id="calculator-toggle" type="checkbox" />
+                                  <span class="slider"></span>
+                                </label>
+                              </div>
+                              <div class="setting-card">
+                                <div class="setting-content">
+                                  <div class="setting-info">
+                                    <label class="setting-label">Voice Alert</label>
+                                    <span class="setting-description">When enabled, the system will use text-to-speech (TTS) to audibly announce important exam instructions at the beginning and notify students when only 5 minutes are left, helping them manage time effectively.</span>
+                                  </div>
+                                </div>
+                                <label class="toggle-switch">
+                                  <input id="voice-alert-toggle" type="checkbox" />
+                                  <span class="slider"></span>
+                                </label>
+                              </div>
+                            </div>
+                          </div>
+  
+                          <!-- Communication Group -->
+                          <div class="settings-group">
+                            <div class="group-header">
+                              <div class="group-icon">
+                                <i class="fas fa-envelope"></i>
+                              </div>
+                              <h4 class="group-title">Email & Communication</h4>
+                            </div>
+                            <div class="settings-list">
+                              <div class="setting-card">
+                                <div class="setting-content">
+                                  <div class="setting-info">
+                                    <label class="setting-label">Send Email With Password</label>
+                                    <span class="setting-description">When turned on, students will automatically receive an email with their login credentials. If turned off, the credentials must be shared with students manually.</span>
+                                  </div>
+                                </div>
+                                <label class="toggle-switch">
+                                  <input id="canSendEmailWithPassword" type="checkbox"/>
+                                  <span class="slider"></span>
+                                </label>
+                              </div>
+                            </div>
+                          </div>
+  
+                          <!-- Exam Organization Group -->
+                          <div class="settings-group">
+                            <div class="group-header">
+                              <div class="group-icon">
+                                <i class="fas fa-random"></i>
+                              </div>
+                              <h4 class="group-title">Question Organization</h4>
+                            </div>
+                            <div class="settings-list">
+                              <div class="setting-card">
+                                <div class="setting-content">
+                                  <div class="setting-info">
+                                    <label class="setting-label">Shuffle Questions</label>
+                                    <span class="setting-description">When enabled, questions will be displayed in a random order for each student, helping to prevent cheating and ensure exam integrity.</span>
+                                  </div>
+                                </div>
+                                <label class="toggle-switch">
+                                  <input id="shuffle-questions-toggle" type="checkbox" />
+                                  <span class="slider"></span>
+                                </label>
+                              </div>
+                              <div class="setting-card">
+                                <div class="setting-content">
+                                  <div class="setting-info">
+                                    <label class="setting-label">Shuffle Options</label>
+                                    <span class="setting-description">When enabled, answer options within each question will be randomized for each student, providing an additional layer of exam security.</span>
+                                  </div>
+                                </div>
+                                <label class="toggle-switch">
+                                  <input id="shuffle-options-toggle" type="checkbox" />
+                                  <span class="slider"></span>
+                                </label>
+                              </div>
+                            </div>
+                          </div>
+
+                          <!-- Reports Group -->
+                          <div class="settings-group" id="DR">
+                            <div class="group-header">
+                              <div class="group-icon">
+                                <i class="fas fa-chart-bar"></i>
+                              </div>
+                              <h4 class="group-title">Reports & Results</h4>
+                            </div>
+                            <div class="settings-list">
+                              <div class="setting-card">
+                                <div class="setting-content">
+                                  <div class="setting-info">
+                                    <label class="setting-label">Publish Report</label>
+                                    <span class="setting-description">If enabled, once the exam is completed and the result is ready, the student will be able to see their report in the system after they receive an official invitation. If disabled, results won't be visible until manually shared.</span>
+                                  </div>
+                                </div>
+                                <label class="toggle-switch">
+                                  <input id="publish-report-toggle" type="checkbox" checked />
+                                  <span class="slider"></span>
+                                </label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+  
+                      <!-- Advanced Settings Accordion -->
+                      <div class="aesthetic-accordion-item" data-aos="fade-up" data-aos-delay="100">
+                        <div class="aesthetic-accordion-header" data-accordion="advanced-settings">
+                          <div class="accordion-left">
+                            <div class="accordion-icon-wrapper advanced-icon">
+                              <i class="fas fa-cogs"></i>
+                            </div>
+                            <div class="accordion-text">
+                              <span class="accordion-title">Advanced Settings</span>
+                              <span class="accordion-subtitle">Additional configuration options</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="aesthetic-accordion-content" id="advanced-settings">
+                          <!-- Registration Group -->
+                          <div class="settings-group">
+                            <div class="group-header">
+                              <div class="group-icon">
+                                <i class="fas fa-user-check"></i>
+                              </div>
+                              <h4 class="group-title">Registration & Access</h4>
+                            </div>
+                            <div class="settings-list">
+                              <div class="setting-card" id="WR">
+                                <div class="setting-content">
+                                  <div class="setting-info">
+                                    <label class="setting-label">Without Registration</label>
+                                    <span class="setting-description">When this setting is turned on, students are allowed to take the exam without creating or registering an account. Useful for quick testing or guest access scenarios.</span>
+                                  </div>
+                                </div>
+                                <label class="toggle-switch">
+                                  <input id="without-registration" type="checkbox" />
+                                  <span class="slider"></span>
+                                </label>
+                              </div>
+                            </div>
+                          </div>
+  
+                          <!-- AI Proctoring Group -->
+                          <div class="settings-group" id="AI">
+                            <div class="group-header">
+                              <div class="group-icon">
+                                <i class="fas fa-robot"></i>
+                              </div>
+                              <h4 class="group-title">AI Proctoring Settings</h4>
+                            </div>
+                            <div class="settings-list">
+                              <div class="setting-card proctoring-card">
+                                <div class="setting-content">
+                                  <div class="setting-info">
+                                    <label class="setting-label">Screen Recording</label>
+                                    <span class="setting-description">Enables screen capture during the exam to monitor what the student is doing — useful for detecting suspicious activity like browsing or copying.</span>
+                                  </div>
+                                </div>
+                                <label class="toggle-switch">
+                                  <input id="screen-recording-toggle" type="checkbox" checked data-type="screen" />
+                                  <span class="slider"></span>
+                                </label>
+                              </div>
+                              <div class="setting-card proctoring-card">
+                                <div class="setting-content">
+                                  <div class="setting-info">
+                                    <label class="setting-label">Audio Recording</label>
+                                    <span class="setting-description">Captures background audio through the candidate's microphone during the exam. This can help detect if someone nearby is coaching or reading out answers.</span>
+                                  </div>
+                                </div>
+                                <label class="toggle-switch">
+                                  <input id="audio-recording-toggle" type="checkbox" checked data-type="audio" />
+                                  <span class="slider"></span>
+                                </label>
+                              </div>
+                              <div class="setting-card proctoring-card">
+                                <div class="setting-content">
+                                  <div class="setting-info">
+                                    <label class="setting-label">Webcam Recording</label>
+                                    <span class="setting-description">Turns on the candidate's webcam to record them while taking the exam, helping confirm identity and detect impersonation.</span>
+                                  </div>
+                                </div>
+                                <label class="toggle-switch">
+                                  <input id="webcam-recording-toggle" type="checkbox" data-type="camera" checked />
+                                  <span class="slider"></span>
+                                </label>
+                              </div>
+                              <div class="setting-card proctoring-card master-toggle">
+                                <div class="setting-content">
+                                  <div class="setting-info">
+                                    <label class="setting-label">Enable All Recordings</label>
+                                    <span class="setting-description">Master switch to activate all three proctoring features (screen, audio, and webcam) at once for full exam monitoring.</span>
+                                  </div>
+                                </div>
+                                <label class="toggle-switch">
+                                  <input type="checkbox" id="both-two-option" data-type="both" checked />
+                                  <span class="slider"></span>
+                                </label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- <div class="stepper-bottom">
+                  <button class="pull-right" id="next-to-step-2">Next</button>
+                </div> -->
+                </div>
+                <!-- <div>
+                <div class="d-flex justify-content-between align-items-center">
+                  <div>Total Mark: 30</div>
+                  <div><button>IMPORT DOCUMENT</button></div>
+                </div>
+                <div class="mcq d-flex flex-column">
+                  <div class="mcq-before">
+                    MCQ <i class="bx bx-chevron-down"></i>
+                  </div>
+                  <div class="p-3 d-flex flex-column gap-2">
+                    <div class="question">
+                      Q1. Which of the following is the largest organ in the
+                      human body?
+                    </div>
+                    <div class="choise">Choice</div>
+                    <div class="d-flex flex-column gap-2">
+                      <div
+                        class="d-flex justify-content-between gap-2 align-items-center"
+                      >
+                        <div><i class="bx bx-grid-vertical"></i></div>
+                        <div class="option-label">A</div>
+                        <div
+                          class="d-flex flex-grow-1 gap-1 justify-content-between align-items-center"
+                        >
+                          <div
+                            class="radio-input flex-grow-1 ans-option align-items-center"
+                          >
+                            <input type="radio" name="option" />
+                            <span>Heart</span>
+                          </div>
+                          <div class="remove-option d-flex align-items-center">
+                            <i class="bx bx-x"></i>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="d-flex justify-content-between gap-2 align-items-center"
+                      >
+                        <div><i class="bx bx-grid-vertical"></i></div>
+                        <div class="option-label">B</div>
+                        <div
+                          class="d-flex flex-grow-1 gap-1 justify-content-between align-items-center"
+                        >
+                          <div
+                            class="radio-input ans-option flex-grow-1 align-items-center"
+                          >
+                            <input type="radio" name="option" />
+                            <span>Liver</span>
+                          </div>
+                          <div class="remove-option d-flex align-items-center">
+                            <i class="bx bx-x"></i>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        class="d-flex justify-content-between gap-2 align-items-center"
+                      >
+                        <div><i class="bx bx-grid-vertical"></i></div>
+                        <div class="option-label">C</div>
+                        <div
+                          class="d-flex flex-grow-1 gap-1 justify-content-between align-items-center"
+                        >
+                          <div
+                            class="radio-input ans-option flex-grow-1 align-items-center"
+                          >
+                            <input type="radio" name="option" />
+                            <span>Skin</span>
+                          </div>
+                          <div class="remove-option d-flex align-items-center">
+                            <i class="bx bx-x"></i>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="question-footer align-self-end mx-3 mb-3">
+                    <i class="bx bx-plus-circle"></i>
+                    <i class="bx bx-cog"></i>
+                    <i class="bx bx-trash"></i>
+                  </div>
+                </div>
+              </div> -->
+              </div>
+            </div>
+            <div
+              id="step-2"
+              class="step align-self-center"
+              role="tabpanel"
+              aria-labelledby="link-to-step-2"
+            >
+
+              <div
+                class="question-card question-section question-answer d-flex justify-content-between h-100"
+              >
+                <div class="header-content px-5">
+                  <div class="total-marks-container">
+                    <b>Total marks:</b>
+                    <input
+                      type="number"
+                      class="total-mark"
+                      id="total-mark"
+                      placeholder="0"
+                      readonly
+                    />
+                  </div>
+                  <div class="d-flex align-items-center">
+                    <div class="exam-duration-container">
+                      <b><span class="common-label-exam">Exam</span> Duration (min) :</b>
+                      <input
+                        type="number"
+                        class="exam-duration-input-container"
+                        id="exam-duration"
+                        placeholder="0"
+                        readonly
+                      />
+                    </div>
+                    <button
+                      class="add-question-btn"
+                      id="import-questions-btn"
+                      style="margin-left: 10px"
+                    >
+                      Bulk upload questions
+                    </button>
+                    <button
+                      class="bulk-upload-info-btn"
+                      id="bulk-upload-info-btn"
+                      data-bs-toggle="tooltip"
+                      data-bs-placement="top"
+                      title="View sample question formats for bulk upload"
+                      style="margin-left: 5px"
+                    >
+                      <i class="fas fa-info-circle"></i>
+                    </button>
+                  </div>
+                </div>
+                <div
+                  id="questions-container"
+                  class="questions-list g-scroll px-5 py-3"
+                ></div>
+                <button style="display: none" id="fromjson">
+                  Add fromsjson
+                </button>
+
+                <div class="add-question-container">
+                  <select class="question-type" id="question-type"></select>
+                  <button class="add-question-btn" id="add-question-btn">
+                    Add Question
+                  </button>
+
+                  <button class="ai-generate-btn" id="ai-generate-btn">
+                    <img
+                      src="../../common/imgs/heba-logo.gif"
+                      alt="AI"
+                      style="background: white; padding: 2px"
+                    />
+                    Generate from AI
+                  </button>
+
+                  <input
+                    type="file"
+                    id="questions-file-input"
+                    style="display: none"
+                    accept=".doc,.docx"
+                    multiple
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div
+              id="step-3"
+              class="step w-100 py-3 align-self-center"
+              role="tabpanel"
+              aria-labelledby="link-to-step-3"
+            >
+              <div class="d-flex flex-column gap-4 step-3-main">
+                <div class="d-flex align-items-center gap-3">
+                  <div class="exam-input-3 flex-grow-1">
+                    <label for="exam-name" class="exam-email-lable"
+                      >Email Id</label
+                    >
+                    <input placeholder="Enter Email Id" id="email" />
+                  </div>
+                  <div class="exam-input-3">
+                    <label for="exam-name" class="exam-passcode-lable"
+                      >Pass Code</label
+                    >
+                    <input placeholder="Enter Pass Code" id="national_id" />
+                  </div>
+                  <button id="add-emails-btn" class="btn-send">Add</button>
+                  <button id="clear-attender-btn" class="btn-clear btn-send"><i class="fas fa-times"></i> Clear</button>
+                  <button id="edit-attender-btn" class="btn-send">Save</button>
+                </div>
+                <div>
+                  <div
+                    class="d-flex justify-content-between align-items-center"
+                  >
+                  <div>
+                    <button class="bulk-import-btn" id="importButton">
+                      Bulk import
+                    </button>
+                    <button class="group-import-btn" id="group-import-btn">
+                      Group import
+                    </button>
+                    <button class="email-template-btn" id="email-template-btn">
+                      Email Template
+                    </button>
+                    <input type="file" id="fileInput" class="bulk-import-input" accept=".xlsx" />
+                  </div>
+                   
+                    <div class="d-flex gap-2">
+                      <button
+                        class="attender-refresh-btn"
+                        id="attender-refresh-btn"
+                      >
+                        <i class="fas fa-sync me-2"></i>
+                        Refresh
+                      </button>
+                      <div class="all-exam d-flex align-items-center gap-3" >
+                        <div>
+                          <div class="search-action">
+                            <input
+                              type="text"
+                              placeholder="Search"
+                              class="search"
+                              id="main-table-search"
+                            />
+                            <i class="bx bx-search"></i>
+                          </div>
+                      </div>
+                      
+                    </div>
+                    </div>
+                  
+                  </div>
+                  <div class="age-grid-table">
+                    <div id="myGrid" class="ag-theme-alpine"></div>
+                    <div
+                      class="selected-rows d-flex justify-content-between align-items-center"
+                    >
+                      <div
+                        class="d-flex justify-content-center gap-2 align-items-center selected-card"
+                      >
+                        <div id="selected-items">0 Tasks selected:</div>
+                        <button
+                          class="btn-icon delete-icon"
+                          id="delete-selected"
+                        >
+                          <i class="fas fa-trash"></i>
+                        </button>
+                      </div>
+                      <div class="d-flex align-items-center gap-2">
+                        <div class="dropdown-container">
+                          <select class="email-type-select">
+                          </select>
+                          <i class="fas fa-chevron-down dropdown-icon"></i>
+                        </div>
+                        <button
+                          id="send-selected-invite-btn"
+                          class="btn-send-invite"
+                        >
+                          Send Invite
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="step2-bottom1">
+                    <button class="" id="send-invite-all-btn">
+                      Send/Resend Invite for Register/Exam
+                    </button>
+                    <button
+                      class=""
+                      id="send-invite-pending-btn"
+                    >
+                      Send Invite to Pending Users
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            id="preview-modal"
+            title="Preview Questions"
+            style="display: none"
+          >
+            <div id="preview-content"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="email-template" title="email-template" style="display: none">
+        <input type="hidden" id="reset-registration-content" />
+        <input type="hidden" id="reset-registration-subject" />
+        <input type="hidden" id="reset-invitation-content" />
+        <input type="hidden" id="reset-invitation-subject" />
+        <div class="email-tabs">
+          <button class="tab-link active" data-tab="registration-tab">
+            Registration Email
+          </button>
+          <button class="tab-link" data-tab="invitation-tab">
+            Exam Invite Email
+          </button>
+        </div>
+
+        <div id="registration-tab" class="tab-content active">
+          <div class="template-section">
+            <label>Registration Subject</label>
+            <input
+              type="text"
+              id="registration-subject"
+              placeholder="Registration Email Subject"
+            />
+          </div>
+          <div class="template-section">
+            <label>Registration Content</label>
+            <textarea id="registration-content" class="form-control"></textarea>
+          </div>
+        </div>
+
+        <div id="invitation-tab" class="tab-content">
+          <div class="template-section">
+            <label>Invitation Subject</label>
+            <input
+              type="text"
+              id="invitation-subject"
+              placeholder="Invitation Email Subject"
+            />
+          </div>
+          <div class="template-section">
+            <label>Invitation Content</label>
+            <textarea id="invitation-content" class="form-control"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- Add Import Questions Modal -->
+      <div
+        id="import-questions-modal"
+        class="import-modal"
+        style="display: none"
+      >
+        <div class="modal-content">
+          <h3>Import Questions</h3>
+          <div class="template-downloads">
+            <button id="download-excel-template" class="btn btn-template">
+              <i class="fas fa-file-excel"></i> Download Excel Template
+            </button>
+            <button id="download-doc-template" class="btn btn-template">
+              <i class="fas fa-file-word"></i> Download Word Template
+            </button>
+          </div>
+          <div class="drag-drop-zone" id="dragDropZone">
+            <div class="drag-drop-content">
+              <i class="fas fa-file-upload fa-3x"></i>
+              <p>Drag and drop your file here</p>
+              <p>or</p>
+              <button id="browse-files-btn" class="browse-btn">
+                Browse Files
+              </button>
+              <input
+                type="file"
+                id="hidden-file-input"
+                style="display: none"
+                accept=".doc,.docx,.xlsx"
+              />
+              <p>Supported formats:.docx, .xlsx</p>
+            </div>
+          </div>
+          <div class="question-count" id="questionCount">
+            Questions Found: <span>0</span>
+          </div>
+          <div class="modal-actions">
+            <button id="cancel-import-btn" class="btn btn-secondary">
+              Cancel
+            </button>
+            <button id="process-questions-btn" class="btn btn-primary" disabled>
+              Process Questions
+            </button>
+          </div>
+        </div>
+        <div
+          id="loadingOverlay"
+          style="
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+          "
+        >
+          <div
+            class="spinner-border text-primary"
+            role="status"
+            style="width: 3rem; height: 3rem"
+          >
+            <span class="visually-hidden">Loading...</span>
+          </div>
+          <p class="mt-2">Processing document... This may take a moment</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="blurOverlay" class="blur-overlay"></div>
+    <!-- Add this right after the blurOverlay div -->
+    <div id="modalOverlay" class="modal-blur-overlay"></div>
+    <!-- Upload Attachment Sidepanel -->
+    <div class="sidepanel" id="attachmentPanel">
+      <div class="attachment-content-container">
+        <div class="attachment-header px-4 pt-2 digi-border-bottom">
+          <h2 class="attachment-title mb-0">Upload Attachments</h2>
+          <div class="mb-2">
+            <button class="attachment-close-btn">
+              <i class="fas fa-times"></i> Close
+            </button>
+          </div>
+        </div>
+
+        <div class="attachment-main-container"></div>
+      </div>
+    </div>
+
+    <div id="blurOverlay" class="blur-overlay"></div>
+    <!-- Upload Attachment Sidepanel -->
+    <div class="sidepanel" id="choice-attachmentPanel">
+      <div class="attachment-content-container">
+        <div class="attachment-header px-4 pt-2 digi-border-bottom">
+          <h2 class="attachment-title mb-0">Choice Attachments</h2>
+          <div class="mb-2">
+            <button class="choice-attachment-close-btn">
+              <i class="fas fa-times"></i> Close
+            </button>
+          </div>
+        </div>
+        <div class="choice-attachment-main-container"></div>
+      </div>
+    </div>
+    <!-- Attachment preview sidepanel -->
+    <!-- <div id="preview-container" style="margin-top:20px;"></div> -->
+    <div
+      id="preview-attachment-blurOverlay"
+      class="blur-overlay"
+      style="z-index: 40"
+    ></div>
+    <div class="sidepanel" id="preview-attachmentPanel" style="z-index: 45">
+      <div class="attachment-content-container" style="height: 93%">
+        <div class="attachment-header px-4 pt-2 digi-border-bottom">
+          <h2 class="attachment-title mb-0">Attachment preview</h2>
+          <div class="mb-2">
+            <button class="preview-attachment-close-btn">
+              <i class="fas fa-times"></i> Cancel
+            </button>
+          </div>
+        </div>
+        <div class="preview-attachment-main-container"></div>
+      </div>
+    </div>
+    <!-- Dialog Container for Viewing Registered Attender Details -->
+    <div
+      id="viewDetailsDialog"
+      title="Attender Details"
+      style="display: none; overflow: hidden"
+    ></div>
+
+    <!-- Dialog Container for Extra Time -->
+    <div
+      id="extraTimeDialogContainer"
+      title="Give Extra Time"
+      style="display: none"
+    ></div>
+
+    <div class="student-card d-none d-flex flex-column gap-3">
+      <div class="d-flex justify-content-between align-items-center">
+        <div>Student Verification</div>
+        <div><i class="bx bx-x"></i></div>
+      </div>
+      <img src="" alt="" />
+      <div class="d-flex flex-column gap-3">
+        <div class="d-flex justify-content-between align-items-center">
+          <div>Frist Name</div>
+          <div>Ahmed</div>
+        </div>
+        <div class="d-flex justify-content-between align-items-center">
+          <div>Last Name</div>
+          <div>Musatafa Shah</div>
+        </div>
+        <div class="d-flex justify-content-between align-items-center">
+          <div>Mobile No</div>
+          <div>12345786</div>
+        </div>
+      </div>
+      <div class="d-flex gap-3">
+        <button class="reject">Reject</button
+        ><button class="Approve">Approve</button>
+      </div>
+    </div>
+    <!-- </div> -->
+
+    <div id="blurOverlay" class="blur-overlay"></div>
+    <!-- Upload Attachment Sidepanel -->
+    <div class="sidepanel" id="editor-attachmentPanel">
+      <div class="attachment-content-container">
+        <div class="editor-attachment-main-container"></div>
+      </div>
+    </div>
+
+    <script src="../../common/commonLibaries/jquery-3.6.0.min.js"></script>
+
+
+    <script src="../../common/commonLibaries/toastr.min.js"></script>
+    <script src="../../common/commonLibaries/font-awesome.5.15.3.js.all.min.js"></script>
+    <script src="../../common/commonLibaries/jquery-ui.min.js"></script>
+    <script src="../../common/commonLibaries/cdn.datatables.net.1.11.5.js.jquery.dataTables.min.js"></script>
+    <script src="../../common/commonLibaries/xlsx.0.16.9.xlsx.full.min.js"></script>
+    <script src="../../common/commonLibaries/htmleditor//dist/trumbowyg.min.js"></script>
+    <script src="../../common/commonLibaries/jquery.timepicker.min.js"></script>
+    <script src="../../common/commonLibaries/ck-text-editor/js/ckeditor.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/4.2.0/exceljs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/luxon/3.4.4/luxon.min.js"></script>
+    
+    <script src="../../common/js/loader.js"></script>
+    <script src="../../common/js/variable.js"></script>
+    <script src="../../common/js/common.js"></script>
+    <script src="../../common/js/commonApi.js"></script>
+    <script src="../../common/js/auth.js"></script>
+    <script src="../../common/js/label-management.js"></script>
+    <script src="assessment-loader.js"></script>
+    <script src="createquestion.js"></script>
+    <script src="itemTypes.js"></script>
+    <script src="documentClickEvents.js"></script>
+    <script src="email.js"></script>
+    <script src="import.js"></script>
+    <script src="ai-question-generator.js"></script>
+    <script src="ai-prompt-generator.js"></script>
+    <script src="codeEditor.js"></script>
+
+
+    <!-- Custom Delete Confirmation Modal -->
+    <div id="customDeleteModal" class="custom-modal">
+      <div class="custom-modal-overlay"></div>
+      <div class="custom-modal-container">
+        <div class="custom-modal-header">
+          <h3>Confirm Delete</h3>
+          <button class="custom-modal-close" id="closeDeleteModal">
+            &times;
+          </button>
+        </div>
+        <div class="custom-modal-content">
+          <div class="delete-icon-container mb-3">
+            <i class="fas fa-exclamation-triangle text-warning fa-3x"></i>
+          </div>
+          <p class="delete-message">
+            User responses will reset. Are you sure you want to remove this
+            user?
+          </p>
+        </div>
+        <div class="custom-modal-footer">
+          <button id="cancelDeleteBtn" class="btn btn-secondary">Cancel</button>
+          <button id="confirmDeleteBtn" class="btn btn-danger">Delete</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Import Attendees Modal -->
+    <div id="import-attendees-modal" class="import-modal">
+      <div class="modal-content">
+        <h3>Import Attenders</h3>
+        <div class="template-downloads">
+          <button id="download-attendees-template" class="btn btn-template">
+            <i class="fas fa-file-excel"></i> Student Import Template
+          </button>
+        </div>
+        <div class="drag-drop-zone" id="attendeesDragDropZone">
+          <div class="drag-drop-content">
+            <i class="fas fa-file-upload fa-3x"></i>
+            <p>Drag and drop your Excel file here</p>
+            <p>or</p>
+            <button id="browse-attendees-btn" class="browse-btn">
+              Browse Files
+            </button>
+            <input
+              type="file"
+              id="hidden-attendees-input"
+              style="display: none"
+              accept=".xlsx"
+            />
+            <p>Supported format: .xlsx</p>
+          </div>
+        </div>
+        <div
+          class="no-attendees-message"
+          style="display: none; text-align: center; margin-top: 15px"
+        >
+          <i
+            class="fas fa-users-slash fa-2x"
+            style="color: #888; margin-bottom: 10px"
+          ></i>
+          <p>No attendees found in the file</p>
+        </div>
+        <div class="attendee-count" id="attendeeCount" style="display: none">
+          Attendees Found: <span>0</span>
+        </div>
+        <div class="modal-actions">
+          <button id="cancel-import-attendees-btn" class="btn btn-secondary">
+            Cancel
+          </button>
+          <button id="process-attendees-btn" class="btn btn-primary" disabled>
+            Import Attendees
+          </button>
+        </div>
+      </div>
+      <div id="attendeesLoadingOverlay" style="display: none">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <p class="mt-2">Processing file... This may take a moment</p>
+      </div>
+    </div>
+
+    <link rel="stylesheet" href="groupImporter.css" />
+    <script src="groupImporter.js"></script>
+    <script src="courses.js"></script>
+  </body>
+</html>

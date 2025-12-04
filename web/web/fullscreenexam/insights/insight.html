@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insights</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="detail-insights.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/tableexport@5.2.0/dist/js/tableexport.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../../common/css/loader.css" />
+    <link rel="stylesheet" href="../../common/css/common-base.css" />
+</head>
+
+<body>
+    <!-- Header Section -->
+
+    <div class="bread-crumb-container-cls" id="bread-crumb-container"></div>
+
+    <div class="main-content">
+        <div class="d-flex">
+            <div id="nav-section-menu" class="nav-bar"></div>
+            <div id="main-content">
+             
+            
+                <!-- Insight Information Card -->
+                <div class="info-card mb-4">
+                  <div class="insight-back-btn-container">
+                      <button  onclick="history.back()"><i class="fas fa-arrow-left"></i> Back</button>
+                  </div>
+                    <div class="card-body py-3">
+                        <div class="d-flex align-items-center justify-content-between mb-2">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-info-circle text-primary me-2"></i>
+                                <h5 class="mb-0 fw-bold" id="insight-name">common</h5>
+                            </div>
+                            <span class="badge bg-warning" id="insight-status-badge">Pending</span>
+                        </div>
+                        <p class="text-muted small mb-2" id="insight-description">common insight for programming</p>
+                        <div class="d-flex flex-wrap justify-content-between align-items-center">
+                            <div class="d-flex align-items-center small text-muted">
+                                <i class="far fa-clock me-1"></i>
+                                <span id="insight-last-updated">Last updated: April 23, 2025</span>
+                            </div>
+                            <div class="dropdown">
+                                <button class="btn btn-sm btn-primary rounded-pill dropdown-toggle" type="button" id="exportDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-download me-1"></i> Export
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="exportDropdown">
+                                    <li><a class="dropdown-item" href="#" id="exportPDF"><i class="fas fa-file-pdf me-2 text-danger"></i>PDF Report</a></li>
+                                    <li><a class="dropdown-item" href="#" id="exportExcel"><i class="fas fa-file-excel me-2 text-success"></i>Excel</a></li>
+                                    <li><a class="dropdown-item" href="#" id="exportCSV"><i class="fas fa-file-csv me-2 text-primary"></i>CSV</a></li>
+                                    <li><a class="dropdown-item" href="#" id="exportImages"><i class="fas fa-images me-2 text-info"></i>Chart Images</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Summary Metrics Cards -->
+                <div class="row mb-4">
+                    <!-- Exam Count Card -->
+                    <div class="col-md-3">
+                        <div class="card dashboard-stat h-100">
+                            <div class="card-body">
+                                <div class="stat-title">Total Exams</div>
+                                <div class="stat-value" id="exam-count">1</div>
+                                <div class="trend trend-up"><i class="fas fa-arrow-up me-1"></i> All exams analyzed</div>
+                                <div class="stat-icon"><i class="fas fa-file-alt"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Student Count Card -->
+                    <div class="col-md-3">
+                        <div class="card dashboard-stat h-100">
+                            <div class="card-body">
+                                <div class="stat-title">Total Students</div>
+                                <div class="stat-value" id="student-count">3</div>
+                                <div class="trend trend-up"><i class="fas fa-arrow-up me-1"></i> Active participants</div>
+                                <div class="stat-icon"><i class="fas fa-users"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Question Count Card -->
+                    <div class="col-md-3">
+                        <div class="card dashboard-stat h-100">
+                            <div class="card-body">
+                                <div class="stat-title">Total Questions</div>
+                                <div class="stat-value" id="question-count">38</div>
+                                <div class="trend"><i class="fas fa-check-circle me-1 text-info"></i> Assessment coverage</div>
+                                <div class="stat-icon"><i class="fas fa-question-circle"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Tag Count Card -->
+                    <div class="col-md-3">
+                        <div class="card dashboard-stat h-100">
+                            <div class="card-body">
+                                <div class="stat-title">Knowledge Areas</div>
+                                <div class="stat-value" id="tag-count">6</div>
+                                <div class="trend"><i class="fas fa-tag me-1 text-primary"></i> Topic categories</div>
+                                <div class="stat-icon"><i class="fas fa-tags"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    
+                <!-- Class Performance Section -->
+                <div class="row">
+                    <!-- Left Column - Tags Performance -->
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <i class="fas fa-chart-bar"></i> Performance by Tag
+                            </div>
+                            <div class="card-body">
+                                <p class="text-muted small mb-3">Analysis of student performance across different knowledge areas. Click on any bar for detailed breakdown.</p>
+                                <div class="chart-container" id="tagPerformanceChart"></div>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <!-- Right Column - Tag Distribution -->
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <i class="fas fa-chart-pie"></i> Tag Distribution
+                            </div>
+                            <div class="card-body">
+                                <p class="text-muted small mb-3">Distribution of knowledge areas across all exams, showing relative coverage of each topic.</p>
+                                <div class="chart-container" id="tagDistributionChart"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="row mt-4">
+                    <!-- Exam Progress -->
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <i class="fas fa-chart-line"></i> Progress Across Exams
+                            </div>
+                            <div class="card-body">
+                                <p class="text-muted small mb-3">Tracking performance trends for each knowledge area across different exams.</p>
+                                <div class="chart-container" id="examProgressChart"></div>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <!-- Skill Radar -->
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <i class="fas fa-spider"></i> Skills Radar
+                            </div>
+                            <div class="card-body">
+                                <p class="text-muted small mb-3">Radar visualization showing the class average performance across all knowledge areas.</p>
+                                <div class="chart-container" id="skillRadarChart"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    
+                <!-- Student Performance Section -->
+                <div class="row mt-4">
+                    <div class="col-12">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <div>
+                            <i class="fas fa-users"></i> Student Performance
+                         </div>
+                        <div  id="student-performance-table-search">
+                                    <!-- Button removed -->
+                        </div>
+                    </div>
+                    <div class="card-body">
+                                <p class="text-muted small mb-3">Detailed performance data for all students across tags and exams. Click on "View" to see individual student analytics.</p>
+                                <div id="student-performance-table"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    
+                <!-- Student Detail Section (Hidden by Default) -->
+                <section id="student-performance-section" style="display: none;"></section>
+
+                <!-- Tag Drilldown Modal -->
+                <div class="modal fade" id="tagDrilldownModal" tabindex="-1" aria-labelledby="tagDrilldownModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="tagDrilldownModalLabel">Tag Performance Drilldown</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                            <div class="modal-body">
+                                <div id="tag-stats-container" class="mb-4"></div>
+                                
+                        <div class="row">
+                                    <div class="col-md-7">
+                                        <div class="card mb-4">
+                                    <div class="card-header">
+                                                <i class="fas fa-chart-line"></i> Performance Trend for <span class="selected-tag-title">Tag</span>
+                                    </div>
+                                    <div class="card-body">
+                                                <div id="tagTrendChart"></div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div class="card mb-4">
+                                    <div class="card-header">
+                                                <i class="fas fa-chart-pie"></i> Student Performance Breakdown
+                                    </div>
+                                    <div class="card-body">
+                                                <div id="tagStudentBreakdownChart"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+    
+                                <div class="card">
+                                    <div class="card-header">
+                                        <i class="fas fa-table"></i> Students Performance in <span class="selected-tag-title">Tag</span>
+                                    </div>
+                                    <div class="card-body" id="tag-student-table-section">
+                                        <!-- Student table will be inserted here -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary" id="exportTagReport">
+                                    <i class="fas fa-download me-1"></i> Export Report
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Modal for Share Options -->
+        <div class="modal fade" id="shareModal" tabindex="-1" aria-labelledby="shareModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="shareModalLabel">Share Dashboard</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Share this dashboard with others using the link below:</p>
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control" id="shareLink" value="https://example.com/dashboard/insights?id=12345" readonly>
+                            <button class="btn btn-primary" type="button" id="copyLinkBtn"><i class="fas fa-copy"></i> Copy</button>
+                        </div>
+
+                        <div class="card mt-4">
+                            <div class="card-header bg-light">
+                                <i class="fas fa-user-shield"></i> Privacy Settings
+                            </div>
+                                    <div class="card-body">
+                                <div class="form-check form-switch mb-3">
+                                    <input class="form-check-input" type="checkbox" id="allowEditSwitch">
+                                    <label class="form-check-label" for="allowEditSwitch">Allow Editing</label>
+                                </div>
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="requireLoginSwitch" checked>
+                                    <label class="form-check-label" for="requireLoginSwitch">Require Login</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" id="shareWithEmail">
+                            <i class="fas fa-envelope me-1"></i> Email Link
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Toast container for notifications -->
+        <div class="toast-container position-fixed bottom-0 start-50 translate-middle-x p-3"></div>
+
+    </div>
+    <!-- Main Content -->
+
+
+    <!-- JavaScript - Add this at the end of the file before closing body tag -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../../common/commonLibaries/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="../../common/js/loader.js"></script>
+    <script src="../../common/js/variable.js"></script>
+    <script src="../../common/js/common.js"></script>
+    <script src="../../common/js/auth.js"></script>
+    <script src="../../common/js/commonApi.js"></script>
+    <script src="../../common/js/label-management.js"></script>
+    <script src="../../common/js/nav-section-menu.js"></script>
+    <script src="detail-insights.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Exam Questions</title>
+    <link rel="stylesheet" href="exams_v1-anamoly_v5.css" />
+    <link
+      rel="stylesheet"
+      href="../../common/commonLibaries/cdnjs.cloudflare.com.ajax.libs.jqueryui.1.12.1.jquery-ui.min.css"
+    />
+    <!--<link rel="stylesheet" href="../common/commonLibaries/cdnjs.cloudflare.com.ajax.libs.font-awesome.5.15.3.css.all.min.css"> -->
+    <link
+      href="../../common/commonLibaries/htmleditor/dist/ui/trumbowyg.min.css"
+      rel="stylesheet"
+    />
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="../../common/commonLibaries/toastr.min.css" rel="stylesheet" />
+    <link href="./scientific-calculator.css" rel="stylesheet" />
+    <link href="./codeEditor.css" rel="stylesheet" />
+    <link href="./prq-editor.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../../common/css/loader.css" />
+    <link rel="stylesheet" href="../../common/css/common-base.css" />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- MediaPipe Face Mesh Library -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js"
+      crossorigin="anonymous"
+    ></script>
+    
+
+  </head>
+
+  <body>
+    <div class="testing hidden">
+      <div class="overlay" id="instructionOverlay">
+        <div class="popup">
+          <div class="info-content">
+            <div class="instruction-head">
+              <h2 class="alert-title" id="important_instructions">
+                Important Instructions
+              </h2>
+              <div class="button-wrap">
+                <button class="btn btn-primary" id="startExamButton">
+                  Acknowledge and Start Exam
+                </button>
+              </div>
+            </div>
+            <div class="ins-content">
+              <p id="condition_1">
+                1. Do not switch to other windows or tabs during the exam.
+              </p>
+              <p id="condition_2">
+                2. Do not press any special keys like Escape, Meta, or use the
+                right-click menu.
+              </p>
+              <p id="condition_3">
+                3. Do not resize or minimize the browser window.
+              </p>
+              <p id="condition_4">
+                4. Ensure the ChatGPT extension is closed during the exam.
+              </p>
+              <p id="condition_5">
+                5. Your face must be clearly visible in the webcam throughout
+                the exam.
+              </p>
+              <p id="condition_6">
+                6. Only one person (the candidate) should be visible in the
+                webcam frame.
+              </p>
+              <p id="condition_7">
+                7. Your webcam and screen will be recorded during the exam for
+                proctoring purposes. The recording will be automatically
+                uploaded when you submit the exam. Please wait until the upload
+                is complete.
+              </p>
+              <!--  <hr><h3>Saudi Logistics Academy Online Assessment (SLAONLINEC10-01) Instructions</h3>
+                <p><strong>Section 1: Personal Information (5 MINUTES)</strong><br>
+                Please complete all information questions accurately. All information will be checked at a later date.</p>
+                <p><strong>Section 2: English Language & Grammar Assessment (30 MINUTES)</strong><br>
+                Please attempt as many questions as you can. Repeated guessing will be identified and penalized.</p>
+                <p><strong>Section 3: Reading Comprehension Assessment (20 MINUTES)</strong><br>
+                Please find the text [Amazon: Robots spread but 'we still need humans'] under the Section 3 heading. It is advised that you should read the questions first before returning to the reading text. Once you have read the text, please attempt all questions.</p>
+                <p><strong>Check your answers (5 MINUTES)</strong><br>
+                Please ensure that you are satisfied with your answers and that all your personal information is correct in Section 1.</p> -->
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="container">
+        <header>
+          <div class="header-left">
+            <div class="head-left" translate="no">
+              <img
+                class="logo-img"
+                onerror="this.src='../../common/imgs/school.png'"
+                src="../../common/imgs/school.png"
+                alt="logo"
+              />
+              <h1 translate="no">College Name</h1>
+              <div>
+                <!-- <p>Entrance Exam- SLA 2024-2025</p> -->
+              </div>
+            </div>
+          </div>
+          <div class="header-right top-info-panel">
+            <p id="saving-answers"></p>
+            <!-- <p id="saving-answers-failed">Saving failed </p>
+                    <p id="saving-video">Uploading Video ..</p> -->
+            <p id="saving-video-failed"></p>
+          </div>
+          <div class="header-right exam-time-question-nav">
+            <div id="exam-timer" class="exam-timer" translate="no">
+              <div class="timer-label">Time Remaining:</div>
+              <div id="countdown-display" class="countdown-display">
+                00:00:00
+              </div>
+              <div>
+                <span class="exam-end-times f-1">Ends at : </span
+                ><span class="f-1" id="exam-end-time"></span>
+              </div>
+            </div>
+            <div>
+              <div class="nav-wrapper">
+                <p id="question-count">Preparing...</p>
+                <!-- Hamburger Menu Icon -->
+                <div class="hamburger-menu">
+                  <i class="fas fa-bars" id="hamburger-icon"></i>
+                  <div class="menu-container" id="menu-container">
+                    <div class="toggle-item d-flex">
+                      <span>English</span>
+                      <label class="switch">
+                        <input type="checkbox" id="language-toggle" />
+                        <span class="slider round"></span>
+                      </label>
+                      <span id="arabic">Arabic</span>
+                    </div>
+                    <div class="toggle-item" id="calculator-toggle-item">
+                      <span id="calculator">Calculator:</span>
+                      <label class="switch">
+                        <input type="checkbox" id="calculator-toggle" />
+                        <span class="slider round"></span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="nav-wrapper">
+                <button class="nav-btn" id="prev-btn" translate="no"><< Previous</button>
+                <button class="nav-btn" id="next-btn" translate="no"><span id="next-btn-lang">Next >></span><span id="submit-btn-lang">Submit</span></button>
+              </div>
+            </div>
+          </div>
+        </header>
+        <main>
+          <div class="filter">
+            <button class="filter-btn">#</button>
+            <div class="filter-numbers" translate="no">
+              <!-- Buttons will be generated here by jQuery -->
+            </div>
+          </div>
+          <div class="question-section-container">
+            <!-- Question content will be generated here by jQuery -->
+            <div
+              class="exam-attachment-sidpanel"
+              id="exam-attachment-sidpanel-data"
+            >
+              <button class="close-attachment-panel">
+                <i class="fas fa-chevron-right"></i>
+              </button>
+              <div class="choice-attachment-container"></div>
+            </div>
+            <!-- Code Editor Container -->
+            <div
+              class="editor-attachment-main-container"
+              id="prq-editor-container"
+              style="display: none"
+            ></div>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <!-- Image Modal -->
+    <div id="image-modal" title="Attachment Preview">
+      <img id="modal-image" class="modal-image" src="" alt="Attachment Image" />
+
+      <audio id="modal-audio" controls class="modal-audio">
+        <source id="audio-source" src="" type="audio/mpeg" />
+        Your browser does not support the audio element.
+      </audio>
+
+      <iframe id="modal-pdf" src="" class="modal-pdf"></iframe>
+    </div>
+    <!-- Dialog Message -->
+    <div id="dialog-message" title="Alert" style="display: none"></div>
+
+    <!-- Document Modal -->
+    <div id="document-modal" title="Document Preview" style="display: none">
+      <iframe
+        id="document-frame"
+        src=""
+        style="width: 100%; height: 80vh"
+        frameborder="0" 
+      ></iframe>
+    </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/wavesurfer.js/6.0.0/wavesurfer.min.js"></script>
+  
+    <script src="../../common/commonLibaries/jquery-3.6.0.min.js"></script>
+    <script src="../../common/commonLibaries/jquery-ui.min.js"></script>
+    <script src="../../common/commonLibaries/font-awesome.5.15.3.js.all.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.8.0/math.min.js"></script>
+    <script src="../../common/commonLibaries/ck-text-editor/js/ckeditor.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/luxon/3.4.4/luxon.min.js"></script>
+    <script src="../../common/commonLibaries/htmleditor/dist/trumbowyg.min.js"></script>
+    <script src="../../common/js/loader.js"></script>
+    <script src="../../common/js/variable.js"></script>
+    <script src="../../common/js/common.js"></script>
+    <script src="../../common/js/image-slider.js"></script>
+    <script src="../../common/js/commonApi.js"></script>
+    <script src="./scientific-calculator.js"></script>
+    <script src="../screen-recording/check-access.js"></script>
+    <script src="../cloud-service/aws.service.js"></script>
+    <script src="../exam-portal/take-photo.js"></script>
+    <script src="../screen-recording/screenRecording.js"></script>
+    <script src="../../common/commonLibaries/toastr.min.js"></script>
+    <script src="../cloud-service/gcp.service.js"></script>
+
+    <!-- Store jQuery UI dialog function before Monaco loads -->
+    <script>
+      // Store original jQuery UI dialog function
+      window.jQueryUIDialog = $.fn.dialog;
+    </script>
+
+    <!-- Monaco Editor Setup - After jQuery is loaded -->
+    <script>
+      // Define loader.js configuration
+      var require = {
+        paths: {
+          vs: "https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs",
+        },
+      };
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs/loader.js"></script>
+
+    <!-- Restore jQuery UI dialog function after Monaco loads -->
+    <script>
+      // Restore jQuery UI dialog functionality if it was overridden
+      if (window.jQueryUIDialog && !$.fn.dialog) {
+        $.fn.dialog = window.jQueryUIDialog;
+      }
+    </script>
+
+    <script src="./codeEditor.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+    <script src="qr-code-handler.js"></script>
+    <script src="../../common/js/sketch.js"></script>
+    <script src="exams_v1-anamoly_v5.js"></script>
+    <script src="face-detection.js"></script>
+    <script src="../../common/js/college-details.js"></script>
+    <script src="../../common/js/logManagement.js"></script>
+</body>
+
+</html>
